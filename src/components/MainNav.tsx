@@ -172,13 +172,16 @@ export function MainNav() {
         <div className="hidden md:flex items-center gap-4">
           {/* Resume Analyzer Quick Access Button */}
           <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex items-center gap-2"
+            variant="outline"
+            size="sm"
             onClick={handleResumeAnalyzerClick}
+            className="relative group overflow-hidden hover:border-accent/50 transition-all duration-300"
           >
-            <FileSearch className="w-4 h-4" />
-            <span>{t("resume.analyzer.title")}</span>
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent/10 to-accent/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            <div className="relative flex items-center gap-2">
+              <FileSearch className="w-4 h-4 text-accent animate-pulse" />
+              <span className="font-medium">{t("resume.analyzer.title")}</span>
+            </div>
           </Button>
 
           <button
