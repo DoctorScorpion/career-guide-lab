@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -96,10 +95,10 @@ export function MainNav() {
       title: "nav.services",
       href: "/services",
       subitems: [
-        { title: "services.careerCoaching.title", href: "/services#career-coaching" },
-        { title: "services.resumeWriting.title", href: "/services#resume-writing" },
-        { title: "services.personalBranding.title", href: "/services#personal-branding" },
-        { title: "services.recruitment.title", href: "/services#recruitment" },
+        { title: "services.items.careerCoaching.title", href: "/services#career-coaching" },
+        { title: "services.items.resumeWriting.title", href: "/services#resume-writing" },
+        { title: "services.items.personalBranding.title", href: "/services#personal-branding" },
+        { title: "services.items.recruitment.title", href: "/services#recruitment" },
         { title: "resume.analyzer.title", href: "/#resume-analyzer" }
       ]
     },
