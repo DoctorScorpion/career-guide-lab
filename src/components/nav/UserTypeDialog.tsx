@@ -26,7 +26,7 @@ export const UserTypeDialog = ({ isOpen, onClose }: UserTypeDialogProps) => {
   };
 
   const handleEmployeeClick = () => {
-    navigate('/jobs');
+    navigate('/services?type=employee');
     onClose();
   };
 
@@ -50,7 +50,7 @@ export const UserTypeDialog = ({ isOpen, onClose }: UserTypeDialogProps) => {
               {t("dialog.userType.employer", "מעסיק")}
             </span>
             <span className="text-sm text-muted-foreground text-center">
-              {t("dialog.userType.employerDesc", "מחפש עובדים לחברה")}
+              {t("dialog.userType.employerDesc", "מחפש שירותי גיוס וייעוץ")}
             </span>
           </Button>
           
@@ -64,7 +64,7 @@ export const UserTypeDialog = ({ isOpen, onClose }: UserTypeDialogProps) => {
               {t("dialog.userType.employee", "מחפש עבודה")}
             </span>
             <span className="text-sm text-muted-foreground text-center">
-              {t("dialog.userType.employeeDesc", "מחפש משרה חדשה")}
+              {t("dialog.userType.employeeDesc", "מחפש שירותי קריירה וייעוץ")}
             </span>
           </Button>
         </div>

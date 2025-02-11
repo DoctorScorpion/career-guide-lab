@@ -111,14 +111,14 @@ export function MainNav() {
         { title: "services.items.careerCoaching.title", href: "/services?service=career-coaching" },
         { title: "services.items.resumeWriting.title", href: "/services?service=resume-writing" },
         { title: "services.items.personalBranding.title", href: "/services?service=personal-branding" },
-        { title: "services.items.recruitment.title", href: "/services?service=recruitment" }
+        { title: "services.items.recruitment.title", href: "/services?service=recruitment" },
+        { title: "services.items.hrConsulting.title", href: "/services?service=hr-consulting" },
+        { title: "services.items.talentManagement.title", href: "/services?service=talent-management" }
       ]
     },
     { title: "nav.about", href: "/about" },
     { title: "nav.contact", href: "/contact" },
   ];
-
-  const isJobsPage = location.pathname === '/jobs';
 
   return (
     <>
