@@ -88,6 +88,7 @@ export function MainNav() {
       title: "nav.blog",
       href: "/blog",
       subitems: [
+        { title: "nav.mainBlog", href: "/blog" },
         { title: "nav.featuredPosts", href: "/blog/featured" },
         { title: "nav.categories", href: "/blog/categories" }
       ]

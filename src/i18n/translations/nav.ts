@@ -4,6 +4,7 @@ export const navTranslations = {
     nav: {
       brand: "עמית בקשי",
       blog: "בלוג",
+      mainBlog: "בלוג ראשי",
       services: "שירותים",
       about: "אודות",
       contact: "צור קשר",
@@ -18,6 +19,7 @@ export const navTranslations = {
     nav: {
       brand: "Amit Bakshi",
       blog: "Blog",
+      mainBlog: "Main Blog",
       services: "Services",
       about: "About",
       contact: "Contact",
