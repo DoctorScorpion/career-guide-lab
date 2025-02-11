@@ -36,6 +36,24 @@
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
+  /* RTL Support */
+  [dir="rtl"] {
+    text-align: right;
+  }
+
+  [dir="ltr"] {
+    text-align: left;
+  }
+
+  /* Common text alignment utilities that respect RTL */
+  .text-start {
+    text-align: start;
+  }
+  
+  .text-end {
+    text-align: end;
+  }
+
   ::selection {
     @apply bg-accent/30;
   }

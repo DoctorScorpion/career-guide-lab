@@ -91,9 +91,9 @@ export const ResumeAnalyzer = () => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto" id="resume-analyzer">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-start">
           <FileText className="w-5 h-5" />
           {t("resume.analyzer.title")}
         </CardTitle>
@@ -101,7 +101,7 @@ export const ResumeAnalyzer = () => {
       <CardContent className="space-y-4">
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <label className="text-sm font-medium">
+            <label className="text-sm font-medium text-start">
               {t("resume.analyzer.pasteText")}
             </label>
             <div className="flex items-center gap-2">
@@ -124,7 +124,8 @@ export const ResumeAnalyzer = () => {
             value={resumeText}
             onChange={(e) => setResumeText(e.target.value)}
             placeholder={t("resume.analyzer.placeholder")}
-            className="min-h-[200px]"
+            className="min-h-[200px] text-start"
+            dir="auto"
           />
           <Button 
             onClick={analyzeResume} 
@@ -138,7 +139,7 @@ export const ResumeAnalyzer = () => {
         {analysis && (
           <div className="mt-6 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="text-lg font-medium">
+              <div className="text-lg font-medium text-start">
                 {t("resume.analyzer.score")}:{" "}
                 <span className={analysis.score > 0.7 ? "text-green-500" : "text-yellow-500"}>
                   {Math.round(analysis.score * 100)}%
@@ -146,10 +147,10 @@ export const ResumeAnalyzer = () => {
               </div>
             </div>
             <div>
-              <h4 className="font-medium mb-2">{t("resume.analyzer.recommendations")}</h4>
+              <h4 className="font-medium mb-2 text-start">{t("resume.analyzer.recommendations")}</h4>
               <ul className="space-y-2">
                 {analysis.recommendations.map((rec, index) => (
-                  <li key={index} className="flex items-start gap-2">
+                  <li key={index} className="flex items-start gap-2 text-start">
                     {analysis.score > 0.7 ? (
                       <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
                     ) : (
