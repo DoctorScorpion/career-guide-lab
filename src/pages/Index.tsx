@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { MainNav } from "@/components/MainNav";
+import { ResumeAnalyzer } from "@/components/ResumeAnalyzer";
 
 const Index = () => {
   const { t, i18n } = useTranslation();
@@ -250,7 +251,7 @@ const Index = () => {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl">השירותים שלנו</h2>
-            <p className="text-muted-foreground mt-4">
+            <p className="text-muted-foreground">
               מגוון שירותים מקצועיים לפיתוח הקריירה שלך
             </p>
           </div>
@@ -273,6 +274,21 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Resume Analyzer Section */}
+      <section className="py-16 bg-background">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl">
+              {t("resume.analyzer.title")}
+            </h2>
+            <p className="text-muted-foreground mt-4">
+              {t("resume.analyzer.description")}
+            </p>
+          </div>
+          <ResumeAnalyzer />
         </div>
       </section>
 
