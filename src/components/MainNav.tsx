@@ -181,8 +181,8 @@ export function MainNav() {
       </nav>
 
       <UserTypeDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
       />
     </>
   );

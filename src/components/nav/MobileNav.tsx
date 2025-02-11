@@ -106,8 +106,8 @@ export const MobileNav = ({
       </Sheet>
 
       <UserTypeDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
       />
     </>
   );
