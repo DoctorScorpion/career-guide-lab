@@ -14,6 +14,9 @@ export const navTranslations = {
       toggleMenu: "פתח תפריט",
       featuredPosts: "מאמרים מובילים",
       categories: "קטגוריות",
+      postsCount: "{{count}} מאמרים",
+      postsCount_1: "מאמר אחד",
+      postsCount_2: "שני מאמרים",
     }
   },
   en: {
@@ -30,6 +33,9 @@ export const navTranslations = {
       toggleMenu: "Toggle Menu",
       featuredPosts: "Featured Posts",
       categories: "Categories",
+      postsCount: "{{count}} posts",
+      postsCount_1: "1 post",
+      postsCount_2: "2 posts",
     }
   }
 };

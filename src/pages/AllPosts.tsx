@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -127,6 +126,126 @@ const allPosts = [
     likes: 143,
     comments: 25,
     image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507"
+  },
+  {
+    id: 11,
+    title: "טכניקות מתקדמות לשיפור הביטחון העצמי בראיונות עבודה",
+    slug: "advanced-interview-confidence-techniques",
+    excerpt: "למד איך להתגבר על חרדת ראיונות ולהציג את עצמך בצורה הטובה ביותר. כולל תרגילים מעשיים וטכניקות NLP שהוכחו מחקרית",
+    category: "career-coaching",
+    date: "2024-02-22",
+    readTime: "8 דקות קריאה",
+    likes: 178,
+    comments: 32,
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf"
+  },
+  {
+    id: 12,
+    title: "המדריך המקיף לבניית תיק עבודות דיגיטלי מנצח",
+    slug: "digital-portfolio-guide",
+    excerpt: "איך ליצור פורטפוליו מקצועי שימשוך את תשומת לבם של מעסיקים פוטנציאליים. כולל דוגמאות מעשיות והמלצות עיצוב",
+    category: "personal-branding",
+    date: "2024-02-20",
+    readTime: "9 דקות קריאה",
+    likes: 165,
+    comments: 29,
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+  },
+  {
+    id: 13,
+    title: "אסטרטגיות מתקדמות למשא ומתן על שכר",
+    slug: "salary-negotiation-strategies",
+    excerpt: "טכניקות מוכחות להשגת חבילת תגמול אופטימלית. כולל תסריטי שיחה, טיפים מאנשי HR בכירים וסימולציות מעשיות",
+    category: "career-coaching",
+    date: "2024-02-18",
+    readTime: "10 דקות קריאה",
+    likes: 223,
+    comments: 41,
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85"
+  },
+  {
+    id: 14,
+    title: "איך להפוך את הלינikedאין לכלי גיוס אפקטיבי",
+    slug: "linkedin-recruitment-optimization",
+    excerpt: "מדריך מקיף להפיכת הפרופיל שלך למגנט למגייסים. כולל אסטרטגיות SEO, טיפים לתוכן ויראלי ושיטות נטוורקינג מתקדמות",
+    category: "recruitment",
+    date: "2024-02-16",
+    readTime: "11 דקות קריאה",
+    likes: 198,
+    comments: 37,
+    image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf"
+  },
+  {
+    id: 15,
+    title: "המדריך המלא לכתיבת מכתב מקדים שמנצח",
+    slug: "winning-cover-letter-guide",
+    excerpt: "טכניקות מתקדמות לכתיבת מכתב מקדים שיבדל אותך ממאות מועמדים אחרים. כולל תבניות מוכנות והתאמות לתעשיות שונות",
+    category: "resume-writing",
+    date: "2024-02-14",
+    readTime: "7 דקות קריאה",
+    likes: 167,
+    comments: 28,
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4"
+  },
+  {
+    id: 16,
+    title: "פיתוח קריירה בעידן הבינה המלאכותית",
+    slug: "ai-era-career-development",
+    excerpt: "כיצד להתאים את המסלול המקצועי שלך לעידן ה-AI. מיומנויות חיוניות, תחומים מבטיחים וטיפים להישארות רלוונטי",
+    category: "career-coaching",
+    date: "2024-02-12",
+    readTime: "9 דקות קריאה",
+    likes: 245,
+    comments: 52,
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e"
+  },
+  {
+    id: 17,
+    title: "בניית אסטרטגיית מיתוג אישי ארוכת טווח",
+    slug: "long-term-personal-branding",
+    excerpt: "איך לבנות מותג אישי חזק שיעמוד במבחן הזמן. כולל תכנון אסטרטגי, ניהול מוניטין ובניית קהילה מקצועית",
+    category: "personal-branding",
+    date: "2024-02-10",
+    readTime: "12 דקות קריאה",
+    likes: 189,
+    comments: 34,
+    image: "https://images.unsplash.com/photo-1493612276216-ee3925520721"
+  },
+  {
+    id: 18,
+    title: "מדריך מעשי להסבת קריירה לעולם ההייטק",
+    slug: "tech-career-transition-guide",
+    excerpt: "צעדים מעשיים למעבר מוצלח לתעשיית ההייטק. כולל מסלולי למידה מומלצים, טיפים ממעסיקים ותובנות מאנשים שהצליחו",
+    category: "career-coaching",
+    date: "2024-02-08",
+    readTime: "13 דקות קריאה",
+    likes: 276,
+    comments: 58,
+    image: "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0"
+  },
+  {
+    id: 19,
+    title: "אומנות הרישות העסקי בעידן הדיגיטלי",
+    slug: "digital-networking-mastery",
+    excerpt: "שיטות מתקדמות ליצירת קשרים מקצועיים משמעותיים באונליין. כולל אסטרטגיות לכנסים וירטואליים ופלטפורמות מקצועיות",
+    category: "personal-branding",
+    date: "2024-02-06",
+    readTime: "8 דקות קריאה",
+    likes: 156,
+    comments: 27,
+    image: "https://images.unsplash.com/photo-1557425529-b1ae9c141e7d"
+  },
+  {
+    id: 20,
+    title: "המדריך המלא להתמודדות עם שחיקה תעסוקתית",
+    slug: "workplace-burnout-guide",
+    excerpt: "אסטרטגיות מעשיות למניעת שחיקה ושמירה על איזון בריא בין העבודה לחיים האישיים. כולל תרגילי מיינדפולנס וטיפים ארגוניים",
+    category: "career-coaching",
+    date: "2024-02-04",
+    readTime: "10 דקות קריאה",
+    likes: 234,
+    comments: 45,
+    image: "https://images.unsplash.com/photo-1516387938699-a93567ec168e"
   }
 ];
 

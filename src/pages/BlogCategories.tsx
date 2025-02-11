@@ -59,7 +59,7 @@ const BlogCategories = () => {
                   <div>
                     <CardTitle className="text-xl">{t(category.titleKey)}</CardTitle>
                     <CardContent className="p-0 text-sm text-muted-foreground">
-                      {t('blog.postsCount', { count: category.posts })}
+                      {t("nav.postsCount", { count: category.posts })}
                     </CardContent>
                   </div>
                 </CardHeader>
