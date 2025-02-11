@@ -1,10 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Star, Briefcase, FileText, UserCheck, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useEmblaCarousel from 'embla-carousel-react';
-import { navigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,7 @@ import { ResumeAnalyzer } from "@/components/ResumeAnalyzer";
 const Index = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
+  const navigate = useNavigate();
   const [emblaRef] = useEmblaCarousel({ 
     direction: isRTL ? 'rtl' : 'ltr',
     align: 'start',
