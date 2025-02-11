@@ -1,3 +1,4 @@
+
 export const translations = {
   he: {
     nav: {
@@ -17,6 +18,7 @@ export const translations = {
     services: {
       title: "השירותים שלנו",
       subtitle: "פתרונות פיתוח קריירה ומשאבי אנוש מקיפים שנועדו לעזור לך להצליח",
+      intro: "אנו מציעים מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
       items: {
         coaching: {
           title: "אימון קריירה",
@@ -30,6 +32,22 @@ export const translations = {
           title: "ייעוץ משאבי אנוש",
           description: "פתרונות משאבי אנוש מקיפים לארגונים המעוניינים לייעל את כוח העבודה שלהם",
         },
+      },
+      careerCoaching: {
+        title: "ייעוץ קריירה",
+        description: "ליווי אישי לפיתוח קריירה, כולל אבחון תעסוקתי, הגדרת יעדים ובניית תכנית פעולה",
+      },
+      resumeWriting: {
+        title: "כתיבת קורות חיים",
+        description: "כתיבה מקצועית של קורות חיים והתאמתם לדרישות השוק והמשרה המבוקשת",
+      },
+      personalBranding: {
+        title: "מיתוג אישי",
+        description: "בניית נוכחות דיגיטלית חזקה ומיתוג אישי מקצועי",
+      },
+      recruitment: {
+        title: "גיוס חכם",
+        description: "פתרונות גיוס מתקדמים למעסיקים, כולל איתור, מיון וליווי תהליך הקליטה",
       },
     },
     values: {
@@ -69,26 +87,6 @@ export const translations = {
         },
       },
     },
-    services: {
-      title: "השירותים שלנו",
-      intro: "אנו מציעים מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
-      careerCoaching: {
-        title: "ייעוץ קריירה",
-        description: "ליווי אישי לפיתוח קריירה, כולל אבחון תעסוקתי, הגדרת יעדים ובניית תכנית פעולה",
-      },
-      resumeWriting: {
-        title: "כתיבת קורות חיים",
-        description: "כתיבה מקצועית של קורות חיים והתאמתם לדרישות השוק והמשרה המבוקשת",
-      },
-      personalBranding: {
-        title: "מיתוג אישי",
-        description: "בניית נוכחות דיגיטלית חזקה ומיתוג אישי מקצועי",
-      },
-      recruitment: {
-        title: "גיוס חכם",
-        description: "פתרונות גיוס מתקדמים למעסיקים, כולל איתור, מיון וליווי תהליך הקליטה",
-      },
-    },
     contact: {
       title: "צור קשר",
       subtitle: "נשמח לעמוד לרשותך",
@@ -125,6 +123,7 @@ export const translations = {
     services: {
       title: "Our Services",
       subtitle: "Comprehensive career development and HR solutions designed to help you succeed",
+      intro: "We offer a range of professional solutions in recruitment and career development",
       items: {
         coaching: {
           title: "Career Coaching",
@@ -138,6 +137,22 @@ export const translations = {
           title: "HR Consulting",
           description: "Comprehensive HR solutions for organizations looking to optimize their workforce",
         },
+      },
+      careerCoaching: {
+        title: "Career Coaching",
+        description: "Personal guidance for career development, including occupational assessment, goal setting, and action plan creation",
+      },
+      resumeWriting: {
+        title: "Resume Writing",
+        description: "Professional resume writing and adaptation to market and position requirements",
+      },
+      personalBranding: {
+        title: "Personal Branding",
+        description: "Building a strong digital presence and professional personal branding",
+      },
+      recruitment: {
+        title: "Smart Recruitment",
+        description: "Advanced recruitment solutions for employers, including sourcing, screening, and onboarding support",
       },
     },
     values: {
@@ -175,26 +190,6 @@ export const translations = {
           personal: "Personal Approach",
           professional: "Professionalism & Excellence",
         },
-      },
-    },
-    services: {
-      title: "Our Services",
-      intro: "We offer a range of professional solutions in recruitment and career development",
-      careerCoaching: {
-        title: "Career Coaching",
-        description: "Personal guidance for career development, including occupational assessment, goal setting, and action plan creation",
-      },
-      resumeWriting: {
-        title: "Resume Writing",
-        description: "Professional resume writing and adaptation to market and position requirements",
-      },
-      personalBranding: {
-        title: "Personal Branding",
-        description: "Building a strong digital presence and professional personal branding",
-      },
-      recruitment: {
-        title: "Smart Recruitment",
-        description: "Advanced recruitment solutions for employers, including sourcing, screening, and onboarding support",
       },
     },
     contact: {
