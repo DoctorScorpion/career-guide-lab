@@ -36,11 +36,6 @@ export const MobileNav = ({
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent side={isRTL ? "right" : "left"} className="w-[300px] sm:w-[400px]">
         <div className="flex flex-col gap-6 mt-6">
-          <ResumeAnalyzerButton 
-            onClick={handleResumeAnalyzerClick}
-            text={t("resume.analyzer.title")}
-          />
-
           <button
             className="flex items-center gap-2 text-sm hover:text-accent transition-colors"
             onClick={toggleLanguage}
@@ -66,7 +61,12 @@ export const MobileNav = ({
                       key={subitem.href}
                       to={subitem.href}
                       className="block py-3 text-base hover:text-accent transition-colors"
-                      onClick={() => handleNavItemClick(subitem.href)}
+                      onClick={() => {
+                        handleNavItemClick(subitem.href);
+                        if (subitem.title === "nav.resumeAnalyzer") {
+                          handleResumeAnalyzerClick(new MouseEvent('click') as any);
+                        }
+                      }}
                     >
                       {t(subitem.title)}
                     </Link>
@@ -87,8 +87,8 @@ export const MobileNav = ({
           
           <Button asChild className="mt-4 bg-accent hover:bg-accent/90 w-full">
             <Link 
-              to="/contact" 
-              onClick={() => handleNavItemClick('/contact')}
+              to="/jobs" 
+              onClick={() => handleNavItemClick('/jobs')}
             >
               {t("nav.getStarted")}
             </Link>

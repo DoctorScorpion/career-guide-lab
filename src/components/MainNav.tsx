@@ -84,6 +84,14 @@ export function MainNav() {
 
   const navItems: NavItem[] = [
     { 
+      title: "nav.tools",
+      href: "/tools",
+      subitems: [
+        { title: "nav.jobMatcher", href: "/jobs" },
+        { title: "nav.resumeAnalyzer", href: "/" }
+      ]
+    },
+    { 
       title: "nav.blog",
       href: "/blog",
       subitems: [

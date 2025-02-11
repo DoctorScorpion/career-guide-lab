@@ -18,6 +18,9 @@ export const navTranslations = {
       postsCount: "{{count}} מאמרים",
       postsCount_1: "מאמר אחד",
       postsCount_2: "שני מאמרים",
+      tools: "הכלים שלנו",
+      jobMatcher: "התאמת משרות חכמה",
+      resumeAnalyzer: "ניתוח קורות חיים AI"
     }
   },
   en: {
@@ -38,6 +41,9 @@ export const navTranslations = {
       postsCount: "{{count}} posts",
       postsCount_1: "1 post",
       postsCount_2: "2 posts",
+      tools: "Our Tools",
+      jobMatcher: "Smart Job Matcher",
+      resumeAnalyzer: "AI Resume Analyzer"
     }
   }
 };

@@ -44,7 +44,12 @@ export const DesktopNav = ({
                   key={subitem.href}
                   to={subitem.href}
                   className="block px-4 py-2.5 text-sm hover:bg-accent/10 transition-colors"
-                  onClick={() => setOpenCollapsible(null)}
+                  onClick={() => {
+                    setOpenCollapsible(null);
+                    if (subitem.title === "nav.resumeAnalyzer") {
+                      handleResumeAnalyzerClick(new MouseEvent('click') as any);
+                    }
+                  }}
                 >
                   {t(subitem.title)}
                 </Link>
@@ -62,11 +67,6 @@ export const DesktopNav = ({
         )
       ))}
       <div className="flex items-center gap-4">
-        <ResumeAnalyzerButton 
-          onClick={handleResumeAnalyzerClick}
-          text={t("resume.analyzer.title")}
-        />
-
         <button
           className="p-2 rounded-full hover:bg-accent/10 transition-colors"
           aria-label={t("nav.toggleLanguage")}
@@ -77,7 +77,7 @@ export const DesktopNav = ({
         </button>
         
         <Button asChild className="bg-accent hover:bg-accent/90">
-          <Link to="/contact">
+          <Link to="/jobs">
             {t("nav.getStarted")}
           </Link>
         </Button>
