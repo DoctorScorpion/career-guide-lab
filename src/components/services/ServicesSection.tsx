@@ -18,26 +18,26 @@ export const ServicesSection = () => {
   const services = [
     {
       icon: Briefcase,
-      title: t("services.items.careerCoaching.title"),
-      description: t("services.items.careerCoaching.description"),
+      title: t("services.values.careerCoaching.title"),
+      description: t("services.values.careerCoaching.description"),
       href: "/services#career-coaching"
     },
     {
       icon: FileText,
-      title: t("services.items.resumeWriting.title"),
-      description: t("services.items.resumeWriting.description"),
+      title: t("services.values.resumeWriting.title"),
+      description: t("services.values.resumeWriting.description"),
       href: "/services#resume-writing"
     },
     {
       icon: UserCheck,
-      title: t("services.items.personalBranding.title"),
-      description: t("services.items.personalBranding.description"),
+      title: t("services.values.personalBranding.title"),
+      description: t("services.values.personalBranding.description"),
       href: "/services#personal-branding"
     },
     {
       icon: Users,
-      title: t("services.items.recruitment.title"),
-      description: t("services.items.recruitment.description"),
+      title: t("services.values.recruitment.title"),
+      description: t("services.values.recruitment.description"),
       href: "/services#recruitment"
     }
   ];
