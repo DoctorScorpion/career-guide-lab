@@ -1,7 +1,6 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -129,24 +128,26 @@ export function MainNav() {
         </div>
 
         <div className="md:hidden">
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              <span className="sr-only">{t("nav.toggleMenu")}</span>
-            </Button>
-          </SheetTrigger>
-          <MobileNav
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            navItems={navItems}
-            openCollapsible={openCollapsible}
-            setOpenCollapsible={setOpenCollapsible}
-            handleNavItemClick={handleNavItemClick}
-            handleResumeAnalyzerClick={handleResumeAnalyzerClick}
-            toggleLanguage={toggleLanguage}
-            isRTL={isRTL}
-            t={t}
-          />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <span className="sr-only">{t("nav.toggleMenu")}</span>
+              </Button>
+            </SheetTrigger>
+            <MobileNav
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              navItems={navItems}
+              openCollapsible={openCollapsible}
+              setOpenCollapsible={setOpenCollapsible}
+              handleNavItemClick={handleNavItemClick}
+              handleResumeAnalyzerClick={handleResumeAnalyzerClick}
+              toggleLanguage={toggleLanguage}
+              isRTL={isRTL}
+              t={t}
+            />
+          </Sheet>
         </div>
       </div>
     </nav>
