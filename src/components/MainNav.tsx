@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Globe, Menu, X, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,35 +17,20 @@ interface NavItem {
   subitems?: NavItem[];
 }
 
-const navItems: NavItem[] = [
-  { 
-    title: "בלוג", 
-    href: "/blog",
-    subitems: [
-      { title: "פוסטים אחרונים", href: "/blog/latest" },
-      { title: "קטגוריות", href: "/blog/categories" }
-    ]
-  },
-  { 
-    title: "שירותים", 
-    href: "/services",
-    subitems: [
-      { title: "אימון קריירה", href: "/services#career-coaching" },
-      { title: "כתיבת קורות חיים", href: "/services#resume-writing" },
-      { title: "מיתוג אישי", href: "/services#personal-branding" },
-      { title: "גיוס והשמה", href: "/services#recruitment" },
-      { title: "ניתוח קורות חיים AI", href: "/#resume-analyzer" }
-    ]
-  },
-  { title: "אודות", href: "/about" },
-  { title: "צור קשר", href: "/contact" },
-];
-
 export function MainNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'he';
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'he' ? 'en' : 'he';
+    i18n.changeLanguage(newLang);
+    document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLang;
+  };
 
   // Auto-hide navbar on scroll down
   useEffect(() => {
@@ -67,6 +53,30 @@ export function MainNav() {
     setOpenCollapsible(null);
   };
 
+  const navItems: NavItem[] = [
+    { 
+      title: "בלוג", 
+      href: "/blog",
+      subitems: [
+        { title: "פוסטים אחרונים", href: "/blog/latest" },
+        { title: "קטגוריות", href: "/blog/categories" }
+      ]
+    },
+    { 
+      title: "שירותים", 
+      href: "/services",
+      subitems: [
+        { title: "אימון קריירה", href: "/services#career-coaching" },
+        { title: "כתיבת קורות חיים", href: "/services#resume-writing" },
+        { title: "מיתוג אישי", href: "/services#personal-branding" },
+        { title: "גיוס והשמה", href: "/services#recruitment" },
+        { title: "ניתוח קורות חיים AI", href: "/#resume-analyzer" }
+      ]
+    },
+    { title: "אודות", href: "/about" },
+    { title: "צור קשר", href: "/contact" },
+  ];
+
   return (
     <nav className={`fixed w-full bg-background/80 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
       navVisible ? 'translate-y-0' : '-translate-y-full'
@@ -81,6 +91,7 @@ export function MainNav() {
           <button
             className="p-2 rounded-full hover:bg-accent/10 transition-colors"
             aria-label="Toggle language"
+            onClick={toggleLanguage}
           >
             <Globe className="w-5 h-5" />
           </button>
@@ -120,7 +131,7 @@ export function MainNav() {
           ))}
           <Button asChild>
             <Link to="/contact" className="bg-accent hover:bg-accent/90">
-              בואו נתחיל
+              {t("nav.getStarted")}
             </Link>
           </Button>
         </div>
@@ -134,8 +145,15 @@ export function MainNav() {
                 <span className="sr-only">פתח תפריט</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side={isRTL ? "right" : "left"} className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6 mt-6">
+                <button
+                  className="flex items-center gap-2 text-sm hover:text-accent transition-colors"
+                  onClick={toggleLanguage}
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>{isRTL ? 'English' : 'עברית'}</span>
+                </button>
                 {navItems.map((item) => (
                   item.subitems ? (
                     <Collapsible
@@ -177,7 +195,7 @@ export function MainNav() {
                     className="bg-accent hover:bg-accent/90 w-full"
                     onClick={() => handleNavItemClick('/contact')}
                   >
-                    בואו נתחיל
+                    {t("nav.getStarted")}
                   </Link>
                 </Button>
               </div>
