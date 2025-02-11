@@ -1,10 +1,10 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Globe, Menu, X, ChevronDown, FileSearch } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import {
   Collapsible,
   CollapsibleContent,
@@ -24,6 +24,27 @@ export function MainNav() {
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === '#resume-analyzer') {
+      const element = document.getElementById('resume-analyzer');
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
+
+  const handleResumeAnalyzerClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById('resume-analyzer');
+    if (element) {
+      setIsOpen(false);
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'he' ? 'en' : 'he';
@@ -93,12 +114,10 @@ export function MainNav() {
             variant="ghost" 
             size="sm" 
             className="flex items-center gap-2"
-            asChild
+            onClick={handleResumeAnalyzerClick}
           >
-            <Link to="/#resume-analyzer">
-              <FileSearch className="w-4 h-4" />
-              <span>{t("resume.analyzer.title")}</span>
-            </Link>
+            <FileSearch className="w-4 h-4" />
+            <span>{t("resume.analyzer.title")}</span>
           </Button>
 
           <button
@@ -167,15 +186,10 @@ export function MainNav() {
                 <Button 
                   variant="ghost" 
                   className="flex items-center gap-2 justify-start"
-                  asChild
+                  onClick={handleResumeAnalyzerClick}
                 >
-                  <Link 
-                    to="/#resume-analyzer"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <FileSearch className="w-5 h-5" />
-                    <span>{t("resume.analyzer.title")}</span>
-                  </Link>
+                  <FileSearch className="w-5 h-5" />
+                  <span>{t("resume.analyzer.title")}</span>
                 </Button>
 
                 <button
