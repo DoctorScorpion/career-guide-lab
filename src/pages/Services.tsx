@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Briefcase, FileText, UserCheck, Users } from "lucide-react";
+import { Briefcase, FileText, UserCheck, Users, ArrowRight, Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const Services = () => {
   const { t, i18n } = useTranslation();
@@ -81,14 +83,41 @@ const Services = () => {
                     </CardContent>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl font-display">
-                      {t(`services.items.${service.key}.title`)}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="mt-4 whitespace-pre-line">
-                    {t(`services.items.${service.key}.fullDescription`)}
+                <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden">
+                  <div className="relative h-40 bg-accent/10">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <service.icon className="w-16 h-16 text-accent/40" />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <DialogHeader>
+                      <DialogTitle className="text-3xl font-display mb-4">
+                        {t(`services.items.${service.key}.title`)}
+                      </DialogTitle>
+                      <p className="text-lg text-muted-foreground">
+                        {t(`services.items.${service.key}.description`)}
+                      </p>
+                    </DialogHeader>
+                    <Separator className="my-6" />
+                    <div className="space-y-6">
+                      <div className="prose prose-blue max-w-none">
+                        <div 
+                          className="whitespace-pre-line text-muted-foreground"
+                          style={{ 
+                            direction: isRTL ? 'rtl' : 'ltr',
+                            textAlign: isRTL ? 'right' : 'left' 
+                          }}
+                        >
+                          {t(`services.items.${service.key}.fullDescription`)}
+                        </div>
+                      </div>
+                      <div className="pt-6">
+                        <Button className="w-full" size="lg">
+                          {t('contact.getStarted')}
+                          <ArrowRight className={`ms-2 w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
