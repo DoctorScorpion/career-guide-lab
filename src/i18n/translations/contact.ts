@@ -5,6 +5,7 @@ export const contactTranslations = {
       title: "צור קשר",
       subtitle: "נשמח לעמוד לרשותך",
       form: {
+        title: "השאירו פרטים ונחזור אליכם",
         name: "שם מלא",
         email: "דואר אלקטרוני",
         phone: "טלפון",
@@ -24,6 +25,7 @@ export const contactTranslations = {
       title: "Contact Us",
       subtitle: "We're here to help",
       form: {
+        title: "Leave your details and we'll get back to you",
         name: "Full Name",
         email: "Email",
         phone: "Phone",

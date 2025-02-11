@@ -11,12 +11,24 @@ export const aboutTranslations = {
         title: "החזון שלנו",
         content: "להוביל את תחום פיתוח הקריירה וההשמה בישראל, תוך יצירת התאמה מושלמת בין מועמדים למשרות, ולהעניק ערך אמיתי לכל הצדדים בתהליך.",
       },
+      team: {
+        title: "הצוות שלנו",
+      },
       values: {
         title: "הערכים שלנו",
         items: {
-          innovation: "חדשנות וטכנולוגיה",
-          personal: "יחס אישי",
-          professional: "מקצועיות ומצוינות",
+          innovation: {
+            title: "חדשנות וטכנולוגיה",
+            description: "אנו מאמצים טכנולוגיות מתקדמות כדי לספק את השירות הטוב ביותר",
+          },
+          personal: {
+            title: "יחס אישי",
+            description: "אנו מאמינים במתן יחס אישי ומותאם לכל לקוח",
+          },
+          professional: {
+            title: "מקצועיות ומצוינות",
+            description: "אנו מחויבים למצוינות ולסטנדרטים הגבוהים ביותר",
+          },
         },
       },
     }
@@ -32,12 +44,24 @@ export const aboutTranslations = {
         title: "Our Mission",
         content: "To lead the field of career development and placement in Israel, creating perfect matches between candidates and positions, and providing real value to all parties in the process.",
       },
+      team: {
+        title: "Our Team",
+      },
       values: {
         title: "Our Values",
         items: {
-          innovation: "Innovation & Technology",
-          personal: "Personal Approach",
-          professional: "Professionalism & Excellence",
+          innovation: {
+            title: "Innovation & Technology",
+            description: "We embrace advanced technologies to provide the best service",
+          },
+          personal: {
+            title: "Personal Approach",
+            description: "We believe in providing personalized service to each client",
+          },
+          professional: {
+            title: "Professionalism & Excellence",
+            description: "We are committed to excellence and the highest standards",
+          },
         },
       },
     }
