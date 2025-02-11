@@ -65,6 +65,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_job_match_score: {
+        Args: {
+          job_description: string
+          job_requirements: string[]
+          job_skills: string[]
+          search_skills: string[]
+          search_location: string
+          search_type: string
+        }
+        Returns: number
+      }
       calculate_match_score: {
         Args: {
           job_fts: unknown

@@ -19,5 +19,5 @@ export interface ProfileFormData {
   jobType: string;
   location: string;
   preferences: string;
-  timeRange: string; // חדש: פרק זמן לחיפוש
+  timeRange: string;
 }
