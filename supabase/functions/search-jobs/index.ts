@@ -31,18 +31,18 @@ serve(async (req: Request) => {
     console.log('Received search params:', searchParams);
 
     // Create random sample jobs for demonstration
-    const mockJobs = Array.from({ length: 5 }, (_, i) => {
+    const mockJobs = Array.from({ length: 15 }, (_, i) => {
       const skills = searchParams.skills;
       const title = `${skills[0]} Developer`;
       const companies = ['חברת הייטק א׳', 'חברת הייטק ב׳', 'סטארטאפ ג׳', 'חברת פיתוח ד׳', 'חברת תוכנה ה׳'];
       
-      // Construct Google search URL with dorks
+      // Construct Google search URL with dorks to search only on LinkedIn
       const searchTerms = [
-        ...skills,
-        searchParams.location,
+        'site:linkedin.com/jobs',  // Search only in LinkedIn jobs
+        'inurl:view',              // Make sure we get direct job links
+        ...skills.map(skill => `"${skill}"`), // Add all skills as exact match terms
+        searchParams.location && `"${searchParams.location}"`,
         searchParams.jobType,
-        'משרה',
-        'דרושים'
       ].filter(Boolean);
       
       // Add time filter based on timeRange
@@ -62,18 +62,20 @@ serve(async (req: Request) => {
       }
 
       const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerms.join(' '))}${timeFilter}`;
+      const linkedinJobUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerms.join(' '))}${timeFilter}&btnI`; // I'm feeling lucky to get direct LinkedIn job link
 
       return {
         id: crypto.randomUUID(),
         title,
-        company: companies[i],
+        company: companies[i % companies.length], // Use modulo to cycle through company names
         location: searchParams.location || 'תל אביב',
-        description: `אנחנו מחפשים ${title} ${searchParams.jobType ? `ל${searchParams.jobType}` : 'למשרה מלאה'} ${searchParams.location ? `ב${searchParams.location}` : ''}`,
+        description: `אנחנו מחפשים ${title} ${searchParams.jobType ? `ל${searchParams.jobType}` : 'למשרה מלאה'} ${searchParams.location ? `ב${searchParams.location}` : ''}\nדרישות: ${skills.join(', ')}`,
         requirements: skills,
         job_type: searchParams.jobType || 'משרה מלאה',
         skills: skills,
         match_score: Math.floor(Math.random() * 30) + 70,
-        source_url: googleSearchUrl
+        source_url: googleSearchUrl,
+        linkedin_url: linkedinJobUrl
       };
     });
 
