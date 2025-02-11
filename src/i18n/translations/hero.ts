@@ -2,19 +2,19 @@
 export const heroTranslations = {
   he: {
     hero: {
-      tag: "מובילים קריירות",
-      title: "פתרונות גיוס והשמה מקצועיים",
-      description: "פתח את הפוטנציאל המקצועי שלך עם הדרכה אישית ופתרונות משאבי אנוש מותאמים לצרכים שלך",
+      tag: "פיתוח קריירה מקצועי",
+      title: "פתרונות גיוס והשמה מתקדמים",
+      description: "מימוש הפוטנציאל המקצועי שלך באמצעות ליווי אישי ופתרונות משאבי אנוש חדשניים המותאמים במיוחד עבורך",
       cta: {
-        contact: "קביעת פגישת ייעוץ",
-        learnMore: "למידע נוסף",
+        contact: "לפגישת ייעוץ ראשונה",
+        learnMore: "גלה עוד",
       },
       form: {
-        title: "השאירו פרטים",
+        title: "צור קשר עכשיו",
         name: "שם מלא",
         email: "דואר אלקטרוני",
-        phone: "טלפון",
-        message: "הודעה",
+        phone: "טלפון נייד",
+        message: "תוכן ההודעה",
         sending: "שולח...",
         submit: "שליחה"
       }
@@ -22,19 +22,19 @@ export const heroTranslations = {
   },
   en: {
     hero: {
-      tag: "Transforming Careers",
-      title: "Expert Career Guidance & HR Solutions",
-      description: "Unlock your professional potential with personalized career guidance and comprehensive HR solutions tailored to your needs",
+      tag: "Professional Career Development",
+      title: "Advanced Recruitment Solutions",
+      description: "Realize your professional potential through personal guidance and innovative HR solutions specially tailored for you",
       cta: {
-        contact: "Schedule Consultation",
-        learnMore: "Learn More",
+        contact: "Book First Consultation",
+        learnMore: "Discover More",
       },
       form: {
-        title: "Contact Us",
+        title: "Contact Us Now",
         name: "Full Name",
-        email: "Email",
-        phone: "Phone",
-        message: "Message",
+        email: "Email Address",
+        phone: "Mobile Phone",
+        message: "Message Content",
         sending: "Sending...",
         submit: "Submit"
       }
