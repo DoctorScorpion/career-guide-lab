@@ -31,10 +31,10 @@ const Jobs = () => {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
             <h1 className="font-display text-4xl font-medium">
-              {t('values.title')}
+              {t('jobs.title')}
             </h1>
             <p className="text-lg text-muted-foreground">
-              {t('values.description')}
+              {t('jobs.description')}
             </p>
           </div>
         </div>

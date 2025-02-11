@@ -21,6 +21,30 @@ export const navTranslations = {
       tools: "הכלים שלנו",
       jobMatcher: "התאמת משרות חכמה",
       resumeAnalyzer: "ניתוח קורות חיים AI"
+    },
+    jobs: {
+      matcher: {
+        analyzing: "מנתח את הפרופיל שלך...",
+        analyze: "מצא משרות מתאימות",
+        noMatches: "טרם נמצאו התאמות",
+        fillProfile: "מלא/י את פרטי הפרופיל כדי לקבל התאמות",
+        profile: {
+          title: "פרופיל מקצועי",
+          description: "מלא/י את הפרטים לקבלת התאמות מדויקות",
+          skills: "מיומנויות",
+          skillsPlaceholder: "פרט/י את המיומנויות המקצועיות שלך",
+          experience: "ניסיון",
+          experiencePlaceholder: "תאר/י את הניסיון המקצועי שלך",
+          jobType: "סוג משרה",
+          jobTypePlaceholder: "בחר/י סוג משרה",
+          location: "מיקום",
+          locationPlaceholder: "איזור מועדף",
+          preferences: "העדפות נוספות",
+          preferencesPlaceholder: "העדפות נוספות כמו תרבות ארגונית, תנאים וכו'"
+        }
+      },
+      title: "מצא את המשרה המושלמת",
+      description: "המערכת החכמה שלנו תעזור לך למצוא את המשרה המתאימה ביותר עבורך"
     }
   },
   en: {
@@ -44,6 +68,30 @@ export const navTranslations = {
       tools: "Our Tools",
       jobMatcher: "Smart Job Matcher",
       resumeAnalyzer: "AI Resume Analyzer"
+    },
+    jobs: {
+      matcher: {
+        analyzing: "Analyzing your profile...",
+        analyze: "Find matching jobs",
+        noMatches: "No matches found yet",
+        fillProfile: "Fill in your profile details to get matches",
+        profile: {
+          title: "Professional Profile",
+          description: "Fill in the details to get accurate matches",
+          skills: "Skills",
+          skillsPlaceholder: "List your professional skills",
+          experience: "Experience",
+          experiencePlaceholder: "Describe your professional experience",
+          jobType: "Job Type",
+          jobTypePlaceholder: "Choose job type",
+          location: "Location",
+          locationPlaceholder: "Preferred location",
+          preferences: "Additional Preferences",
+          preferencesPlaceholder: "Additional preferences like company culture, benefits etc."
+        }
+      },
+      title: "Find Your Perfect Job",
+      description: "Our smart system will help you find the most suitable job for you"
     }
   }
 };
