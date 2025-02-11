@@ -32,12 +32,13 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-sans;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
   /* RTL Support */
   [dir="rtl"] {
+    @apply font-hebrew;
     text-align: right;
   }
 
@@ -46,7 +47,7 @@
   }
 
   .logo-text {
-    @apply font-display text-xl font-semibold tracking-tight;
+    @apply text-xl font-semibold tracking-tight font-display;
     background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
