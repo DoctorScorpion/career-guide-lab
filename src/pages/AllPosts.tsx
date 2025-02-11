@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Clock, Tag, ArrowRight, ThumbsUp, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const allPosts = [
+export const allPosts = [
   {
     id: 1,
     title: "איך לכתוב קורות חיים שיבלטו במיוחד ב-2024",
@@ -45,9 +45,9 @@ const allPosts = [
   },
   {
     id: 4,
-    title: "איך לבנות מיתוג אישי חזק בלינקדאין",
+    title: "איך לבנות מיתוג אישי חזק בלינikedאין",
     slug: "linkedin-personal-branding",
-    excerpt: "מדריך מעשי לבניית נוכחות דיגיטלית משמעותית בלינקדאין",
+    excerpt: "מדריך מעשי לבניית נוכחות דיגיטלית משמעותית בלינikedאין",
     category: "personal-branding",
     date: "2024-03-08",
     readTime: "7 דקות קריאה",
@@ -191,7 +191,7 @@ const allPosts = [
     id: 16,
     title: "פיתוח קריירה בעידן הבינה המלאכותית",
     slug: "ai-era-career-development",
-    excerpt: "כיצד להתאים את המסלול המקצועי שלך לעידן ה-AI. מיומנויות חיוניות, תחומים מבטיחים וטיפים להישארות רלוונטי",
+    excerpt: "כי��ד להתאים את המסלול המקצועי שלך לעידן ה-AI. מיומנויות חיוניות, תחומים מבטיחים וטיפים להישארות רלוונטי",
     category: "career-coaching",
     date: "2024-02-12",
     readTime: "9 דקות קריאה",
@@ -252,10 +252,16 @@ const allPosts = [
 const AllPosts = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
+  const [searchParams] = useSearchParams();
+  const categoryFilter = searchParams.get('category');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const filteredPosts = categoryFilter
+    ? allPosts.filter(post => post.category === categoryFilter)
+    : allPosts;
 
   return (
     <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
@@ -263,9 +269,11 @@ const AllPosts = () => {
         <title>{t("nav.allPosts")} | {t("nav.brand")}</title>
       </Helmet>
       <div className="container pt-32 pb-16">
-        <h1 className="text-4xl font-display font-bold mb-8">{t("nav.allPosts")}</h1>
+        <h1 className="text-4xl font-display font-bold mb-8">
+          {categoryFilter ? t(`services.items.${categoryFilter}.title`) : t("nav.allPosts")}
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <Card key={post.id} className="group hover:shadow-lg transition-all">
               <CardHeader className="p-0">
                 <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg">
@@ -284,7 +292,7 @@ const AllPosts = () => {
                   </span>
                   <span className="inline-flex items-center gap-1">
                     <Tag className="w-4 h-4" />
-                    {post.category}
+                    {t(`services.items.${post.category}.title`)}
                   </span>
                 </div>
                 <CardTitle className="!mt-0 text-xl leading-tight line-clamp-2 group-hover:text-accent transition-colors">
@@ -309,8 +317,8 @@ const AllPosts = () => {
                 </div>
                 <Button variant="ghost" size="sm" className="group" asChild>
                   <Link to={`/blog/${post.slug}`}>
-                    קרא עוד
-                    <ArrowRight className="mr-2 h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+                    {isRTL ? 'קרא עוד' : 'Read more'}
+                    <ArrowRight className={`mr-2 h-4 w-4 ${isRTL ? 'rotate-180' : ''} group-hover:translate-x-1 transition-transform`} />
                   </Link>
                 </Button>
               </CardFooter>

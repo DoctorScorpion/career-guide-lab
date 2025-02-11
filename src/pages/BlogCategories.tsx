@@ -5,31 +5,32 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { Briefcase, FileText, UserCheck, Users } from "lucide-react";
+import { allPosts } from "./AllPosts";
 
 const categories = [
   { 
     id: 'career-coaching',
     icon: Briefcase,
     titleKey: 'services.items.careerCoaching.title',
-    posts: 4
+    posts: allPosts.filter(post => post.category === 'career-coaching').length
   },
   {
     id: 'resume-writing',
     icon: FileText,
     titleKey: 'services.items.resumeWriting.title',
-    posts: 3
+    posts: allPosts.filter(post => post.category === 'resume-writing').length
   },
   {
     id: 'personal-branding',
     icon: UserCheck,
     titleKey: 'services.items.personalBranding.title',
-    posts: 2
+    posts: allPosts.filter(post => post.category === 'personal-branding').length
   },
   {
     id: 'recruitment',
     icon: Users,
     titleKey: 'services.items.recruitment.title',
-    posts: 3
+    posts: allPosts.filter(post => post.category === 'recruitment').length
   }
 ];
 
