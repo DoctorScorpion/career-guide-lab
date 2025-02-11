@@ -80,8 +80,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['"Inter"', 'sans-serif'],
-        display: ['"Cal Sans"', 'sans-serif'],
+        sans: ['"Inter"', '"Heebo"', 'sans-serif'],
+        display: ['"Cal Sans"', '"Heebo"', 'sans-serif'],
+        heebo: ['"Heebo"', 'sans-serif'],
       },
     },
   },
