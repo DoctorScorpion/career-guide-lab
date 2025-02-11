@@ -98,6 +98,7 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
     console.log('Fetching fresh job details from:', url);
     const response = await fetchWithRetry(url);
     const html = await response.text();
+    console.log('Received HTML:', html.substring(0, 500)); // Log first 500 chars for debugging
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     
@@ -186,22 +187,29 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
   const getDateFilter = () => {
     const today = new Date();
     switch (searchParams.timeRange) {
-      case 'last-day':
+      case '24h':
         today.setDate(today.getDate() - 1);
         break;
-      case 'last-week':
+      case 'week':
         today.setDate(today.getDate() - 7);
+        break;
+      case 'three-months':
+        today.setDate(today.getDate() - 90);
         break;
       case 'last-month':
       default:
-        today.setDate(today.getDate() - 30); // ברירת מחדל - חודש אחרון
+        today.setDate(today.getDate() - 30);
         break;
     }
     return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   };
 
   // בניית שאילתת החיפוש המשופרת
-  const searchQuery = `site:linkedin.com/jobs inurl:view ${searchParams.skills.map(skill => `"${skill}"`).join(' ')} ${searchParams.location ? `"${searchParams.location}"` : ''} after:${getDateFilter()}`;
+  const skillsQuery = searchParams.skills.map(skill => `"${skill}"`).join(' AND ');
+  const locationQuery = searchParams.location ? `"${searchParams.location}"` : '';
+  const dateFilter = getDateFilter();
+  
+  const searchQuery = `site:linkedin.com/jobs/view ${skillsQuery} ${locationQuery} after:${dateFilter}`;
 
   console.log('Building search query:', searchQuery);
 
@@ -212,6 +220,7 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
     console.log('Searching Google with URL:', searchUrl);
     const response = await fetchWithRetry(searchUrl);
     const html = await response.text();
+    console.log('Received search results HTML:', html.substring(0, 500)); // Log first 500 chars for debugging
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     
