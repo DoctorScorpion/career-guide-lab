@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Globe, Heart, Star, Briefcase, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -86,6 +85,9 @@ const Index = () => {
             >
               <Globe className="w-5 h-5" />
             </button>
+            <Link to="/blog" className="text-sm hover:text-accent transition-colors">
+              בלוג
+            </Link>
             <Link to="/services" className="text-sm hover:text-accent transition-colors">
               שירותים
             </Link>
@@ -104,7 +106,7 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Hero with Carousel */}
+      {/* Hero Section */}
       <section className="pt-32 pb-16 bg-gradient-to-b from-accent/5 to-background">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
@@ -184,7 +186,66 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Featured Blog Posts */}
+      <section className="py-16 bg-accent/5">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl mb-4">מאמרים מובילים</h2>
+            <p className="text-muted-foreground">
+              מדריכים וטיפים שיעזרו לך להתקדם בקריירה
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              {
+                title: "איך לכתוב קורות חיים שיבלטו במיוחד ב-2024",
+                excerpt: "המדריך המלא לכתיבת קורות חיים שיתפסו את תשומת לבם של מגייסים ומנהלי משאבי אנוש.",
+                image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+                slug: "how-to-write-outstanding-cv-2024"
+              },
+              {
+                title: "5 טרנדים בשוק העבודה שכדאי להכיר",
+                excerpt: "סקירה מקיפה של המגמות החמות בשוק העבודה והכישורים שיהיו הכי מבוקשים בשנים הקרובות.",
+                image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+                slug: "5-job-market-trends-2024"
+              }
+            ].map((post, i) => (
+              <Card key={i} className="group overflow-hidden">
+                <Link to={`/blog/${post.slug}`}>
+                  <div className="aspect-w-16 aspect-h-9">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                  <CardContent className="p-6">
+                    <CardTitle className="text-xl mb-2 group-hover:text-accent transition-colors">
+                      {post.title}
+                    </CardTitle>
+                    <CardDescription>
+                      {post.excerpt}
+                    </CardDescription>
+                    <div className="mt-4 flex items-center text-accent">
+                      <span className="text-sm font-medium">קרא עוד</span>
+                      <ArrowRight className="mr-2 h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/blog">
+                לכל המאמרים
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-16 animate-fade-up">
@@ -234,7 +295,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About */}
+      {/* About Section */}
       <section id="about" className="py-16">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
