@@ -61,11 +61,20 @@ serve(async (req: Request) => {
           timeFilter = '';
       }
 
-      // Create direct LinkedIn search URL
-      const encodedSearch = encodeURIComponent(searchTerms.join(' '));
+      // Create direct Google search URL for specific job
+      const specificJobSearchTerms = [
+        'site:linkedin.com/jobs/view/',  // Only show job view pages
+        `"${title}"`,                    // Exact match for job title
+        `"${companies[i % companies.length]}"`, // Exact match for company name
+        ...skills.map(skill => `"${skill}"`),   // Exact match for skills
+        searchParams.location && `"${searchParams.location}"`,
+        searchParams.jobType && `"${searchParams.jobType}"`,
+      ].filter(Boolean);
+
+      const encodedSearch = encodeURIComponent(specificJobSearchTerms.join(' '));
       const googleSearchUrl = `https://www.google.com/search?q=${encodedSearch}${timeFilter}`;
       
-      // Instead of using "I'm feeling lucky", create a more specific LinkedIn search URL
+      // Create LinkedIn search URL as fallback
       const linkedinJobUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodedSearch}&location=${encodeURIComponent(searchParams.location || 'Israel')}`;
 
       return {
