@@ -26,18 +26,17 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
 
   // בניית שאילתת החיפוש המותאמת
   const skillsQuery = searchParams.skills.length > 0 
-    ? searchParams.skills.map(skill => `"${skill}"`).join(' AND ')
-    : '"Cloud" AND "Security"';  // ערכי ברירת מחדל המעודכנים
+    ? searchParams.skills.map(skill => `"${skill}"`).join(' OR ')  // שינוי מ-AND ל-OR להגדלת תוצאות
+    : '"Cloud" OR "Security"';  // ערכי ברירת מחדל
     
   const locationQuery = searchParams.location 
     ? `"${searchParams.location}"` 
-    : '"Central Israel"';  // ברירת מחדל למיקום
+    : '"תל אביב"';  // ברירת מחדל למיקום
     
   const dateFilter = getDateFilter();
   
-  // בניית השאילתה לפי הפורמט המבוקש:
-  // site:linkedin.com/jobs inurl:view "Cloud" AND "Security" AND "Central Israel" after:2024-03-01
-  const searchQuery = `site:linkedin.com/jobs inurl:view ${skillsQuery} AND ${locationQuery} after:${dateFilter}`;
+  // שימוש במילות מפתח נוספות לשיפור תוצאות החיפוש
+  const searchQuery = `site:linkedin.com/jobs inurl:view (${skillsQuery}) ${locationQuery} after:${dateFilter} careers job posting`;
   console.log('Building search query:', searchQuery);
 
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
@@ -48,53 +47,55 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     const html = await response.text();
     
     // לוג מורחב לדיבוג
-    console.log('Search URL:', searchUrl);
     console.log('Response status:', response.status);
     console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-    console.log('Response HTML (first 1000 chars):', html.substring(0, 1000));
+    console.log('Response HTML length:', html.length);
     
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     
     if (!doc) {
-      console.log('Failed to parse Google search results');
+      console.error('Failed to parse Google search results');
       return [];
     }
 
     const jobUrls: string[] = [];
     const links = doc.querySelectorAll('a');
     
-    console.log('Found links:', links.length);
-    
-    links.forEach((link, index) => {
+    links.forEach((link) => {
       const href = link.getAttribute('href');
       if (!href) return;
-      
-      console.log(`Link ${index}:`, href);
 
-      if (href.startsWith('/url?q=')) {
-        const cleanUrl = href.split('/url?q=')[1]?.split('&')[0];
-        if (cleanUrl?.includes('linkedin.com/jobs/view/')) {
-          try {
-            const url = new URL(decodeURIComponent(cleanUrl));
-            if (url.hostname.endsWith('linkedin.com')) {
-              jobUrls.push(url.toString());
-              console.log('Added job URL:', url.toString());
-            }
-          } catch (e) {
-            console.error('Error parsing URL:', cleanUrl, e);
-          }
+      // חיפוש קישורים ישירים ללינקדאין
+      if (href.includes('linkedin.com/jobs/view/')) {
+        try {
+          const url = new URL(href);
+          jobUrls.push(url.toString());
+          console.log('Added direct LinkedIn URL:', url.toString());
+        } catch (e) {
+          console.error('Error parsing LinkedIn URL:', href, e);
         }
       }
-      else if (href.includes('linkedin.com/jobs/view/')) {
-        jobUrls.push(href);
-        console.log('Added direct job URL:', href);
+      // חיפוש קישורים מגוגל שמפנים ללינקדאין
+      else if (href.startsWith('/url?')) {
+        const urlParams = new URLSearchParams(href.substring(5));
+        const directUrl = urlParams.get('q');
+        if (directUrl?.includes('linkedin.com/jobs/view/')) {
+          try {
+            const url = new URL(directUrl);
+            jobUrls.push(url.toString());
+            console.log('Added Google redirect URL:', url.toString());
+          } catch (e) {
+            console.error('Error parsing Google redirect URL:', directUrl, e);
+          }
+        }
       }
     });
 
     const uniqueJobUrls = Array.from(new Set(jobUrls));
     console.log(`Found ${uniqueJobUrls.length} unique job URLs:`, uniqueJobUrls);
     return uniqueJobUrls;
+
   } catch (error) {
     console.error('Error searching jobs:', error);
     return [];

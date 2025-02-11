@@ -8,7 +8,7 @@ export async function fetchWithRetry(url: string, maxRetries = 3): Promise<Respo
   
   for (let i = 0; i < maxRetries; i++) {
     try {
-      await delay(1000 + Math.random() * 2000);
+      await delay(1000 + Math.random() * 2000);  // הוספת השהייה אקראית
       
       const response = await fetch(url, {
         headers: {
@@ -23,6 +23,7 @@ export async function fetchWithRetry(url: string, maxRetries = 3): Promise<Respo
           'Sec-Fetch-Site': 'none',
           'Sec-Fetch-User': '?1',
           'Cache-Control': 'max-age=0',
+          'Cookie': ''  // נקה את העוגיות
         }
       });
 
@@ -34,7 +35,7 @@ export async function fetchWithRetry(url: string, maxRetries = 3): Promise<Respo
     } catch (error) {
       console.error(`Attempt ${i + 1} failed:`, error);
       lastError = error;
-      await delay(2000 * (i + 1));
+      await delay(2000 * (i + 1));  // הגדלת ההשהייה בכל ניסיון
     }
   }
   
