@@ -24,32 +24,33 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     return today.toISOString().split('T')[0];
   };
 
-  // בניית שאילתת החיפוש המותאמת
+  // שיפור שאילתת החיפוש
   const skillsQuery = searchParams.skills.length > 0 
-    ? searchParams.skills.map(skill => `"${skill}"`).join(' OR ')  // שינוי מ-AND ל-OR להגדלת תוצאות
-    : '"Cloud" OR "Security"';  // ערכי ברירת מחדל
+    ? searchParams.skills.join(' ') // הסרת המרכאות לחיפוש טבעי יותר
+    : 'Cloud Security';
     
-  const locationQuery = searchParams.location 
-    ? `"${searchParams.location}"` 
-    : '"תל אביב"';  // ברירת מחדל למיקום
-    
+  const locationQuery = searchParams.location || 'תל אביב';
   const dateFilter = getDateFilter();
   
-  // שימוש במילות מפתח נוספות לשיפור תוצאות החיפוש
-  const searchQuery = `site:linkedin.com/jobs inurl:view (${skillsQuery}) ${locationQuery} after:${dateFilter} careers job posting`;
+  // שימוש בפורמט חיפוש פשוט יותר
+  const searchQuery = `${skillsQuery} ${locationQuery} site:linkedin.com/jobs`;
   console.log('Building search query:', searchQuery);
 
-  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
+  const encodedQuery = encodeURIComponent(searchQuery.trim());
+  const searchUrl = `https://www.google.com/search?q=${encodedQuery}&num=100&tbs=qdr:m`;
   
   try {
     console.log('Searching Google with URL:', searchUrl);
     const response = await fetchWithRetry(searchUrl);
     const html = await response.text();
     
-    // לוג מורחב לדיבוג
     console.log('Response status:', response.status);
-    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
     console.log('Response HTML length:', html.length);
+    
+    if (html.includes('detected unusual traffic') || html.includes('Please show you\'re not a robot')) {
+      console.error('Google bot detection triggered');
+      return [];
+    }
     
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -59,40 +60,35 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
       return [];
     }
 
-    const jobUrls: string[] = [];
-    const links = doc.querySelectorAll('a');
+    const jobUrls: Set<string> = new Set();
     
-    links.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-
-      // חיפוש קישורים ישירים ללינקדאין
-      if (href.includes('linkedin.com/jobs/view/')) {
-        try {
-          const url = new URL(href);
-          jobUrls.push(url.toString());
-          console.log('Added direct LinkedIn URL:', url.toString());
-        } catch (e) {
-          console.error('Error parsing LinkedIn URL:', href, e);
+    // חיפוש בכל האלמנטים שיכולים להכיל קישורים
+    ['a[href]', 'cite', '.r a', '.g h3 a'].forEach(selector => {
+      doc.querySelectorAll(selector).forEach((element) => {
+        let url = '';
+        if (element.tagName.toLowerCase() === 'a') {
+          url = element.getAttribute('href') || '';
+        } else {
+          url = element.textContent || '';
         }
-      }
-      // חיפוש קישורים מגוגל שמפנים ללינקדאין
-      else if (href.startsWith('/url?')) {
-        const urlParams = new URLSearchParams(href.substring(5));
-        const directUrl = urlParams.get('q');
-        if (directUrl?.includes('linkedin.com/jobs/view/')) {
+
+        if (url.includes('linkedin.com/jobs/view/')) {
           try {
-            const url = new URL(directUrl);
-            jobUrls.push(url.toString());
-            console.log('Added Google redirect URL:', url.toString());
+            // ניקוי ה-URL
+            url = url.startsWith('/url?') ? new URLSearchParams(url.substring(5)).get('q') || '' : url;
+            if (url && url.startsWith('http')) {
+              const cleanUrl = new URL(url).toString();
+              jobUrls.add(cleanUrl);
+              console.log('Added job URL:', cleanUrl);
+            }
           } catch (e) {
-            console.error('Error parsing Google redirect URL:', directUrl, e);
+            console.error('Error parsing URL:', url, e);
           }
         }
-      }
+      });
     });
 
-    const uniqueJobUrls = Array.from(new Set(jobUrls));
+    const uniqueJobUrls = Array.from(jobUrls);
     console.log(`Found ${uniqueJobUrls.length} unique job URLs:`, uniqueJobUrls);
     return uniqueJobUrls;
 
