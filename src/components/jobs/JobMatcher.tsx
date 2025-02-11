@@ -6,42 +6,6 @@ import { JobMatch, ProfileFormData } from "./types";
 import { ProfileForm } from "./ProfileForm";
 import { JobList } from "./JobList";
 
-// מידע לדוגמה - במציאות יגיע מה-API
-const mockMatches: JobMatch[] = [
-  {
-    id: "1",
-    title: "Full Stack Developer",
-    company: "TechCo",
-    location: "תל אביב",
-    matchScore: 95,
-    description: "אנחנו מחפשים מפתח/ת Full Stack עם ניסיון ב-React ו-Node.js",
-    requirements: ["React", "Node.js", "TypeScript", "3+ years experience"],
-    type: "משרה מלאה",
-    salary: "32-42K"
-  },
-  {
-    id: "2",
-    title: "Frontend Team Lead",
-    company: "StartUp IL",
-    location: "הרצליה",
-    matchScore: 88,
-    description: "דרוש/ה מוביל/ת צוות Frontend עם ניסיון בבניית מוצרים מורכבים",
-    requirements: ["React", "Team Leadership", "5+ years experience"],
-    type: "משרה מלאה",
-    salary: "45-55K"
-  },
-  {
-    id: "3",
-    title: "Backend Developer",
-    company: "Enterprise Solutions",
-    location: "רמת גן",
-    matchScore: 82,
-    description: "מפתח/ת Backend לעבודה על מערכות בקנה מידה גדול",
-    requirements: ["Java", "Spring", "Microservices", "4+ years experience"],
-    type: "משרה מלאה"
-  }
-];
-
 export const JobMatcher = () => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
@@ -56,24 +20,53 @@ export const JobMatcher = () => {
     preferences: ""
   });
 
+  const buildGoogleDorkQuery = (profile: ProfileFormData) => {
+    const skills = profile.skills.split(", ").join(" OR ");
+    const jobType = profile.jobType === "full-time" ? "משרה מלאה" : 
+                   profile.jobType === "part-time" ? "משרה חלקית" : "פרילנס";
+    
+    // בניית ה-Google Dork query
+    const query = encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" after:${getLastMonthDate()}`);
+    return `https://www.google.com/search?q=${query}`;
+  };
+
+  const getLastMonthDate = () => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    return date.toISOString().split('T')[0];
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
     
     try {
-      // כאן יהיה בעתיד קריאה ל-API להתאמת משרות
-      await new Promise(resolve => setTimeout(resolve, 2000)); // סימולציה של קריאת API
-      setMatches(mockMatches);
+      const googleSearchUrl = buildGoogleDorkQuery(profile);
+      const dummyMatches: JobMatch[] = [
+        {
+          id: "1",
+          title: `${profile.skills.split(",")[0]} Developer`,
+          company: "Tech Company",
+          location: profile.location,
+          matchScore: 95,
+          description: `משרה ב${profile.location} הדורשת ידע ב${profile.skills}`,
+          requirements: profile.skills.split(", "),
+          type: profile.jobType,
+          linkedinUrl: googleSearchUrl // מוסיף את ה-URL לחיפוש בגוגל
+        }
+      ];
+      
+      setMatches(dummyMatches);
       
       toast({
-        title: "הניתוח הושלם",
+        title: "החיפוש הושלם",
         description: "נמצאו משרות מתאימות לפרופיל שלך",
         duration: 3000
       });
     } catch (error) {
       toast({
         title: "שגיאה",
-        description: "אירעה שגיאה בניתוח הפרופיל",
+        description: "אירעה שגיאה בחיפוש המשרות",
         variant: "destructive",
         duration: 3000
       });

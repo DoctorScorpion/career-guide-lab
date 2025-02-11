@@ -9,6 +9,7 @@ export interface JobMatch {
   requirements: string[];
   type: string;
   salary?: string;
+  linkedinUrl?: string;
 }
 
 export interface ProfileFormData {

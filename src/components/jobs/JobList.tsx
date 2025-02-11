@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Building2, BriefcaseIcon, MapPin, TrendingUp, Star } from "lucide-react";
+import { Building2, BriefcaseIcon, MapPin, TrendingUp, Star, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface JobListProps {
   isAnalyzing: boolean;
@@ -78,7 +79,7 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <BriefcaseIcon className="w-4 h-4" />
                     {job.type}
@@ -90,6 +91,14 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                     </div>
                   )}
                 </div>
+
+                <Button 
+                  className="mt-4"
+                  onClick={() => window.open(job.linkedinUrl, '_blank')}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  חפש משרות בגוגל
+                </Button>
               </div>
             </div>
           </CardContent>
