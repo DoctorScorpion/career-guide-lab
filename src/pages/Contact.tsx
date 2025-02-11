@@ -59,7 +59,7 @@ const Contact = () => {
             <h1 className="font-display text-4xl font-medium">
               {t('contact.title')}
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className={`text-lg text-muted-foreground ${isRTL ? 'text-right' : 'text-left'}`}>
               {t('contact.subtitle')}
             </p>
           </div>
@@ -73,7 +73,9 @@ const Contact = () => {
             {/* Contact Form */}
             <Card>
               <CardHeader>
-                <CardTitle>{t('contact.form.title')}</CardTitle>
+                <CardTitle className={isRTL ? 'text-right' : 'text-left'}>
+                  {t('contact.form.title')}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -82,7 +84,7 @@ const Contact = () => {
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className={isRTL ? 'text-right' : 'text-left'}>
                           <FormLabel>{t('contact.form.name')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
@@ -95,7 +97,7 @@ const Contact = () => {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className={isRTL ? 'text-right' : 'text-left'}>
                           <FormLabel>{t('contact.form.email')}</FormLabel>
                           <FormControl>
                             <Input type="email" {...field} />
@@ -108,7 +110,7 @@ const Contact = () => {
                       control={form.control}
                       name="phone"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className={isRTL ? 'text-right' : 'text-left'}>
                           <FormLabel>{t('contact.form.phone')}</FormLabel>
                           <FormControl>
                             <Input type="tel" {...field} />
@@ -121,7 +123,7 @@ const Contact = () => {
                       control={form.control}
                       name="interests"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className={isRTL ? 'text-right' : 'text-left'}>
                           <FormLabel>{t('contact.form.interests')}</FormLabel>
                           <FormControl>
                             <Input {...field} />
@@ -134,7 +136,7 @@ const Contact = () => {
                       control={form.control}
                       name="message"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className={isRTL ? 'text-right' : 'text-left'}>
                           <FormLabel>{t('contact.form.message')}</FormLabel>
                           <FormControl>
                             <Textarea rows={4} {...field} />
@@ -158,7 +160,9 @@ const Contact = () => {
                   <Building className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-medium">{t('contact.address')}</h3>
+                  <h3 className={`font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('contact.address')}
+                  </h3>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -166,7 +170,9 @@ const Contact = () => {
                   <Phone className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-medium">{t('contact.phone')}</h3>
+                  <h3 className={`font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('contact.phone')}
+                  </h3>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -174,7 +180,9 @@ const Contact = () => {
                   <Mail className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-medium">{t('contact.email')}</h3>
+                  <h3 className={`font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('contact.email')}
+                  </h3>
                 </div>
               </div>
             </div>
