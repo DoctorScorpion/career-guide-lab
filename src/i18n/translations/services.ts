@@ -1,24 +1,14 @@
+
 export const servicesTranslations = {
   he: {
     services: {
       title: "השירותים שלנו",
       intro: "מגוון פתרונות מקצועיים המותאמים לצרכים שלך",
       description: "מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
-      types: {
-        employee: {
-          title: "שירותים למחפשי עבודה",
-          description: "פתרונות מקצועיים לפיתוח הקריירה שלך"
-        },
-        employer: {
-          title: "שירותים למעסיקים",
-          description: "פתרונות גיוס וייעוץ למעסיקים"
-        }
-      },
       items: {
         careerCoaching: {
           title: "ייעוץ וליווי קריירה",
           description: "ליווי אישי מקצועי לפיתוח הקריירה שלך",
-          userType: "employee",
           fullDescription: `אנו מציעים שירות ייעוץ וליווי קריירה מקיף ומותאם אישית, המיועד לעזור לך להשיג את המטרות המקצועיות שלך.
 
 הליווי כולל:
@@ -28,6 +18,8 @@ export const servicesTranslations = {
 • ייעוץ בנושא שכר ותנאי העסקה
 • אסטרטגיות לפיתוח קריירה ארוך טווח
 • תמיכה וליווי לאורך כל התהליך
+
+הליווי ניתן על ידי עמית בקשי, מייסד ומנכ"ל החברה, עם ניסיון של למעלה מ-15 שנה בתחום הגיוס והייעוץ הקריירה.
 
 השירות מתאים במיוחד ל:
 • מחפשי עבודה בכל הרמות
@@ -40,7 +32,6 @@ export const servicesTranslations = {
         resumeWriting: {
           title: "כתיבת קורות חיים",
           description: "בניית קורות חיים מקצועיים ומותאמים אישית",
-          userType: "employee",
           fullDescription: `שירות כתיבת קורות חיים מקצועי המותאם לדרישות שוק העבודה העכשווי ולצרכים הספציפיים שלך.
 
 השירות כולל:
@@ -50,6 +41,8 @@ export const servicesTranslations = {
 • אופטימיזציה ל-ATS (מערכות מיון אוטומטיות)
 • עיצוב מודרני ונקי
 • גרסאות בעברית ובאנגלית
+
+השירות מבוצע על ידי גל מושקוביץ, המנהל הטכנולוגי שלנו, המתמחה בהתאמת קורות חיים למערכות גיוס מתקדמות.
 
 יתרונות:
 • הגדלת הסיכויים לזימון לראיונות
@@ -62,7 +55,6 @@ export const servicesTranslations = {
         personalBranding: {
           title: "מיתוג אישי ומקצועי",
           description: "בניית נוכחות דיגיטלית ומיתוג אישי חזק",
-          userType: "employee",
           fullDescription: `שירותי מיתוג אישי מקיפים לבניית נוכחות מקצועית חזקה ומשפיעה ברשת ומחוצה לה.
 
 השירות כולל:
@@ -73,6 +65,8 @@ export const servicesTranslations = {
 • בניית נוכחות בפלטפורמות רלוונטיות
 • ייעוץ לבניית רשת קשרים מקצועית
 
+השירות מובל על ידי צוות המיתוג המקצועי שלנו בהובלת עמית בקשי.
+
 תועלות מרכזיות:
 • הגדלת החשיפה המקצועית
 • משיכת הזדמנויות קריירה
@@ -81,27 +75,9 @@ export const servicesTranslations = {
 
 אנו מלווים אותך בבניית המותג האישי שלך בצורה אסטרטגית ומקצועית.`
         },
-        careerTransition: {
-          title: "הסבה מקצועית",
-          description: "ליווי בתהליך שינוי קריירה והסבה מקצועית",
-          userType: "employee",
-          fullDescription: `הסבה מקצועית היא תהליך מעשי ותאורטי המאפשר לך לשלוט בקריירה שלך ולהתאים אותה לדרישות והopportunities שלך.
-
-הסבה מקצועית כוללת:
-• ניתוח ניסיון התעסוקתי
-• אבחון תגמול והטבות
-• פיתוח תוכנית סטודנטית
-• תכנון מסלולי קריירה
-• פיתוח תוכניות הכשרה והדרכה
-• ניהול ביצועים ומשוב
-• פיתוח מיומנויות ניהול
-
-הסבה מקצועית מומלצת עבור כל אדם שמחפש שינוי קריירה או שמעוניין ביצוע תהליך שינוי מקצועי.`
-        },
         recruitment: {
           title: "גיוס והשמה",
           description: "פתרונות גיוס והשמה מקיפים למעסיקים",
-          userType: "employer",
           fullDescription: `שירותי גיוס והשמה מתקדמים המותאמים לצרכי המעסיק ודרישות השוק.
 
 השירות כולל:
@@ -112,6 +88,8 @@ export const servicesTranslations = {
 • תמיכה בתהליכי הקליטה
 • ייעוץ בנושאי שכר ותנאי העסקה
 
+השירות מובל על ידי צוות הגיוס המקצועי שלנו בשיתוף עם עמית בקשי וגל מושקוביץ.
+
 יתרונות ייחודיים:
 • גישה למאגר מועמדים איכותי
 • חיסכון בזמן ומשאבים
@@ -119,67 +97,6 @@ export const servicesTranslations = {
 • תהליך גיוס מקצועי ויעיל
 
 אנו מתמחים במגוון תפקידים וענפים, עם דגש מיוחד על תחומי ההייטק, פיננסים, ושיווק.`
-        },
-        hrConsulting: {
-          title: "ייעוץ משאבי אנוש",
-          description: "ליווי וייעוץ בניהול משאבי אנוש",
-          userType: "employer",
-          fullDescription: `שירותי ייעוץ מקיפים בתחום משאבי אנוש למעסיקים ומנהלים.
-
-השירות כולל:
-• פיתוח אסטרטגיות גיוס ושימור עובדים
-• בניית תוכניות הדרכה ופיתוח ארגוני
-• ייעוץ בנושאי תגמול והטבות
-• ליווי תהליכי שינוי ארגוניים
-• פיתוח תרבות ארגונית
-• ניהול ביצועים ומשוב
-
-יתרונות:
-• שיפור תהליכי משאבי אנוש
-• הגדלת שביעות רצון העובדים
-• הפחתת תחלופת עובדים
-• יצירת סביבת עבודה אפקטיבית
-
-הליווי מותאם לצרכים הספציפיים של הארגון שלך.`
-        },
-        talentManagement: {
-          title: "ניהול ופיתוח טאלנטים",
-          description: "פתרונות לניהול ופיתוח עובדים",
-          userType: "employer",
-          fullDescription: `פתרונות מקיפים לניהול ופיתוח טאלנטים בארגון.
-
-השירות כולל:
-• תכנון מסלולי קריירה
-• פיתוח תוכניות הכשרה והדרכה
-• זיהוי וטיפוח מנהיגות עתידית
-• ניהול ביצועים ומשוב
-• תוכניות שימור עובדים
-• פיתוח מיומנויות ניהול
-
-יתרונות:
-• שיפור ביצועי עובדים
-• הגברת מוטיבציה ומחויבות
-• פיתוח מנהיגות פנים-ארגונית
-• יצירת סביבת למידה והתפתחות
-
-אנו מתאימים את הפתרונות לצרכי הארגון ומטרותיו.`
-        },
-        orgDevelopment: {
-          title: "פיתוח ארגוני",
-          description: "ייעוץ אסטרטגי לפיתוח וצמיחה ארגונית",
-          userType: "employer",
-          fullDescription: `הפיתוח ארגוני הוא תהליך מעשי ותאורטי המאפשר לך לשלוט ברגל הארגון שלך ולהתאים אותו לדרישות והopportunities שלך.
-
-הפיתוח ארגוני כוללת:
-• ניתוח ניסיון התעסוקתי
-• אבחון תגמול והטבות
-• פיתוח תוכנית סטודנטית
-• תכנון מסלולי קריירה
-• פיתוח תוכניות הכשרה והדרכה
-• ניהול ביצועים ומשוב
-• פיתוח מיומנויות ניהול
-
-הפיתוח ארגוני מומלצת עבור כל אדם שמחפש שינוי קריירה או שמעוניין ביצוע תהליך שינוי מקצועי.`
         }
       }
     }
@@ -203,6 +120,8 @@ Our coaching includes:
 • Long-term career development strategies
 • Ongoing support throughout the process
 
+Led by Amit Bakshi, our founder and CEO, with over 15 years of experience in recruitment and career counseling.
+
 This service is particularly suitable for:
 • Job seekers at all levels
 • People considering career changes
@@ -223,6 +142,8 @@ Service includes:
 • ATS optimization
 • Modern and clean design
 • Hebrew and English versions
+
+Service is provided by Gal Moskowitz, our CTO, specializing in optimizing resumes for advanced recruitment systems.
 
 Benefits:
 • Increased chances for interview invitations
@@ -245,6 +166,8 @@ Service includes:
 • Presence building on relevant platforms
 • Professional networking advice
 
+Led by our professional branding team under the guidance of Amit Bakshi.
+
 Key benefits:
 • Increased professional exposure
 • Attracting career opportunities
@@ -252,22 +175,6 @@ Key benefits:
 • Creating meaningful professional differentiation
 
 We guide you in building your personal brand strategically and professionally.`
-        },
-        careerTransition: {
-          title: "Career Transition",
-          description: "Professional guidance and support for career transitions",
-          fullDescription: `Career transition is a process that allows you to take control of your career and align it with your goals and opportunities.
-
-Career transition includes:
-• Analysis of work experience
-• Assessment of personal growth
-• Development of a student plan
-• Career planning
-• Development of training and development programs
-• Management of performance and feedback
-• Development of leadership skills
-
-Career transition is recommended for anyone looking to make a career change or pursue a career development process.`
         },
         recruitment: {
           title: "Recruitment & Placement",
@@ -281,6 +188,8 @@ Service includes:
 • End-to-end recruitment process management
 • Onboarding support
 • Salary and benefits consulting
+
+Led by our professional recruitment team in collaboration with Amit Bakshi and Gal Moskowitz.
 
 Unique advantages:
 • Access to quality candidate pool

@@ -110,11 +110,11 @@ const Services = () => {
                       </div>
                       <div className="pt-4">
                         <Button 
-                          className="w-full shadow-lg hover:shadow-xl transition-all" 
+                          className="w-full h-14 text-lg shadow-lg hover:shadow-xl transition-all" 
                           size="lg"
                         >
                           {t('contact.getStarted')}
-                          <ArrowRight className={`${isRTL ? 'mr-2 rotate-180' : 'ml-2'} w-4 h-4`} />
+                          <ArrowRight className={`${isRTL ? 'mr-2 rotate-180' : 'ml-2'} w-5 h-5`} />
                         </Button>
                       </div>
                     </div>
