@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -259,6 +260,16 @@ const AllPosts = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const getCategoryTitle = (categoryId: string) => {
+    const categoryTitles: Record<string, string> = {
+      'career-coaching': t('services.items.careerCoaching.title'),
+      'personal-branding': t('services.items.personalBranding.title'),
+      'resume-writing': t('services.items.resumeWriting.title'),
+      'recruitment': t('services.items.recruitment.title')
+    };
+    return categoryTitles[categoryId] || categoryId;
+  };
+
   const filteredPosts = categoryFilter
     ? allPosts.filter(post => post.category === categoryFilter)
     : allPosts;
@@ -270,7 +281,7 @@ const AllPosts = () => {
       </Helmet>
       <div className="container pt-32 pb-16">
         <h1 className="text-4xl font-display font-bold mb-8">
-          {categoryFilter ? t(`services.items.${categoryFilter}.title`) : t("nav.allPosts")}
+          {categoryFilter ? getCategoryTitle(categoryFilter) : t("nav.allPosts")}
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPosts.map((post) => (
@@ -292,7 +303,7 @@ const AllPosts = () => {
                   </span>
                   <span className="inline-flex items-center gap-1">
                     <Tag className="w-4 h-4" />
-                    {t(`services.items.${post.category}.title`)}
+                    {getCategoryTitle(post.category)}
                   </span>
                 </div>
                 <CardTitle className="!mt-0 text-xl leading-tight line-clamp-2 group-hover:text-accent transition-colors">
