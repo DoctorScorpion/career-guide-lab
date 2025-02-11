@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Globe, Heart, Star, Briefcase } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useEmblaCarousel from 'embla-carousel-react';
 
 const Index = () => {
@@ -22,9 +23,9 @@ const Index = () => {
       {/* Nav */}
       <nav className="fixed w-full bg-background/80 backdrop-blur-md z-50 border-b">
         <div className="container flex items-center justify-between h-16">
-          <a href="/" className="font-display text-xl">
+          <Link to="/" className="font-display text-xl">
             Amit Bakshi
-          </a>
+          </Link>
           <div className="flex items-center gap-6">
             <button
               onClick={toggleLanguage}
@@ -33,14 +34,19 @@ const Index = () => {
             >
               <Globe className="w-5 h-5" />
             </button>
-            <a href="#services" className="text-sm hover:text-accent transition-colors">
+            <Link to="/services" className="text-sm hover:text-accent transition-colors">
               {t('nav.services')}
-            </a>
-            <a href="#about" className="text-sm hover:text-accent transition-colors">
+            </Link>
+            <Link to="/about" className="text-sm hover:text-accent transition-colors">
               {t('nav.about')}
-            </a>
-            <Button className="bg-accent hover:bg-accent/90">
-              {t('nav.getStarted')}
+            </Link>
+            <Link to="/contact" className="text-sm hover:text-accent transition-colors">
+              {t('nav.contact')}
+            </Link>
+            <Button asChild>
+              <Link to="/contact" className="bg-accent hover:bg-accent/90">
+                {t('nav.getStarted')}
+              </Link>
             </Button>
           </div>
         </div>
