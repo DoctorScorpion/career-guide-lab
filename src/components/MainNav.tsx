@@ -1,13 +1,13 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Briefcase } from "lucide-react";
+import { Menu, X, Rocket } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { MobileNav } from "./nav/MobileNav";
 import { DesktopNav } from "./nav/DesktopNav";
+import { UserTypeDialog } from "./nav/UserTypeDialog";
 import { NavItem } from "./nav/types";
 
 export function MainNav() {
@@ -15,6 +15,7 @@ export function MainNav() {
   const [navVisible, setNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
   const location = useLocation();
@@ -80,6 +81,10 @@ export function MainNav() {
     setOpenCollapsible(null);
   };
 
+  const handleStartClick = () => {
+    setIsDialogOpen(true);
+  };
+
   const navItems: NavItem[] = [
     { 
       title: "nav.tools",
@@ -116,65 +121,68 @@ export function MainNav() {
   const isJobsPage = location.pathname === '/jobs';
 
   return (
-    <nav className={`fixed w-full bg-background/95 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
-      navVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
-      <div className="container flex items-center justify-between h-16">
-        <div className="flex items-center gap-6">
-          <Link 
-            to="/" 
-            className="font-display text-xl hover:text-accent transition-colors"
-          >
-            {t("nav.brand")}
-          </Link>
-
-          <DesktopNav
-            navItems={navItems}
-            openCollapsible={openCollapsible}
-            setOpenCollapsible={setOpenCollapsible}
-            handleResumeAnalyzerClick={handleResumeAnalyzerClick}
-            toggleLanguage={toggleLanguage}
-            isRTL={isRTL}
-            t={t}
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Button
-            asChild
-            className={`hidden md:inline-flex items-center gap-2 bg-accent hover:bg-accent/90 shadow-lg hover:shadow-xl transition-all ${
-              isJobsPage ? 'bg-accent/90' : ''
-            }`}
-            size="sm"
-          >
-            <Link to="/jobs">
-              <Briefcase className="w-4 h-4" />
-              {t("nav.getStarted")}
+    <>
+      <nav className={`fixed w-full bg-background/95 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
+        navVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}>
+        <div className="container flex items-center justify-between h-16">
+          <div className="flex items-center gap-6">
+            <Link 
+              to="/" 
+              className="font-display text-xl hover:text-accent transition-colors"
+            >
+              {t("nav.brand")}
             </Link>
-          </Button>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                <span className="sr-only">{t("nav.toggleMenu")}</span>
-              </Button>
-            </SheetTrigger>
-            <MobileNav
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
+            <DesktopNav
               navItems={navItems}
               openCollapsible={openCollapsible}
               setOpenCollapsible={setOpenCollapsible}
-              handleNavItemClick={handleNavItemClick}
               handleResumeAnalyzerClick={handleResumeAnalyzerClick}
               toggleLanguage={toggleLanguage}
               isRTL={isRTL}
               t={t}
             />
-          </Sheet>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={handleStartClick}
+              className="hidden md:inline-flex items-center gap-2 bg-accent hover:bg-accent/90 shadow-lg hover:shadow-xl transition-all"
+              size="sm"
+            >
+              <Rocket className="w-4 h-4" />
+              {t("nav.getStarted")}
+            </Button>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                  <span className="sr-only">{t("nav.toggleMenu")}</span>
+                </Button>
+              </SheetTrigger>
+              <MobileNav
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                navItems={navItems}
+                openCollapsible={openCollapsible}
+                setOpenCollapsible={setOpenCollapsible}
+                handleNavItemClick={handleNavItemClick}
+                handleResumeAnalyzerClick={handleResumeAnalyzerClick}
+                toggleLanguage={toggleLanguage}
+                isRTL={isRTL}
+                t={t}
+              />
+            </Sheet>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <UserTypeDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
+    </>
   );
 };
