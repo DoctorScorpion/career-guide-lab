@@ -16,16 +16,16 @@ const About = () => {
       quote: isRTL ? "כל אדם ראוי לקריירה מספקת ומשמעותית" : "Everyone deserves a fulfilling and meaningful career",
     },
     {
-      name: isRTL ? "שירה כהן" : "Shira Cohen",
-      role: isRTL ? "מנהלת גיוס בכירה" : "Senior Recruitment Manager",
+      name: isRTL ? "גל מושקוביץ" : "Gal Moskowitz",
+      role: isRTL ? "מנהל טכנולוגי ושותף מייסד" : "CTO & Co-Founder",
       image: "/placeholder.svg",
-      quote: isRTL ? "הצלחה היא מציאת ההתאמה המושלמת" : "Success is finding the perfect match",
+      quote: isRTL ? "טכנולוגיה בשירות הקריירה שלך" : "Technology at the service of your career",
     },
     {
-      name: isRTL ? "דן לוי" : "Dan Levy",
-      role: isRTL ? "יועץ קריירה ראשי" : "Head Career Consultant",
+      name: isRTL ? "דניאלה ניסני" : "Daniela Nisani",
+      role: isRTL ? "מנהלת תפעול ושותפה בכירה" : "COO & Senior Partner",
       image: "/placeholder.svg",
-      quote: isRTL ? "פיתוח קריירה הוא מסע של צמיחה" : "Career development is a journey of growth",
+      quote: isRTL ? "מצוינות תפעולית היא המפתח להצלחה" : "Operational excellence is the key to success",
     },
   ];
 
