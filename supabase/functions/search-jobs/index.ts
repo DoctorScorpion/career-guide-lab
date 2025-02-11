@@ -32,18 +32,14 @@ const USER_AGENTS = [
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
 ];
 
-// פונקציית עזר להשהייה
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// פונקציה לקבלת User Agent אקראי
 const getRandomUserAgent = () => USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function fetchWithRetry(url: string, maxRetries = 3): Promise<Response> {
   let lastError;
   
   for (let i = 0; i < maxRetries; i++) {
     try {
-      // השהייה אקראית בין 1-3 שניות
       await delay(1000 + Math.random() * 2000);
       
       const response = await fetch(url, {
@@ -70,7 +66,6 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<Response> {
     } catch (error) {
       console.error(`Attempt ${i + 1} failed:`, error);
       lastError = error;
-      // השהייה ארוכה יותר בין ניסיונות
       await delay(2000 * (i + 1));
     }
   }
@@ -80,7 +75,6 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<Response> {
 
 async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDetails | null> {
   try {
-    // בדיקה האם המשרה כבר קיימת ב-Cache
     const { data: cachedJob } = await supabaseClient
       .from('jobs')
       .select('*')
@@ -112,7 +106,6 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
       return null;
     }
 
-    // שיפור חילוץ המידע עם סלקטורים מדויקים יותר
     const selectors = {
       title: ['h1', '.job-title', '.position-title', '.job-position'],
       company: ['.company-name', '.employer-name', '.organization-name'],
@@ -132,10 +125,7 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
 
     const title = findElement(selectors.title);
     if (!title) {
-      // אם אין כותרת, כנראה שהדף נחסם
       console.error('No title found, page might be blocked');
-      
-      // נחזיר מידע בסיסי מה-URL במקום לזרוק שגיאה
       const urlParts = url.split('/');
       const basicTitle = urlParts[urlParts.length - 1]
         .replace(/-/g, ' ')
@@ -157,7 +147,6 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
     const location = findElement(selectors.location);
     const description = findElement(selectors.description);
     
-    // שיפור חילוץ הדרישות
     const requirements = description
       .split(/[\n\r]+/)
       .filter(line => {
@@ -181,7 +170,6 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
     };
   } catch (error) {
     console.error('Error fetching job details:', error);
-    // במקרה של שגיאה, נחזיר מידע בסיסי במקום null
     return {
       title: "משרה בלינקדאין",
       company: "חברה לא ידועה",
@@ -226,7 +214,6 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
       .filter(href => href?.includes('linkedin.com/jobs/view/'))
       .map(href => {
         const url = href?.split('&')[0];
-        // Remove Google redirect prefix if exists
         return url?.startsWith('/url?q=') ? url.slice(7) : url;
       })
       .filter(Boolean) as string[];
@@ -253,22 +240,31 @@ serve(async (req: Request) => {
     const searchParams: SearchParams = await req.json();
     console.log('Received search params:', searchParams);
 
-    const jobUrls = await searchLinkedInJobs(searchParams);
-    console.log(`Found ${jobUrls.length} job URLs`);
+    // חיפוש משרות קיימות במאגר
+    console.log('Searching existing jobs in database...');
+    const searchQuery = searchParams.skills.join(' ') + ' ' + searchParams.location + ' ' + searchParams.jobType;
+    
+    const { data: existingJobs, error: searchError } = await supabaseClient.rpc(
+      'calculate_job_match_score',
+      {
+        search_query: searchQuery,
+        search_skills: searchParams.skills,
+        search_location: searchParams.location,
+        search_type: searchParams.jobType
+      }
+    ).select('*')
+    .order('match_score', { ascending: false })
+    .limit(10);
 
-    if (jobUrls.length === 0) {
-      return new Response(
-        JSON.stringify({ jobs: [] }),
-        { 
-          headers: { 
-            ...corsHeaders,
-            'Content-Type': 'application/json'
-          } 
-        }
-      );
+    if (searchError) {
+      console.error('Error searching existing jobs:', searchError);
     }
 
-    const jobPromises = jobUrls.slice(0, 15).map(async (url) => {
+    // חיפוש משרות חדשות דרך לינקדאין
+    const jobUrls = await searchLinkedInJobs(searchParams);
+    console.log(`Found ${jobUrls.length} new job URLs`);
+
+    const newJobsPromises = jobUrls.slice(0, 15).map(async (url) => {
       const details = await fetchJobDetails(url, supabaseClient);
       if (!details) return null;
 
@@ -281,7 +277,16 @@ serve(async (req: Request) => {
         requirements: details.requirements,
         job_type: searchParams.jobType || 'משרה מלאה',
         skills: searchParams.skills,
-        match_score: Math.floor(Math.random() * 30) + 70,
+        match_score: await supabaseClient.rpc('calculate_job_match_score', {
+          search_query: searchQuery,
+          job_title: details.title,
+          job_description: details.description,
+          job_requirements: details.requirements,
+          job_skills: searchParams.skills,
+          search_skills: searchParams.skills,
+          search_location: searchParams.location,
+          search_type: searchParams.jobType
+        }),
         source_url: url,
         linkedin_url: url
       };
@@ -305,10 +310,17 @@ serve(async (req: Request) => {
       }
     });
 
-    const jobs = (await Promise.all(jobPromises)).filter(Boolean);
+    const newJobs = (await Promise.all(newJobsPromises))
+      .filter(Boolean)
+      .sort((a, b) => (b?.match_score || 0) - (a?.match_score || 0));
+
+    // שילוב התוצאות
+    const allJobs = [...(existingJobs || []), ...newJobs]
+      .sort((a, b) => (b.match_score || 0) - (a.match_score || 0))
+      .slice(0, 15);
 
     return new Response(
-      JSON.stringify({ jobs }),
+      JSON.stringify({ jobs: allJobs }),
       { 
         headers: { 
           ...corsHeaders,

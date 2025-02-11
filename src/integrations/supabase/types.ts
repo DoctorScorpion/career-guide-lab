@@ -65,23 +65,46 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      calculate_job_match_score: {
-        Args: {
-          job_description: string
-          job_requirements: string[]
-          job_skills: string[]
-          search_skills: string[]
-          search_location: string
-          search_type: string
-        }
-        Returns: number
-      }
+      calculate_job_match_score:
+        | {
+            Args: {
+              job_description: string
+              job_requirements: string[]
+              job_skills: string[]
+              search_skills: string[]
+              search_location: string
+              search_type: string
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              search_query: string
+              job_title: string
+              job_description: string
+              job_requirements: string[]
+              job_skills: string[]
+              search_skills: string[]
+              search_location: string
+              search_type: string
+            }
+            Returns: number
+          }
       calculate_match_score: {
         Args: {
           job_fts: unknown
           search_query: string
         }
         Returns: number
+      }
+      generate_job_search_vector: {
+        Args: {
+          title: string
+          description: string
+          requirements: string[]
+          skills: string[]
+        }
+        Returns: unknown
       }
       generate_job_tsvector: {
         Args: {
