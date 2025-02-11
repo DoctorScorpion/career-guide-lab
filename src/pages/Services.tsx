@@ -90,7 +90,7 @@ const Services = () => {
                     </div>
                   </div>
                   <div className="p-8">
-                    <DialogHeader className={`text-${isRTL ? 'right' : 'left'}`}>
+                    <DialogHeader className={`flex flex-col gap-1.5 ${isRTL ? 'items-end text-right' : 'items-start text-left'}`}>
                       <DialogTitle className="text-3xl font-display mb-4 font-medium">
                         {t(`services.items.${service.key}.title`)}
                       </DialogTitle>
