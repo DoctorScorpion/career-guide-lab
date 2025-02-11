@@ -30,10 +30,8 @@ export function MainNav() {
   // Ensure proper RTL handling on mount and language change
   useEffect(() => {
     document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-    document.documentElement.lang = isRTL ? 'he' : 'en';
-    // Force re-render of RTL sensitive components
-    window.dispatchEvent(new Event('resize'));
-  }, [isRTL]);
+    document.documentElement.lang = i18n.language;
+  }, []);
 
   const handleResumeAnalyzerClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -68,10 +66,11 @@ export function MainNav() {
   const toggleLanguage = () => {
     const newLang = i18n.language === 'he' ? 'en' : 'he';
     i18n.changeLanguage(newLang).then(() => {
-      document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
-      document.documentElement.lang = newLang;
-      // Force re-render of RTL sensitive components
-      window.dispatchEvent(new Event('resize'));
+      // The direction change is now handled by the i18n.on('languageChanged') event
+      // Force re-render of RTL sensitive components after a short delay
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
     });
   };
 

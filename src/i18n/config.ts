@@ -17,10 +17,23 @@ i18n.use(initReactI18next).init({
   react: {
     useSuspense: false,
   },
+  // Add these options to ensure all content is translated
+  detection: {
+    order: ['localStorage', 'navigator'],
+    caches: ['localStorage'],
+  },
+  // Ensure translations are loaded before rendering
+  partialBundledLanguages: false,
+  load: 'all',
 });
 
-// Set initial direction
-document.documentElement.dir = i18n.language === 'he' ? 'rtl' : 'ltr';
-document.documentElement.lang = i18n.language;
+// Handle RTL/LTR direction changes
+i18n.on('languageChanged', (lng) => {
+  const dir = lng === 'he' ? 'rtl' : 'ltr';
+  document.documentElement.dir = dir;
+  document.documentElement.lang = lng;
+  // Force re-render of RTL sensitive components
+  window.dispatchEvent(new Event('resize'));
+});
 
 export default i18n;
