@@ -99,13 +99,18 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
             <CardContent className={`space-y-4 transition-all duration-300 ${
               expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
             }`}>
-              <p className="text-muted-foreground">{job.description}</p>
+              <p className="text-muted-foreground whitespace-pre-line">{job.description}</p>
               
-              <div className="flex flex-wrap gap-2">
-                {job.requirements.map((req, i) => (
-                  <Badge key={i} variant="secondary">{req}</Badge>
-                ))}
-              </div>
+              {job.requirements && job.requirements.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-medium">דרישות התפקיד:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {job.requirements.map((req, i) => (
+                      <Badge key={i} variant="secondary">{req}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t pt-4">
                 <div className="flex items-center gap-1">
@@ -135,7 +140,7 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
               )}
               <Button 
                 className="flex-1"
-                onClick={() => window.open(job.googleSearchUrl, '_blank')}
+                onClick={() => window.open(job.googleSearchUrl || job.linkedinUrl, '_blank')}
               >
                 <Search className="w-4 h-4 mr-2" />
                 חפש משרות דומות
