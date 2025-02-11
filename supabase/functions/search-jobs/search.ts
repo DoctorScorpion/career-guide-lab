@@ -36,7 +36,7 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
   const dateFilter = getDateFilter();
   
   // בניית השאילתה לפי הפורמט המבוקש:
-  // site:linkedin.com/jobs inurl:view "Python" AND "SQL" AND "Central Israel" after:2024-03-01
+  // site:linkedin.com/jobs inurl:view "Cloud" AND "Security" AND "Central Israel" after:2024-03-01
   const searchQuery = `site:linkedin.com/jobs inurl:view ${skillsQuery} AND ${locationQuery} after:${dateFilter}`;
   console.log('Building search query:', searchQuery);
 
@@ -46,7 +46,13 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     console.log('Searching Google with URL:', searchUrl);
     const response = await fetchWithRetry(searchUrl);
     const html = await response.text();
-    console.log('Received search results HTML:', html.substring(0, 500));
+    
+    // לוג מורחב לדיבוג
+    console.log('Search URL:', searchUrl);
+    console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+    console.log('Response HTML (first 1000 chars):', html.substring(0, 1000));
+    
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     
@@ -58,9 +64,13 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     const jobUrls: string[] = [];
     const links = doc.querySelectorAll('a');
     
-    links.forEach(link => {
+    console.log('Found links:', links.length);
+    
+    links.forEach((link, index) => {
       const href = link.getAttribute('href');
       if (!href) return;
+      
+      console.log(`Link ${index}:`, href);
 
       if (href.startsWith('/url?q=')) {
         const cleanUrl = href.split('/url?q=')[1]?.split('&')[0];
@@ -69,6 +79,7 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
             const url = new URL(decodeURIComponent(cleanUrl));
             if (url.hostname.endsWith('linkedin.com')) {
               jobUrls.push(url.toString());
+              console.log('Added job URL:', url.toString());
             }
           } catch (e) {
             console.error('Error parsing URL:', cleanUrl, e);
@@ -77,6 +88,7 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
       }
       else if (href.includes('linkedin.com/jobs/view/')) {
         jobUrls.push(href);
+        console.log('Added direct job URL:', href);
       }
     });
 

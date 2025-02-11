@@ -36,66 +36,36 @@ export const JobMatcher = () => {
     googleSearchUrl: dbJob.source_url
   });
 
-  const buildSearchQuery = (profile: ProfileFormData): string => {
-    const searchTerms = [
-      ...profile.skills.split(',').map(s => s.trim()),
-      profile.location,
-      profile.jobType,
-      ...profile.preferences.split(',').map(p => p.trim()),
-      ...profile.experience.split(',').map(e => e.trim())
-    ].filter(Boolean);
-
-    return searchTerms
-      .map(term => term.replace(/[&|!:()]/g, ' '))  // ניקוי תווים מיוחדים
-      .join(' & ');
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
     
     try {
-      const searchQuery = buildSearchQuery(profile);
-      
-      const { data: dbJobs, error: dbError } = await supabase
-        .from('jobs')
-        .select('*')
-        .textSearch('fts', searchQuery, {
-          type: 'websearch',
-          config: 'simple'
-        })
-        .order('match_score', { ascending: false })
-        .limit(15);
+      console.log('Submitting search with profile:', profile);
+      const { data: externalData, error } = await supabase.functions.invoke('search-jobs', {
+        body: {
+          skills: profile.skills.split(", "),
+          location: profile.location,
+          jobType: profile.jobType,
+          timeRange: profile.timeRange
+        }
+      });
 
-      if (dbError) throw dbError;
+      if (error) throw error;
 
-      if (!dbJobs || dbJobs.length < 5) {
-        const { data: externalData, error } = await supabase.functions.invoke('search-jobs', {
-          body: {
-            skills: profile.skills.split(", "),
-            location: profile.location,
-            jobType: profile.jobType,
-            timeRange: profile.timeRange
-          }
-        });
-
-        if (error) throw error;
-
-        const mappedDbJobs = (dbJobs || []).map(mapDbJobToJobMatch);
-        const allJobs = [...mappedDbJobs, ...externalData.jobs];
-        const uniqueJobs = Array.from(new Map(allJobs.map(job => [job.id, job])).values());
-        setMatches(uniqueJobs);
-
+      if (!externalData?.jobs || externalData.jobs.length === 0) {
         toast({
-          title: "החיפוש הושלם",
-          description: `נמצאו ${uniqueJobs.length} משרות מתאימות`,
+          title: "לא נמצאו תוצאות",
+          description: "נסה לשנות את פרמטרי החיפוש",
+          variant: "destructive",
           duration: 3000
         });
+        setMatches([]);
       } else {
-        setMatches(dbJobs.map(mapDbJobToJobMatch));
+        setMatches(externalData.jobs);
         toast({
           title: "החיפוש הושלם",
-          description: `נמצאו ${dbJobs.length} משרות מתאימות מהמאגר שלנו`,
+          description: `נמצאו ${externalData.jobs.length} משרות מתאימות`,
           duration: 3000
         });
       }
