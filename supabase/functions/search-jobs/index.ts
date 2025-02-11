@@ -1,273 +1,14 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.0';
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
+import { SearchParams, Job } from './types.ts';
+import { searchLinkedInJobs } from './search.ts';
+import { fetchJobDetails } from './jobDetails.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-interface SearchParams {
-  skills: string[];
-  location: string;
-  jobType: string;
-  timeRange: string;
-}
-
-interface JobDetails {
-  title: string;
-  company: string;
-  location: string;
-  description: string;
-  requirements: string[];
-  url: string;
-}
-
-// רשימת User Agents לרוטציה
-const USER_AGENTS = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
-];
-
-const getRandomUserAgent = () => USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-async function fetchWithRetry(url: string, maxRetries = 3): Promise<Response> {
-  let lastError;
-  
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      await delay(1000 + Math.random() * 2000);
-      
-      const response = await fetch(url, {
-        headers: {
-          'User-Agent': getRandomUserAgent(),
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'DNT': '1',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Sec-Fetch-Site': 'none',
-          'Sec-Fetch-User': '?1',
-          'Cache-Control': 'max-age=0',
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      return response;
-    } catch (error) {
-      console.error(`Attempt ${i + 1} failed:`, error);
-      lastError = error;
-      await delay(2000 * (i + 1));
-    }
-  }
-  
-  throw lastError;
-}
-
-async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDetails | null> {
-  try {
-    const { data: cachedJob } = await supabaseClient
-      .from('jobs')
-      .select('*')
-      .eq('linkedin_url', url)
-      .single();
-
-    if (cachedJob && 
-        cachedJob.created_at && 
-        (new Date().getTime() - new Date(cachedJob.created_at).getTime() < 24 * 60 * 60 * 1000)) {
-      console.log('Using cached job data for:', url);
-      return {
-        title: cachedJob.title,
-        company: cachedJob.company,
-        location: cachedJob.location,
-        description: cachedJob.description,
-        requirements: cachedJob.requirements,
-        url: cachedJob.linkedin_url
-      };
-    }
-
-    console.log('Fetching fresh job details from:', url);
-    const response = await fetchWithRetry(url);
-    const html = await response.text();
-    console.log('Received HTML:', html.substring(0, 500)); // Log first 500 chars for debugging
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    if (!doc) {
-      console.log('Failed to parse HTML');
-      return null;
-    }
-
-    const selectors = {
-      title: ['h1', '.job-title', '.position-title', '.job-position'],
-      company: ['.company-name', '.employer-name', '.organization-name'],
-      location: ['.job-location', '.location', '.workplace-type'],
-      description: ['.job-description', '.description', '.job-details'],
-    };
-
-    const findElement = (selectors: string[]) => {
-      for (const selector of selectors) {
-        const element = doc.querySelector(selector);
-        if (element?.textContent) {
-          return element.textContent.trim();
-        }
-      }
-      return '';
-    };
-
-    const title = findElement(selectors.title);
-    if (!title) {
-      console.error('No title found, page might be blocked');
-      const urlParts = url.split('/');
-      const basicTitle = urlParts[urlParts.length - 1]
-        .replace(/-/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-        
-      return {
-        title: basicTitle,
-        company: "חברה לא ידועה",
-        location: "ישראל",
-        description: "מידע מפורט על המשרה זמין בלינקדאין. לחץ על הקישור למטה כדי לצפות במשרה המלאה.",
-        requirements: [],
-        url
-      };
-    }
-
-    const company = findElement(selectors.company);
-    const location = findElement(selectors.location);
-    const description = findElement(selectors.description);
-    
-    const requirements = description
-      .split(/[\n\r]+/)
-      .filter(line => {
-        const trimmedLine = line.trim();
-        return trimmedLine.startsWith('•') || 
-               trimmedLine.toLowerCase().includes('requirement') ||
-               trimmedLine.toLowerCase().includes('דרישות') ||
-               trimmedLine.toLowerCase().includes('חובה') ||
-               trimmedLine.toLowerCase().includes('יתרון');
-      })
-      .map(req => req.trim())
-      .filter(Boolean);
-
-    return {
-      title,
-      company,
-      location,
-      description,
-      requirements,
-      url
-    };
-  } catch (error) {
-    console.error('Error fetching job details:', error);
-    return {
-      title: "משרה בלינקדאין",
-      company: "חברה לא ידועה",
-      location: "ישראל",
-      description: "לצפייה בפרטי המשרה המלאים, אנא לחץ על הקישור למטה.",
-      requirements: [],
-      url
-    };
-  }
-}
-
-async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]> {
-  // חישוב תאריך לפי טווח הזמן שנבחר
-  const getDateFilter = () => {
-    const today = new Date();
-    switch (searchParams.timeRange) {
-      case '24h':
-        today.setDate(today.getDate() - 1);
-        break;
-      case 'week':
-        today.setDate(today.getDate() - 7);
-        break;
-      case 'three-months':
-        today.setDate(today.getDate() - 90);
-        break;
-      case 'last-month':
-      default:
-        today.setDate(today.getDate() - 30);
-        break;
-    }
-    return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-  };
-
-  // בניית שאילתת החיפוש המשופרת
-  const skillsQuery = searchParams.skills.map(skill => `"${skill}"`).join(' AND ');
-  const locationQuery = searchParams.location ? `"${searchParams.location}"` : '';
-  const dateFilter = getDateFilter();
-  
-  const searchQuery = `site:linkedin.com/jobs/view ${skillsQuery} ${locationQuery} after:${dateFilter}`;
-
-  console.log('Building search query:', searchQuery);
-
-  // הוספת פרמטרים נוספים לחיפוש
-  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
-  
-  try {
-    console.log('Searching Google with URL:', searchUrl);
-    const response = await fetchWithRetry(searchUrl);
-    const html = await response.text();
-    console.log('Received search results HTML:', html.substring(0, 500)); // Log first 500 chars for debugging
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    if (!doc) {
-      console.log('Failed to parse Google search results');
-      return [];
-    }
-
-    // שיפור איסוף הקישורים
-    const jobUrls: string[] = [];
-    const links = doc.querySelectorAll('a');
-    
-    links.forEach(link => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-
-      // בדיקה אם זה קישור של גוגל שמוביל ללינקדאין
-      if (href.startsWith('/url?q=')) {
-        const cleanUrl = href.split('/url?q=')[1]?.split('&')[0];
-        if (cleanUrl?.includes('linkedin.com/jobs/view/')) {
-          try {
-            // שימוש ב-URL API לניקוי הקישור
-            const url = new URL(decodeURIComponent(cleanUrl));
-            if (url.hostname.endsWith('linkedin.com')) {
-              jobUrls.push(url.toString());
-            }
-          } catch (e) {
-            console.error('Error parsing URL:', cleanUrl, e);
-          }
-        }
-      }
-      // בדיקה אם זה קישור ישיר ללינקדאין
-      else if (href.includes('linkedin.com/jobs/view/')) {
-        jobUrls.push(href);
-      }
-    });
-
-    // הסרת כפילויות
-    const uniqueJobUrls = Array.from(new Set(jobUrls));
-    
-    console.log(`Found ${uniqueJobUrls.length} unique job URLs:`, uniqueJobUrls);
-    return uniqueJobUrls;
-  } catch (error) {
-    console.error('Error searching jobs:', error);
-    return [];
-  }
-}
 
 serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
@@ -283,7 +24,6 @@ serve(async (req: Request) => {
     const searchParams: SearchParams = await req.json();
     console.log('Received search params:', searchParams);
 
-    // חיפוש משרות קיימות במאגר
     console.log('Searching existing jobs in database...');
     const searchQuery = searchParams.skills.join(' ') + ' ' + searchParams.location + ' ' + searchParams.jobType;
     
@@ -303,7 +43,6 @@ serve(async (req: Request) => {
       console.error('Error searching existing jobs:', searchError);
     }
 
-    // חיפוש משרות חדשות דרך לינקדאין
     const jobUrls = await searchLinkedInJobs(searchParams);
     console.log(`Found ${jobUrls.length} new job URLs`);
 
@@ -311,7 +50,7 @@ serve(async (req: Request) => {
       const details = await fetchJobDetails(url, supabaseClient);
       if (!details) return null;
 
-      const job = {
+      const job: Job = {
         id: crypto.randomUUID(),
         title: details.title,
         company: details.company,
@@ -357,7 +96,6 @@ serve(async (req: Request) => {
       .filter(Boolean)
       .sort((a, b) => (b?.match_score || 0) - (a?.match_score || 0));
 
-    // שילוב התוצאות
     const allJobs = [...(existingJobs || []), ...newJobs]
       .sort((a, b) => (b.match_score || 0) - (a.match_score || 0))
       .slice(0, 15);
