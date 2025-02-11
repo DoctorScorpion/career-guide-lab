@@ -13,16 +13,13 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
-  // Add these options for better RTL support
   react: {
     useSuspense: false,
   },
-  // Add these options to ensure all content is translated
   detection: {
     order: ['localStorage', 'navigator'],
     caches: ['localStorage'],
   },
-  // Ensure translations are loaded before rendering
   partialBundledLanguages: false,
   load: 'all',
 });
