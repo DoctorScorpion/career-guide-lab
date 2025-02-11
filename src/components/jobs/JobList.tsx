@@ -53,78 +53,97 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
 
   return (
     <div className="space-y-6">
-      {matches.map((job) => (
-        <Card 
-          key={job.id} 
-          className={`group transition-all duration-300 ${
-            expandedJobId === job.id ? 'shadow-lg ring-2 ring-primary/10' : 'hover:shadow-md'
-          }`}
-        >
-          <CardHeader className="cursor-pointer" onClick={() => setExpandedJobId(expandedJobId === job.id ? null : job.id)}>
-            <div className="flex items-start justify-between">
-              <div>
-                <CardTitle className="text-xl mb-2">{job.title}</CardTitle>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Building2 className="w-4 h-4" />
-                  <span>{job.company}</span>
-                  <MapPin className="w-4 h-4 mr-2" />
-                  <span>{job.location}</span>
+      <Card className="p-6 bg-accent/5 border-accent/20">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <CardTitle className="text-lg">רוצה לראות את כל המשרות?</CardTitle>
+            <CardDescription>לחץ כאן כדי לראות את כל המשרות שנמצאו בחיפוש בגוגל</CardDescription>
+          </div>
+          <Button 
+            size="lg"
+            onClick={() => window.open(matches[0].googleSearchUrl, '_blank')}
+            className="gap-2"
+          >
+            <Search className="w-4 h-4" />
+            ראה את כל המשרות בגוגל
+          </Button>
+        </div>
+      </Card>
+
+      <div className="grid gap-6">
+        {matches.map((job) => (
+          <Card 
+            key={job.id} 
+            className={`group transition-all duration-300 ${
+              expandedJobId === job.id ? 'shadow-lg ring-2 ring-primary/10' : 'hover:shadow-md'
+            }`}
+          >
+            <CardHeader className="cursor-pointer" onClick={() => setExpandedJobId(expandedJobId === job.id ? null : job.id)}>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl mb-2">{job.title}</CardTitle>
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Building2 className="w-4 h-4" />
+                    <span>{job.company}</span>
+                    <MapPin className="w-4 h-4 mr-2" />
+                    <span>{job.location}</span>
+                  </div>
+                </div>
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)}`}>
+                  <Star className="w-4 h-4 mr-1" />
+                  {job.matchScore}% התאמה
                 </div>
               </div>
-              <div className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)}`}>
-                <Star className="w-4 h-4 mr-1" />
-                {job.matchScore}% התאמה
-              </div>
-            </div>
-          </CardHeader>
+            </CardHeader>
 
-          <CardContent className={`space-y-4 transition-all duration-300 ${
-            expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
-          }`}>
-            <p className="text-muted-foreground">{job.description}</p>
-            
-            <div className="flex flex-wrap gap-2">
-              {job.requirements.map((req, i) => (
-                <Badge key={i} variant="secondary">{req}</Badge>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t pt-4">
-              <div className="flex items-center gap-1">
-                <BriefcaseIcon className="w-4 h-4" />
-                {job.type}
+            <CardContent className={`space-y-4 transition-all duration-300 ${
+              expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
+            }`}>
+              <p className="text-muted-foreground">{job.description}</p>
+              
+              <div className="flex flex-wrap gap-2">
+                {job.requirements.map((req, i) => (
+                  <Badge key={i} variant="secondary">{req}</Badge>
+                ))}
               </div>
-              {job.salary && (
+
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t pt-4">
                 <div className="flex items-center gap-1">
-                  <TrendingUp className="w-4 h-4" />
-                  {job.salary}
+                  <BriefcaseIcon className="w-4 h-4" />
+                  {job.type}
                 </div>
-              )}
-            </div>
-          </CardContent>
+                {job.salary && (
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="w-4 h-4" />
+                    {job.salary}
+                  </div>
+                )}
+              </div>
+            </CardContent>
 
-          <CardFooter className={`transition-all duration-300 ${
-            expandedJobId === job.id ? 'opacity-100 flex gap-4' : 'opacity-0 h-0 overflow-hidden'
-          }`}>
-            {job.linkedinUrl && (
+            <CardFooter className={`transition-all duration-300 ${
+              expandedJobId === job.id ? 'opacity-100 flex gap-4' : 'opacity-0 h-0 overflow-hidden'
+            }`}>
+              {job.linkedinUrl && (
+                <Button 
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => window.open(job.linkedinUrl, '_blank')}
+                >
+                  צפה במשרה בלינקדאין
+                </Button>
+              )}
               <Button 
-                variant="outline"
                 className="flex-1"
-                onClick={() => window.open(job.linkedinUrl, '_blank')}
+                onClick={() => window.open(job.googleSearchUrl, '_blank')}
               >
-                צפה במשרה בלינקדאין
+                <Search className="w-4 h-4 mr-2" />
+                חפש משרות דומות
               </Button>
-            )}
-            <Button 
-              className="flex-1"
-              onClick={() => window.open(job.googleSearchUrl, '_blank')}
-            >
-              <Search className="w-4 h-4 mr-2" />
-              חפש משרות דומות
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
