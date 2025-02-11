@@ -15,10 +15,10 @@ const Services = () => {
   const isRTL = i18n.language === 'he';
 
   const services = [
-    { key: 'careerCoaching', icon: Briefcase },
-    { key: 'resumeWriting', icon: FileText },
-    { key: 'personalBranding', icon: UserCheck },
-    { key: 'recruitment', icon: Users },
+    { key: 'items.careerCoaching', icon: Briefcase },
+    { key: 'items.resumeWriting', icon: FileText },
+    { key: 'items.personalBranding', icon: UserCheck },
+    { key: 'items.recruitment', icon: Users },
   ];
 
   return (
@@ -45,7 +45,6 @@ const Services = () => {
               <Dialog key={service.key}>
                 <DialogTrigger asChild>
                   <Card
-                    id={service.key.toLowerCase().replace('c', '-')}
                     className="group hover:shadow-lg transition-all animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
