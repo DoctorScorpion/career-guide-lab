@@ -35,17 +35,17 @@ const Index = () => {
               <Globe className="w-5 h-5" />
             </button>
             <Link to="/services" className="text-sm hover:text-accent transition-colors">
-              {t('nav.services')}
+              שירותים
             </Link>
             <Link to="/about" className="text-sm hover:text-accent transition-colors">
-              {t('nav.about')}
+              אודות
             </Link>
             <Link to="/contact" className="text-sm hover:text-accent transition-colors">
-              {t('nav.contact')}
+              צור קשר
             </Link>
             <Button asChild>
               <Link to="/contact" className="bg-accent hover:bg-accent/90">
-                {t('nav.getStarted')}
+                בואו נתחיל
               </Link>
             </Button>
           </div>
@@ -57,21 +57,21 @@ const Index = () => {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
             <div className="inline-flex items-center rounded-full px-4 py-1 text-sm bg-accent/10 text-accent">
-              {t('hero.badge')}
+              ייעוץ קריירה מקצועי
             </div>
             <h1 className="font-display text-5xl sm:text-6xl font-medium leading-tight">
-              {t('hero.title')}
+              נעזור לך למצוא את הקריירה המושלמת
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('hero.subtitle')}
+              אנחנו כאן כדי לעזור לך למצוא את הדרך המקצועית הנכונה עבורך. הצוות המקצועי שלנו יסייע לך בכל שלב בדרך.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" className="bg-accent hover:bg-accent/90">
-                {t('hero.cta.schedule')}
+                קבע פגישת ייעוץ
                 <ArrowRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-4 w-4 ${isRTL ? 'rotate-180' : ''}`} />
               </Button>
               <Button variant="outline" size="lg">
-                {t('hero.cta.learnMore')}
+                למד עוד
               </Button>
             </div>
           </div>
@@ -82,9 +82,9 @@ const Index = () => {
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-16 animate-fade-up">
-            <h2 className="font-display text-3xl">{t('values.title')}</h2>
+            <h2 className="font-display text-3xl">הערכים שלנו</h2>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              {t('values.subtitle')}
+              אנחנו מאמינים בליווי אישי, מקצועי וחדשני בתהליך פיתוח הקריירה
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -92,14 +92,20 @@ const Index = () => {
               {
                 key: 'personal',
                 icon: Heart,
+                title: "ליווי אישי",
+                description: "אנחנו מאמינים בהתאמה אישית לכל מועמד"
               },
               {
                 key: 'professional',
                 icon: Star,
+                title: "מקצועיות",
+                description: "צוות המומחים שלנו עם ניסיון רב בתחום"
               },
               {
                 key: 'innovation',
                 icon: Briefcase,
+                title: "חדשנות",
+                description: "שימוש בכלים מתקדמים לפיתוח קריירה"
               },
             ].map((value, i) => (
               <div
@@ -111,54 +117,10 @@ const Index = () => {
                   <value.icon className="w-6 h-6 text-accent" />
                 </div>
                 <h3 className="font-display text-xl mb-3">
-                  {t(`values.items.${value.key}.title`)}
+                  {value.title}
                 </h3>
                 <p className="text-muted-foreground">
-                  {t(`values.items.${value.key}.description`)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" className="py-16 bg-secondary">
-        <div className="container">
-          <div className="text-center mb-16 animate-fade-up">
-            <h2 className="font-display text-3xl">{t('services.title')}</h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              {t('services.subtitle')}
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                key: 'coaching',
-                icon: ArrowRight,
-              },
-              {
-                key: 'resume',
-                icon: ArrowRight,
-              },
-              {
-                key: 'consulting',
-                icon: ArrowRight,
-              },
-            ].map((service, i) => (
-              <div
-                key={service.key}
-                className="group p-6 bg-background rounded-lg border transition-all hover:shadow-lg animate-fade-up"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                  <service.icon className={`w-6 h-6 text-accent ${isRTL ? 'rotate-180' : ''}`} />
-                </div>
-                <h3 className="font-display text-xl mb-2">
-                  {t(`services.items.${service.key}.title`)}
-                </h3>
-                <p className="text-muted-foreground">
-                  {t(`services.items.${service.key}.description`)}
+                  {value.description}
                 </p>
               </div>
             ))}
@@ -170,12 +132,14 @@ const Index = () => {
       <section id="about" className="py-16">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
-            <h2 className="font-display text-3xl">{t('about.title')}</h2>
+            <h2 className="font-display text-3xl">אודותינו</h2>
             <p className="text-muted-foreground">
-              {t('about.content')}
+              עם ניסיון של שנים בתחום ייעוץ הקריירה, אנחנו מסייעים לאלפי אנשים למצוא את דרכם המקצועית. הצוות המקצועי שלנו כולל יועצי קריירה מנוסים, מומחי גיוס ופסיכולוגים תעסוקתיים.
             </p>
-            <Button variant="outline" size="lg">
-              {t('about.cta')}
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/about">
+                קרא עוד עלינו
+              </Link>
             </Button>
           </div>
         </div>
@@ -186,15 +150,15 @@ const Index = () => {
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              {t('footer.rights')}
+              © כל הזכויות שמורות 2024
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                {t('footer.privacy')}
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                {t('footer.terms')}
-              </a>
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                מדיניות פרטיות
+              </Link>
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                תנאי שימוש
+              </Link>
             </div>
           </div>
         </div>
