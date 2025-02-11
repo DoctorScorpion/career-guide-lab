@@ -21,12 +21,6 @@ const About = () => {
       image: "/placeholder.svg",
       quote: isRTL ? "טכנולוגיה בשירות הקריירה שלך" : "Technology at the service of your career",
     },
-    {
-      name: isRTL ? "דניאלה ניסני" : "Daniela Nisani",
-      role: isRTL ? "מנהלת תפעול ושותפה בכירה" : "COO & Senior Partner",
-      image: "/placeholder.svg",
-      quote: isRTL ? "מצוינות תפעולית היא המפתח להצלחה" : "Operational excellence is the key to success",
-    },
   ];
 
   return (
@@ -88,7 +82,7 @@ const About = () => {
           <h2 className="font-display text-3xl text-center mb-12">
             {t('about.team.title')}
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {teamMembers.map((member) => (
               <div key={member.name} className="text-center space-y-4">
                 <Avatar className="w-24 h-24 mx-auto">
