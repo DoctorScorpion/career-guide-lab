@@ -84,25 +84,30 @@ const Services = () => {
                   </Card>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden">
-                  <div className="relative h-40 bg-accent/10">
+                  <div className="relative h-40 bg-gradient-to-br from-accent/20 to-accent/5">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <service.icon className="w-16 h-16 text-accent/40" />
                     </div>
                   </div>
-                  <div className="p-6">
-                    <DialogHeader>
-                      <DialogTitle className="text-3xl font-display mb-4">
+                  <div className="p-8">
+                    <DialogHeader className={`text-${isRTL ? 'right' : 'left'}`}>
+                      <DialogTitle className="text-3xl font-display mb-4 font-medium">
                         {t(`services.items.${service.key}.title`)}
                       </DialogTitle>
-                      <p className="text-lg text-muted-foreground">
+                      <p className="text-lg text-muted-foreground leading-relaxed">
                         {t(`services.items.${service.key}.description`)}
                       </p>
                     </DialogHeader>
-                    <Separator className="my-6" />
-                    <div className="space-y-6">
+                    <Separator className="my-8" />
+                    <div className="space-y-8">
                       <div className="prose prose-blue max-w-none">
                         <div 
-                          className="whitespace-pre-line text-muted-foreground"
+                          className={`
+                            whitespace-pre-line text-muted-foreground leading-relaxed
+                            [&>*:first-child]:text-foreground [&>*:first-child]:font-medium
+                            [&_•]:text-accent [&_•]:font-medium
+                            [&_•]:mr-2 [&_•]:inline-block
+                          `}
                           style={{ 
                             direction: isRTL ? 'rtl' : 'ltr',
                             textAlign: isRTL ? 'right' : 'left' 
@@ -111,8 +116,11 @@ const Services = () => {
                           {t(`services.items.${service.key}.fullDescription`)}
                         </div>
                       </div>
-                      <div className="pt-6">
-                        <Button className="w-full" size="lg">
+                      <div className="pt-4">
+                        <Button 
+                          className="w-full shadow-lg hover:shadow-xl transition-all" 
+                          size="lg"
+                        >
                           {t('contact.getStarted')}
                           <ArrowRight className={`ms-2 w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                         </Button>
