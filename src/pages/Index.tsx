@@ -1,10 +1,8 @@
-
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MainNav } from "@/components/MainNav";
-import { ResumeAnalyzer } from "@/components/ResumeAnalyzer";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ServicesSection } from "@/components/services/ServicesSection";
 import { ValuesSection } from "@/components/values/ValuesSection";
@@ -45,18 +43,20 @@ const Index = () => {
       <ServicesSection />
       <ValuesSection />
 
-      {/* Resume Analyzer Section */}
+      {/* Contact Form Section */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl">
-              {t("resume.analyzer.title")}
+              {t("contact.title")}
             </h2>
             <p className="text-muted-foreground mt-4">
-              {t("resume.analyzer.description")}
+              {t("contact.subtitle")}
             </p>
           </div>
-          <ResumeAnalyzer />
+          <div className="max-w-2xl mx-auto">
+            <ContactForm />
+          </div>
         </div>
       </section>
 

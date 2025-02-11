@@ -1,7 +1,6 @@
 
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -19,6 +18,32 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ProfileFormData } from "./types";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+
+// רשימת הכישורים מלינקדאין
+const linkedinSkills = [
+  "JavaScript", "React", "Node.js", "Python", "Java", "C++", "SQL",
+  "Product Management", "Project Management", "Marketing", "Sales",
+  "Business Development", "Data Analysis", "UX Design", "UI Design",
+  "Content Writing", "Digital Marketing", "SEO", "Social Media",
+  "Customer Service", "Leadership", "Team Management", "Agile",
+  "Scrum", "DevOps", "Cloud Computing", "AWS", "Azure", "Google Cloud",
+  "Machine Learning", "AI", "Data Science", "Business Intelligence",
+  "HR Management", "Recruitment", "Training & Development"
+];
+
+// אזורים בישראל
+const israelRegions = [
+  "צפון",
+  "חיפה",
+  "שרון",
+  "מרכז",
+  "תל אביב",
+  "ירושלים",
+  "שפלה",
+  "דרום"
+];
 
 interface ProfileFormProps {
   profile: ProfileFormData;
@@ -29,6 +54,16 @@ interface ProfileFormProps {
 
 export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: ProfileFormProps) => {
   const { t } = useTranslation();
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+  const handleSkillSelect = (skill: string) => {
+    const updatedSkills = selectedSkills.includes(skill)
+      ? selectedSkills.filter(s => s !== skill)
+      : [...selectedSkills, skill];
+    
+    setSelectedSkills(updatedSkills);
+    setProfile({ ...profile, skills: updatedSkills.join(", ") });
+  };
 
   return (
     <Card className="h-fit sticky top-24">
@@ -40,11 +75,20 @@ export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: Prof
         <form onSubmit={onSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label>{t("jobs.matcher.profile.skills")}</Label>
-            <Textarea
-              placeholder={t("jobs.matcher.profile.skillsPlaceholder")}
-              value={profile.skills}
-              onChange={(e) => setProfile({ ...profile, skills: e.target.value })}
-            />
+            <div className="max-h-40 overflow-y-auto p-2 border rounded-lg space-y-2">
+              <div className="flex flex-wrap gap-2">
+                {linkedinSkills.map((skill) => (
+                  <Badge
+                    key={skill}
+                    variant={selectedSkills.includes(skill) ? "default" : "outline"}
+                    className="cursor-pointer"
+                    onClick={() => handleSkillSelect(skill)}
+                  >
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           </div>
           
           <div className="space-y-2">
@@ -75,11 +119,21 @@ export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: Prof
 
           <div className="space-y-2">
             <Label>{t("jobs.matcher.profile.location")}</Label>
-            <Input
-              placeholder={t("jobs.matcher.profile.locationPlaceholder")}
+            <Select
               value={profile.location}
-              onChange={(e) => setProfile({ ...profile, location: e.target.value })}
-            />
+              onValueChange={(value) => setProfile({ ...profile, location: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("jobs.matcher.profile.locationPlaceholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                {israelRegions.map((region) => (
+                  <SelectItem key={region} value={region}>
+                    {region}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
