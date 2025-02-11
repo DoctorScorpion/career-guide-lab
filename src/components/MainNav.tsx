@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -124,12 +125,51 @@ export function MainNav() {
       navVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="font-display text-xl">
-          {t("nav.brand")}
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="flex items-center gap-6">
+          <Link to="/" className="font-display text-xl">
+            {t("nav.brand")}
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            {navItems.map((item) => (
+              item.subitems ? (
+                <Collapsible
+                  key={item.href}
+                  open={openCollapsible === item.href}
+                  onOpenChange={() => setOpenCollapsible(openCollapsible === item.href ? null : item.href)}
+                >
+                  <CollapsibleTrigger className="flex items-center gap-1 text-sm hover:text-accent transition-colors">
+                    {item.title}
+                    <ChevronDown className="w-4 h-4" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="absolute mt-2 bg-background border rounded-md py-2 shadow-lg">
+                    {item.subitems.map((subitem) => (
+                      <Link
+                        key={subitem.href}
+                        to={subitem.href}
+                        className="block px-4 py-2 text-sm hover:bg-accent/10 transition-colors"
+                        onClick={() => setOpenCollapsible(null)}
+                      >
+                        {subitem.title}
+                      </Link>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+              ) : (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className="text-sm hover:text-accent transition-colors"
+                >
+                  {item.title}
+                </Link>
+              )
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden md:flex items-center gap-4">
           {/* Resume Analyzer Quick Access Button */}
           <Button 
             variant="ghost" 
@@ -149,41 +189,6 @@ export function MainNav() {
             <Globe className="w-5 h-5" />
             <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
           </button>
-
-          {navItems.map((item) => (
-            item.subitems ? (
-              <Collapsible
-                key={item.href}
-                open={openCollapsible === item.href}
-                onOpenChange={() => setOpenCollapsible(openCollapsible === item.href ? null : item.href)}
-              >
-                <CollapsibleTrigger className="flex items-center gap-1 text-sm hover:text-accent transition-colors">
-                  {item.title}
-                  <ChevronDown className="w-4 h-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="absolute mt-2 bg-background border rounded-md py-2 shadow-lg">
-                  {item.subitems.map((subitem) => (
-                    <Link
-                      key={subitem.href}
-                      to={subitem.href}
-                      className="block px-4 py-2 text-sm hover:bg-accent/10 transition-colors"
-                      onClick={() => setOpenCollapsible(null)}
-                    >
-                      {subitem.title}
-                    </Link>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
-            ) : (
-              <Link
-                key={item.href}
-                to={item.href}
-                className="text-sm hover:text-accent transition-colors"
-              >
-                {item.title}
-              </Link>
-            )
-          ))}
           
           <Button asChild>
             <Link to="/contact" className="bg-accent hover:bg-accent/90">

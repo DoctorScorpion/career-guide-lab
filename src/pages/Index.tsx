@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Star, Briefcase, FileText, UserCheck, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,7 @@ import { ResumeAnalyzer } from "@/components/ResumeAnalyzer";
 
 const Index = () => {
   const { t, i18n } = useTranslation();
-  const [isRTL, setIsRTL] = useState(i18n.language === 'he');
+  const isRTL = i18n.language === 'he';
   const [emblaRef] = useEmblaCarousel({ 
     direction: isRTL ? 'rtl' : 'ltr',
     align: 'start',
@@ -39,63 +40,44 @@ const Index = () => {
   const services = [
     {
       icon: Briefcase,
-      title: "אימון קריירה",
-      description: "ליווי אישי לפיתוח הקריירה שלך",
+      title: t("services.items.careerCoaching.title"),
+      description: t("services.items.careerCoaching.description"),
       href: "/services#career-coaching"
     },
     {
       icon: FileText,
-      title: "כתיבת קורות חיים",
-      description: "עיצוב וכתיבת קורות חיים מקצועיים",
+      title: t("services.items.resumeWriting.title"),
+      description: t("services.items.resumeWriting.description"),
       href: "/services#resume-writing"
     },
     {
       icon: UserCheck,
-      title: "מיתוג אישי",
-      description: "בניית נוכחות דיגיטלית חזקה",
+      title: t("services.items.personalBranding.title"),
+      description: t("services.items.personalBranding.description"),
       href: "/services#personal-branding"
     },
     {
       icon: Users,
-      title: "גיוס והשמה",
-      description: "מציאת המשרה המושלמת עבורך",
+      title: t("services.items.recruitment.title"),
+      description: t("services.items.recruitment.description"),
       href: "/services#recruitment"
     }
   ];
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'he' ? 'en' : 'he';
-    i18n.changeLanguage(newLang);
-    setIsRTL(newLang === 'he');
-    document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      toast({
+        title: t("contact.form.success"),
+        description: t("contact.form.successDetail"),
       });
-
-      if (response.ok) {
-        toast({
-          title: "ההודעה נשלחה בהצלחה",
-          description: "נציג יצור איתך קשר בהקדם",
-        });
-        setFormData({ name: '', email: '', phone: '', message: '' });
-      } else {
-        throw new Error('Failed to send message');
-      }
+      setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
       toast({
-        title: "שגיאה בשליחת ההודעה",
-        description: "אנא נסה שוב מאוחר יותר",
+        title: t("contact.form.error"),
+        description: t("contact.form.errorDetail"),
         variant: "destructive",
       });
     } finally {
@@ -112,29 +94,29 @@ const Index = () => {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
             <div className="inline-flex items-center rounded-full px-4 py-1 text-sm bg-accent/10 text-accent">
-              ייעוץ קריירה מקצועי
+              {t("hero.tag")}
             </div>
             <h1 className="font-display text-5xl sm:text-6xl font-medium leading-tight">
-              נעזור לך למצוא את הקריירה המושלמת
+              {t("hero.title")}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              אנחנו כאן כדי לעזור לך למצוא את הדרך המקצועית הנכונה עבורך. הצוות המקצועי שלנו יסייע לך בכל שלב בדרך.
+              {t("hero.description")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="lg" className="bg-accent hover:bg-accent/90">
-                    השאר פרטים
+                    {t("hero.cta.contact")}
                     <ArrowRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-4 w-4 ${isRTL ? 'rotate-180' : ''}`} />
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>השאר פרטים ונחזור אליך</DialogTitle>
+                    <DialogTitle>{t("hero.form.title")}</DialogTitle>
                   </DialogHeader>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">שם מלא</Label>
+                      <Label htmlFor="name">{t("hero.form.name")}</Label>
                       <Input
                         id="name"
                         required
@@ -143,7 +125,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">אימייל</Label>
+                      <Label htmlFor="email">{t("hero.form.email")}</Label>
                       <Input
                         id="email"
                         type="email"
@@ -153,7 +135,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">טלפון</Label>
+                      <Label htmlFor="phone">{t("hero.form.phone")}</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -163,7 +145,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message">הודעה</Label>
+                      <Label htmlFor="message">{t("hero.form.message")}</Label>
                       <Textarea
                         id="message"
                         required
@@ -172,76 +154,17 @@ const Index = () => {
                       />
                     </div>
                     <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? 'שולח...' : 'שלח'}
+                      {isSubmitting ? t("hero.form.sending") : t("hero.form.submit")}
                     </Button>
                   </form>
                 </DialogContent>
               </Dialog>
               <Button variant="outline" size="lg" asChild>
                 <Link to="/about">
-                  למד עוד
+                  {t("hero.cta.learnMore")}
                 </Link>
               </Button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Blog Posts */}
-      <section className="py-16 bg-accent/5">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl">מאמרים מובילים</h2>
-            <p className="text-muted-foreground">
-              מדריכים וטיפים שיעזרו לך להתקדם בקריירה
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "איך לכתוב קורות חיים שיבלטו במיוחד ב-2024",
-                excerpt: "המדריך המלא לכתיבת קורות חיים שיתפסו את תשומת לבם של מגייסים ומנהלי משאבי אנוש.",
-                image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-                slug: "how-to-write-outstanding-cv-2024"
-              },
-              {
-                title: "5 טרנדים בשוק העבודה שכדאי להכיר",
-                excerpt: "סקירה מקיפה של המגמות החמות בשוק העבודה והכישורים שיהיו הכי מבוקשים בשנים הקרובות.",
-                image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-                slug: "5-job-market-trends-2024"
-              }
-            ].map((post, i) => (
-              <Card key={i} className="group overflow-hidden">
-                <Link to={`/blog/${post.slug}`}>
-                  <div className="aspect-w-16 aspect-h-9">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <CardTitle className="text-xl mb-2 group-hover:text-accent transition-colors">
-                      {post.title}
-                    </CardTitle>
-                    <CardDescription>
-                      {post.excerpt}
-                    </CardDescription>
-                    <div className="mt-4 flex items-center text-accent">
-                      <span className="text-sm font-medium">קרא עוד</span>
-                      <ArrowRight className="mr-2 h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Button variant="outline" size="lg" asChild>
-              <Link to="/blog">
-                לכל המאמרים
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
@@ -250,9 +173,9 @@ const Index = () => {
       <section className="py-16 bg-accent/5">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl">השירותים שלנו</h2>
+            <h2 className="font-display text-3xl">{t("services.title")}</h2>
             <p className="text-muted-foreground">
-              מגוון שירותים מקצועיים לפיתוח הקריירה שלך
+              {t("services.description")}
             </p>
           </div>
           <div className="w-full overflow-hidden" ref={emblaRef}>
@@ -277,28 +200,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Resume Analyzer Section */}
-      <section className="py-16 bg-background">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl">
-              {t("resume.analyzer.title")}
-            </h2>
-            <p className="text-muted-foreground mt-4">
-              {t("resume.analyzer.description")}
-            </p>
-          </div>
-          <ResumeAnalyzer />
-        </div>
-      </section>
-
       {/* Values Section */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-16 animate-fade-up">
-            <h2 className="font-display text-3xl">הערכים שלנו</h2>
+            <h2 className="font-display text-3xl">{t("values.title")}</h2>
             <p className="text-muted-foreground">
-              אנחנו מאמינים בליווי אישי, מקצועי וחדשני בתהליך פיתוח הקריירה
+              {t("values.description")}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -306,20 +214,20 @@ const Index = () => {
               {
                 key: 'personal',
                 icon: Heart,
-                title: "ליווי אישי",
-                description: "אנחנו מאמינים בהתאמה אישית לכל מועמד"
+                title: t("values.items.personal.title"),
+                description: t("values.items.personal.description")
               },
               {
                 key: 'professional',
                 icon: Star,
-                title: "מקצועיות",
-                description: "צוות המומחים שלנו עם ניסיון רב בתחום"
+                title: t("values.items.professional.title"),
+                description: t("values.items.professional.description")
               },
               {
                 key: 'innovation',
                 icon: Briefcase,
-                title: "חדשנות",
-                description: "שימוש בכלים מתקדמים לפיתוח קריירה"
+                title: t("values.items.innovation.title"),
+                description: t("values.items.innovation.description")
               },
             ].map((value, i) => (
               <div
@@ -342,81 +250,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-16">
+      {/* Resume Analyzer Section */}
+      <section className="py-16 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
-            <h2 className="font-display text-3xl">אודותינו</h2>
-            <p className="text-muted-foreground">
-              עם ניסיון של שנים בתחום ייעוץ הקריירה, אנחנו מסייעים לאלפי אנשים למצוא את דרכם המקצועית. הצוות המקצועי שלנו כולל יועצי קריירה מנוסים, מומחי גיוס ופסיכולוגים תעסוקתיים.
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl">
+              {t("resume.analyzer.title")}
+            </h2>
+            <p className="text-muted-foreground mt-4">
+              {t("resume.analyzer.description")}
             </p>
-            <Button variant="outline" size="lg" asChild>
-              <Link to="/about">
-                קרא עוד עלינו
-              </Link>
-            </Button>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Form */}
-      <section className="py-16 bg-accent/5">
-        <div className="container">
-          <div className="max-w-xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="font-display text-3xl mb-4">צור קשר</h2>
-              <p className="text-muted-foreground">
-                השאירו פרטים ונחזור אליכם בהקדם
-              </p>
-            </div>
-            <Card>
-              <CardContent className="pt-6">
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">שם מלא</Label>
-                    <Input
-                      id="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">אימייל</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">טלפון</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">הודעה</Label>
-                    <Textarea
-                      id="message"
-                      required
-                      value={formData.message}
-                      onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? 'שולח...' : 'שלח'}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
+          <ResumeAnalyzer />
         </div>
       </section>
 
@@ -425,14 +270,14 @@ const Index = () => {
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © כל הזכויות שמורות 2024
+              © {t("footer.copyright")} 2024
             </p>
             <div className="flex items-center gap-6">
               <Link to="/privacy" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                מדיניות פרטיות
+                {t("footer.privacy")}
               </Link>
               <Link to="/terms" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                תנאי שימוש
+                {t("footer.terms")}
               </Link>
             </div>
           </div>
