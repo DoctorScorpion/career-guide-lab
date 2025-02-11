@@ -1,12 +1,14 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Globe } from "lucide-react";
+import { ArrowRight, Globe, Heart, Star, Briefcase } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
 
 const Index = () => {
   const { t, i18n } = useTranslation();
   const [isRTL, setIsRTL] = useState(i18n.language === 'he');
+  const [emblaRef] = useEmblaCarousel({ direction: isRTL ? 'rtl' : 'ltr' });
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'he' ? 'en' : 'he';
@@ -44,8 +46,8 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-32 pb-16">
+      {/* Hero with Carousel */}
+      <section className="pt-32 pb-16 bg-gradient-to-b from-accent/5 to-background">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
             <div className="inline-flex items-center rounded-full px-4 py-1 text-sm bg-accent/10 text-accent">
@@ -66,6 +68,50 @@ const Index = () => {
                 {t('hero.cta.learnMore')}
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-16 bg-background">
+        <div className="container">
+          <div className="text-center mb-16 animate-fade-up">
+            <h2 className="font-display text-3xl">{t('values.title')}</h2>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+              {t('values.subtitle')}
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                key: 'personal',
+                icon: Heart,
+              },
+              {
+                key: 'professional',
+                icon: Star,
+              },
+              {
+                key: 'innovation',
+                icon: Briefcase,
+              },
+            ].map((value, i) => (
+              <div
+                key={value.key}
+                className="group p-8 bg-secondary rounded-2xl transition-all hover:shadow-lg animate-fade-up"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
+                  <value.icon className="w-6 h-6 text-accent" />
+                </div>
+                <h3 className="font-display text-xl mb-3">
+                  {t(`values.items.${value.key}.title`)}
+                </h3>
+                <p className="text-muted-foreground">
+                  {t(`values.items.${value.key}.description`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
