@@ -4,43 +4,36 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Clock, User, Tag, ArrowLeft, Share2 } from "lucide-react";
-
-// בהמשך נחבר למערכת ניהול תוכן אמיתית
-const getBlogPost = (slug: string) => {
-  return {
-    title: "איך לכתוב קורות חיים שיבלטו במיוחד ב-2024",
-    content: `
-      <p>בשוק העבודה התחרותי של היום, קורות חיים מרשימים הם הכרטיס שלכם להצלחה. במאמר זה נסקור את הטיפים החשובים ביותר לכתיבת קורות חיים שיבלטו ויעזרו לכם להשיג את התפקיד שאתם רוצים.</p>
-      
-      <h2>1. התאמה אישית לתפקיד</h2>
-      <p>חשוב להתאים את קורות החיים לדרישות התפקיד הספציפי אליו אתם מגישים מועמדות. קראו את תיאור התפקיד בעיון והדגישו את הכישורים והניסיון הרלוונטיים.</p>
-      
-      <h2>2. מבנה ברור ונקי</h2>
-      <p>השתמשו בכותרות ברורות, רווחים נכונים ופונט קריא. קורות חיים מסודרים מקלים על המגייסים לסרוק את המידע החשוב במהירות.</p>
-      
-      <h2>3. הישגים מדידים</h2>
-      <p>במקום לתאר רק את תחומי האחריות שלכם, הדגישו הישגים מדידים. למשל: "הובלתי פרויקט שהגדיל את המכירות ב-30%".</p>
-    `,
-    author: "עמית בקשי",
-    date: "2024-03-14",
-    readTime: "6 דקות קריאה",
-    category: "קורות חיים",
-    image: "/blog/cv-writing.jpg"
-  };
-};
+import { useTranslation } from "react-i18next";
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const post = getBlogPost(slug || "");
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'he';
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // בהמשך נחבר למערכת ניהול תוכן אמיתית
+  const getBlogPost = (slug: string) => {
+    return {
+      title: t("blog.post.defaultTitle"),
+      content: t("blog.post.defaultContent"),
+      author: t("blog.post.defaultAuthor"),
+      date: "2024-03-14",
+      readTime: t("blog.post.readTime", { minutes: 6 }),
+      category: t("blog.post.defaultCategory"),
+      image: "/blog/cv-writing.jpg"
+    };
+  };
+
+  const post = getBlogPost(slug || "");
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
       <Helmet>
-        <title>{post.title} | בלוג קריירה - עמית בקשי</title>
+        <title>{post.title} | {t("blog.title")}</title>
         <meta name="description" content={post.content.substring(0, 155)} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.content.substring(0, 155)} />
@@ -58,7 +51,7 @@ const BlogPost = () => {
             <Button variant="ghost" asChild className="mb-8">
               <Link to="/blog" className="inline-flex items-center">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                חזרה לבלוג
+                {t("blog.backToBlog")}
               </Link>
             </Button>
             
@@ -104,11 +97,11 @@ const BlogPost = () => {
             <div className="mt-16 pt-8 border-t">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
-                  פורסם ב-{post.date}
+                  {t("blog.publishedOn", { date: post.date })}
                 </div>
                 <Button variant="outline" size="sm">
                   <Share2 className="mr-2 h-4 w-4" />
-                  שתף מאמר
+                  {t("blog.sharePost")}
                 </Button>
               </div>
             </div>

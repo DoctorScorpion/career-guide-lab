@@ -12,21 +12,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Building, Mail, Phone } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().min(9, {
-    message: "Please enter a valid phone number.",
-  }),
-  interests: z.string().min(2, {
-    message: "Please enter your areas of interest.",
-  }),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().min(9),
+  interests: z.string().min(2),
+  message: z.string().min(10),
 });
 
 const Contact = () => {
@@ -47,7 +37,7 @@ const Contact = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(values); // Here you would normally send the data to your backend
+      console.log(values);
       toast({
         title: t('contact.form.success'),
       });
@@ -61,9 +51,7 @@ const Contact = () => {
   };
 
   return (
-    <div className={`min
-
--h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
+    <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-b from-accent/5 to-background">
         <div className="container">
@@ -85,7 +73,7 @@ const Contact = () => {
             {/* Contact Form */}
             <Card>
               <CardHeader>
-                <CardTitle>{t('contact.form.submit')}</CardTitle>
+                <CardTitle>{t('contact.form.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
