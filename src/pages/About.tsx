@@ -116,13 +116,13 @@ const About = () => {
       <section className="py-16 bg-muted">
         <div className="container">
           <h2 className="font-display text-3xl text-center mb-12">
-            {t('about.values.title')}
+            {t('values.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { key: 'innovation', icon: Lightbulb },
               { key: 'personal', icon: Heart },
               { key: 'professional', icon: Star },
+              { key: 'innovation', icon: Lightbulb },
             ].map((value) => (
               <div
                 key={value.key}
@@ -132,8 +132,11 @@ const About = () => {
                   <value.icon className="w-6 h-6 text-accent" />
                 </div>
                 <h3 className="font-display text-xl mb-4">
-                  {t(`about.values.items.${value.key}`)}
+                  {t(`values.items.${value.key}.title`)}
                 </h3>
+                <p className={`text-muted-foreground ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {t(`values.items.${value.key}.description`)}
+                </p>
               </div>
             ))}
           </div>
