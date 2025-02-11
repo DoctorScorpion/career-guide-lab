@@ -27,7 +27,7 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
   // בניית שאילתת החיפוש המותאמת
   const skillsQuery = searchParams.skills.length > 0 
     ? searchParams.skills.map(skill => `"${skill}"`).join(' AND ')
-    : '"Cloud" AND "Security"';  // ערכי ברירת מחדל
+    : '"Cloud" + "Security"';  // ערכי ברירת מחדל המעודכנים
     
   const locationQuery = searchParams.location 
     ? `AND "${searchParams.location}"` 

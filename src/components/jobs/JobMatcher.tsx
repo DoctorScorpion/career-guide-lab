@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
@@ -14,7 +13,7 @@ export const JobMatcher = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [matches, setMatches] = useState<JobMatch[]>([]);
   const [profile, setProfile] = useState<ProfileFormData>({
-    skills: "Cloud, Security",  // ערכי ברירת מחדל
+    skills: "Cloud + Security",  // ערכי ברירת מחדל המעודכנים
     experience: "",
     jobType: "",
     location: "Central Israel",  // ערך ברירת מחדל
