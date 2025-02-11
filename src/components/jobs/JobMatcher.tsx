@@ -14,10 +14,10 @@ export const JobMatcher = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [matches, setMatches] = useState<JobMatch[]>([]);
   const [profile, setProfile] = useState<ProfileFormData>({
-    skills: "",
+    skills: "Cloud, Security",  // ערכי ברירת מחדל
     experience: "",
     jobType: "",
-    location: "",
+    location: "Central Israel",  // ערך ברירת מחדל
     preferences: "",
     timeRange: "last-month"
   });

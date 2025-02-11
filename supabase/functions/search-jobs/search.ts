@@ -24,11 +24,19 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     return today.toISOString().split('T')[0];
   };
 
-  const skillsQuery = searchParams.skills.map(skill => `"${skill}"`).join(' AND ');
-  const locationQuery = searchParams.location ? `"${searchParams.location}"` : '';
+  // בניית שאילתת החיפוש המותאמת
+  const skillsQuery = searchParams.skills.length > 0 
+    ? searchParams.skills.map(skill => `"${skill}"`).join(' AND ')
+    : '"Cloud" AND "Security"';  // ערכי ברירת מחדל
+    
+  const locationQuery = searchParams.location 
+    ? `AND "${searchParams.location}"` 
+    : 'AND "Central Israel"';  // ברירת מחדל למיקום
+    
   const dateFilter = getDateFilter();
   
-  const searchQuery = `site:linkedin.com/jobs/view ${skillsQuery} ${locationQuery} after:${dateFilter}`;
+  // בניית השאילתה לפי הפורמט המבוקש
+  const searchQuery = `site:linkedin.com/jobs inurl:view ${skillsQuery} ${locationQuery} after:${dateFilter}`;
   console.log('Building search query:', searchQuery);
 
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
