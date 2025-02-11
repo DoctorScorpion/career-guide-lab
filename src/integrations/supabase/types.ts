@@ -14,6 +14,7 @@ export type Database = {
           company: string
           created_at: string
           description: string | null
+          fts: unknown | null
           id: string
           job_type: string
           linkedin_url: string | null
@@ -21,6 +22,7 @@ export type Database = {
           match_score: number | null
           requirements: string[] | null
           salary: string | null
+          search_text: string | null
           skills: string[] | null
           source_url: string | null
           title: string
@@ -29,6 +31,7 @@ export type Database = {
           company: string
           created_at?: string
           description?: string | null
+          fts?: unknown | null
           id?: string
           job_type: string
           linkedin_url?: string | null
@@ -36,6 +39,7 @@ export type Database = {
           match_score?: number | null
           requirements?: string[] | null
           salary?: string | null
+          search_text?: string | null
           skills?: string[] | null
           source_url?: string | null
           title: string
@@ -44,6 +48,7 @@ export type Database = {
           company?: string
           created_at?: string
           description?: string | null
+          fts?: unknown | null
           id?: string
           job_type?: string
           linkedin_url?: string | null
@@ -51,6 +56,7 @@ export type Database = {
           match_score?: number | null
           requirements?: string[] | null
           salary?: string | null
+          search_text?: string | null
           skills?: string[] | null
           source_url?: string | null
           title?: string

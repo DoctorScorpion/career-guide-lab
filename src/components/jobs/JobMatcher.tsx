@@ -27,40 +27,49 @@ export const JobMatcher = () => {
     setIsAnalyzing(true);
     
     try {
-      // Call the Supabase Edge Function
-      const { data, error } = await supabase.functions.invoke('search-jobs', {
-        body: {
-          skills: profile.skills.split(", "),
-          location: profile.location,
-          jobType: profile.jobType,
-          timeRange: profile.timeRange
-        }
-      });
-
-      if (error) throw error;
-
-      // Transform the jobs data to match our JobMatch type
-      const jobMatches: JobMatch[] = data.jobs.map((job: any) => ({
-        id: job.id,
-        title: job.title,
-        company: job.company,
-        location: job.location,
-        matchScore: job.match_score,
-        description: job.description,
-        requirements: job.requirements,
-        type: job.job_type,
-        salary: job.salary,
-        linkedinUrl: job.linkedin_url,
-        googleSearchUrl: job.source_url
-      }));
-
-      setMatches(jobMatches);
+      // קודם כל נחפש בדאטהבייס עם full-text search
+      const searchQuery = profile.skills.split(',').join(' ') + ' ' + profile.location;
       
-      toast({
-        title: "החיפוש הושלם",
-        description: `נמצאו ${jobMatches.length} משרות מתאימות לפרופיל שלך`,
-        duration: 3000
-      });
+      const { data: dbJobs, error: dbError } = await supabase
+        .from('jobs')
+        .select('*')
+        .textSearch('fts', `'${searchQuery}'`)
+        .order('match_score', { ascending: false })
+        .limit(15);
+
+      if (dbError) throw dbError;
+
+      // אם לא מצאנו מספיק תוצאות, נחפש גם בלינקדאין
+      if (!dbJobs || dbJobs.length < 5) {
+        const { data: externalData, error } = await supabase.functions.invoke('search-jobs', {
+          body: {
+            skills: profile.skills.split(", "),
+            location: profile.location,
+            jobType: profile.jobType,
+            timeRange: profile.timeRange
+          }
+        });
+
+        if (error) throw error;
+
+        // נמזג את התוצאות
+        const allJobs = [...(dbJobs || []), ...externalData.jobs];
+        const uniqueJobs = Array.from(new Map(allJobs.map(job => [job.id, job])).values());
+        setMatches(uniqueJobs);
+
+        toast({
+          title: "החיפוש הושלם",
+          description: `נמצאו ${uniqueJobs.length} משרות מתאימות`,
+          duration: 3000
+        });
+      } else {
+        setMatches(dbJobs);
+        toast({
+          title: "החיפוש הושלם",
+          description: `נמצאו ${dbJobs.length} משרות מתאימות מהמאגר שלנו`,
+          duration: 3000
+        });
+      }
     } catch (error) {
       console.error('Error fetching jobs:', error);
       toast({
