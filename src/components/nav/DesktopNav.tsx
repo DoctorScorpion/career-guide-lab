@@ -35,7 +35,7 @@ export const DesktopNav = ({
             onOpenChange={() => setOpenCollapsible(openCollapsible === item.href ? null : item.href)}
           >
             <CollapsibleTrigger className="flex items-center gap-1 text-sm font-medium hover:text-accent transition-colors">
-              {item.title}
+              {t(item.title)}
               <ChevronDown className="w-4 h-4" />
             </CollapsibleTrigger>
             <CollapsibleContent className="absolute mt-2 bg-background border rounded-lg py-2 shadow-lg min-w-[200px] z-50">
@@ -46,7 +46,7 @@ export const DesktopNav = ({
                   className="block px-4 py-2.5 text-sm hover:bg-accent/10 transition-colors"
                   onClick={() => setOpenCollapsible(null)}
                 >
-                  {subitem.title}
+                  {t(subitem.title)}
                 </Link>
               ))}
             </CollapsibleContent>
@@ -57,7 +57,7 @@ export const DesktopNav = ({
             to={item.href}
             className="text-sm font-medium hover:text-accent transition-colors"
           >
-            {item.title}
+            {t(item.title)}
           </Link>
         )
       ))}
