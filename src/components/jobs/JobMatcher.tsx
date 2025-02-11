@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { JobMatch, ProfileFormData } from "./types";
 import { ProfileForm } from "./ProfileForm";
 import { JobList } from "./JobList";
+import { supabase } from "@/integrations/supabase/client";
 
 export const JobMatcher = () => {
   const { i18n } = useTranslation();
@@ -18,99 +19,50 @@ export const JobMatcher = () => {
     jobType: "",
     location: "",
     preferences: "",
-    timeRange: "last-month" // ברירת מחדל
+    timeRange: "last-month"
   });
-
-  const getDateByRange = (range: string) => {
-    const date = new Date();
-    switch (range) {
-      case "24h":
-        date.setDate(date.getDate() - 1);
-        break;
-      case "week":
-        date.setDate(date.getDate() - 7);
-        break;
-      case "last-month":
-        date.setMonth(date.getMonth() - 1);
-        break;
-      case "three-months":
-        date.setMonth(date.getMonth() - 3);
-        break;
-      default:
-        date.setMonth(date.getMonth() - 1);
-    }
-    return date.toISOString().split('T')[0];
-  };
-
-  const buildGoogleDorkQuery = (profile: ProfileFormData) => {
-    const skills = profile.skills.split(", ").join(" OR ");
-    const jobType = profile.jobType === "full-time" ? "full time" : 
-                   profile.jobType === "part-time" ? "part time" : "freelance";
-    
-    return encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getDateByRange(profile.timeRange)}`);
-  };
-
-  const generateDummyMatches = (profile: ProfileFormData): JobMatch[] => {
-    const skills = profile.skills.split(", ");
-    const baseSearchUrl = `https://www.google.com/search?q=${buildGoogleDorkQuery(profile)}`;
-    
-    return [
-      {
-        id: "1",
-        title: `Senior ${skills[0]} Developer`,
-        company: "Tech Innovations Ltd",
-        location: profile.location,
-        matchScore: 95,
-        description: `We are seeking an experienced ${skills[0]} developer to join our growing team in ${profile.location}. The ideal candidate will have strong expertise in ${skills.slice(0, 3).join(", ")}.`,
-        requirements: skills,
-        type: profile.jobType,
-        salary: "₪35,000 - ₪45,000",
-        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20${encodeURIComponent(profile.location)}`,
-        googleSearchUrl: baseSearchUrl
-      },
-      {
-        id: "2",
-        title: `${skills[0]} Team Lead`,
-        company: "StartUp Nation Co",
-        location: profile.location,
-        matchScore: 88,
-        description: `Leading startup looking for a talented Team Lead with ${skills[0]} expertise. Position based in ${profile.location} with hybrid work options.`,
-        requirements: skills.slice(0, 4),
-        type: profile.jobType,
-        salary: "₪40,000 - ₪50,000",
-        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20team%20lead%20${encodeURIComponent(profile.location)}`,
-        googleSearchUrl: baseSearchUrl
-      },
-      {
-        id: "3",
-        title: `${skills[0]} Solution Architect`,
-        company: "Enterprise Systems",
-        location: profile.location,
-        matchScore: 82,
-        description: `Join our enterprise solutions team as a Solution Architect specializing in ${skills[0]}. Work from our ${profile.location} office.`,
-        requirements: skills.slice(1, 5),
-        type: profile.jobType,
-        salary: "₪45,000 - ₪55,000",
-        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20solution%20architect%20${encodeURIComponent(profile.location)}`,
-        googleSearchUrl: baseSearchUrl
-      }
-    ];
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
     
     try {
-      const dummyMatches = generateDummyMatches(profile);
-      setMatches(dummyMatches);
+      // Call the Supabase Edge Function
+      const { data, error } = await supabase.functions.invoke('search-jobs', {
+        body: {
+          skills: profile.skills.split(", "),
+          location: profile.location,
+          jobType: profile.jobType,
+          timeRange: profile.timeRange
+        }
+      });
+
+      if (error) throw error;
+
+      // Transform the jobs data to match our JobMatch type
+      const jobMatches: JobMatch[] = data.jobs.map((job: any) => ({
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        location: job.location,
+        matchScore: job.match_score,
+        description: job.description,
+        requirements: job.requirements,
+        type: job.job_type,
+        salary: job.salary,
+        linkedinUrl: job.linkedin_url,
+        googleSearchUrl: job.source_url
+      }));
+
+      setMatches(jobMatches);
       
       toast({
         title: "החיפוש הושלם",
-        description: `נמצאו ${dummyMatches.length} משרות מתאימות לפרופיל שלך`,
+        description: `נמצאו ${jobMatches.length} משרות מתאימות לפרופיל שלך`,
         duration: 3000
       });
     } catch (error) {
+      console.error('Error fetching jobs:', error);
       toast({
         title: "שגיאה",
         description: "אירעה שגיאה בחיפוש המשרות",

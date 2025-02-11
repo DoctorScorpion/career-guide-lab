@@ -9,7 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      jobs: {
+        Row: {
+          company: string
+          created_at: string
+          description: string | null
+          id: string
+          job_type: string
+          linkedin_url: string | null
+          location: string
+          match_score: number | null
+          requirements: string[] | null
+          salary: string | null
+          skills: string[] | null
+          source_url: string | null
+          title: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          job_type: string
+          linkedin_url?: string | null
+          location: string
+          match_score?: number | null
+          requirements?: string[] | null
+          salary?: string | null
+          skills?: string[] | null
+          source_url?: string | null
+          title: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          job_type?: string
+          linkedin_url?: string | null
+          location?: string
+          match_score?: number | null
+          requirements?: string[] | null
+          salary?: string | null
+          skills?: string[] | null
+          source_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
