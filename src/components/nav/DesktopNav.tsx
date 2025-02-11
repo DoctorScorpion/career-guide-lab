@@ -1,9 +1,10 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileSearch, Globe, ChevronDown } from "lucide-react";
+import { Globe, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { NavItem } from "./types";
+import { ResumeAnalyzerButton } from "../ResumeAnalyzerButton";
 
 interface DesktopNavProps {
   navItems: NavItem[];
@@ -33,16 +34,16 @@ export const DesktopNav = ({
             open={openCollapsible === item.href}
             onOpenChange={() => setOpenCollapsible(openCollapsible === item.href ? null : item.href)}
           >
-            <CollapsibleTrigger className="flex items-center gap-1 text-sm hover:text-accent transition-colors">
+            <CollapsibleTrigger className="flex items-center gap-1 text-sm font-medium hover:text-accent transition-colors">
               {item.title}
               <ChevronDown className="w-4 h-4" />
             </CollapsibleTrigger>
-            <CollapsibleContent className="absolute mt-2 bg-background border rounded-md py-2 shadow-lg">
+            <CollapsibleContent className="absolute mt-2 bg-background border rounded-lg py-2 shadow-lg min-w-[200px] z-50">
               {item.subitems.map((subitem) => (
                 <Link
                   key={subitem.href}
                   to={subitem.href}
-                  className="block px-4 py-2 text-sm hover:bg-accent/10 transition-colors"
+                  className="block px-4 py-2.5 text-sm hover:bg-accent/10 transition-colors"
                   onClick={() => setOpenCollapsible(null)}
                 >
                   {subitem.title}
@@ -54,25 +55,17 @@ export const DesktopNav = ({
           <Link
             key={item.href}
             to={item.href}
-            className="text-sm hover:text-accent transition-colors"
+            className="text-sm font-medium hover:text-accent transition-colors"
           >
             {item.title}
           </Link>
         )
       ))}
       <div className="flex items-center gap-4">
-        <Button 
-          variant="outline"
-          size="sm"
+        <ResumeAnalyzerButton 
           onClick={handleResumeAnalyzerClick}
-          className="relative group overflow-hidden hover:border-accent/50 transition-all duration-300"
-        >
-          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent/10 to-accent/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-          <div className="relative flex items-center gap-2">
-            <FileSearch className="w-4 h-4 text-accent animate-pulse" />
-            <span className="font-medium">{t("resume.analyzer.title")}</span>
-          </div>
-        </Button>
+          text={t("resume.analyzer.title")}
+        />
 
         <button
           className="p-2 rounded-full hover:bg-accent/10 transition-colors"
@@ -83,8 +76,8 @@ export const DesktopNav = ({
           <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
         </button>
         
-        <Button asChild>
-          <Link to="/contact" className="bg-accent hover:bg-accent/90">
+        <Button asChild className="bg-accent hover:bg-accent/90">
+          <Link to="/contact">
             {t("nav.getStarted")}
           </Link>
         </Button>

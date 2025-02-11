@@ -2,10 +2,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { FileSearch, Globe } from "lucide-react";
+import { Globe, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
 import { NavItem } from "./types";
+import { ResumeAnalyzerButton } from "../ResumeAnalyzerButton";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -36,14 +36,10 @@ export const MobileNav = ({
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent side={isRTL ? "right" : "left"} className="w-[300px] sm:w-[400px]">
         <div className="flex flex-col gap-6 mt-6">
-          <Button 
-            variant="ghost" 
-            className="flex items-center gap-2 justify-start"
+          <ResumeAnalyzerButton 
             onClick={handleResumeAnalyzerClick}
-          >
-            <FileSearch className="w-5 h-5" />
-            <span>{t("resume.analyzer.title")}</span>
-          </Button>
+            text={t("resume.analyzer.title")}
+          />
 
           <button
             className="flex items-center gap-2 text-sm hover:text-accent transition-colors"
@@ -69,7 +65,7 @@ export const MobileNav = ({
                     <Link
                       key={subitem.href}
                       to={subitem.href}
-                      className="block py-2 text-base hover:text-accent transition-colors"
+                      className="block py-3 text-base hover:text-accent transition-colors"
                       onClick={() => handleNavItemClick(subitem.href)}
                     >
                       {subitem.title}
@@ -89,10 +85,9 @@ export const MobileNav = ({
             )
           ))}
           
-          <Button asChild className="mt-4">
+          <Button asChild className="mt-4 bg-accent hover:bg-accent/90 w-full">
             <Link 
               to="/contact" 
-              className="bg-accent hover:bg-accent/90 w-full"
               onClick={() => handleNavItemClick('/contact')}
             >
               {t("nav.getStarted")}

@@ -6,6 +6,7 @@ import { valuesTranslations } from './translations/values';
 import { aboutTranslations } from './translations/about';
 import { contactTranslations } from './translations/contact';
 import { resumeTranslations } from './translations/resume';
+import { footerTranslations } from './translations/footer';
 
 export const translations = {
   he: {
@@ -16,6 +17,7 @@ export const translations = {
     ...aboutTranslations.he,
     ...contactTranslations.he,
     ...resumeTranslations.he,
+    ...footerTranslations.he,
   },
   en: {
     ...navTranslations.en,
@@ -25,5 +27,6 @@ export const translations = {
     ...aboutTranslations.en,
     ...contactTranslations.en,
     ...resumeTranslations.en,
+    ...footerTranslations.en,
   },
 };
