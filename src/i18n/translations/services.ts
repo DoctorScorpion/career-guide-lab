@@ -5,7 +5,7 @@ export const servicesTranslations = {
       title: "השירותים שלנו",
       intro: "מגוון פתרונות מקצועיים המותאמים לצרכים שלך",
       description: "מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
-      items: {
+      values: {
         careerCoaching: {
           title: "ייעוץ וליווי קריירה",
           description: "ליווי אישי מקצועי לפיתוח הקריירה שלך",
@@ -106,7 +106,7 @@ export const servicesTranslations = {
       title: "Our Services",
       intro: "Professional solutions tailored to your needs",
       description: "Comprehensive solutions in recruitment and career development",
-      items: {
+      values: {
         careerCoaching: {
           title: "Career Coaching",
           description: "Professional career guidance and support",

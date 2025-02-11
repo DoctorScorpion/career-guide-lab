@@ -69,12 +69,12 @@ const Services = () => {
                         <service.icon className="w-6 h-6 text-accent" />
                       </div>
                       <CardTitle className="text-2xl font-display">
-                        {t(`services.items.${service.key}.title`)}
+                        {t(`services.values.${service.key}.title`)}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        {t(`services.items.${service.key}.description`)}
+                        {t(`services.values.${service.key}.description`)}
                       </p>
                     </CardContent>
                   </Card>
@@ -88,10 +88,10 @@ const Services = () => {
                   <div className="p-8">
                     <DialogHeader>
                       <DialogTitle className={`text-3xl font-display mb-4 font-medium w-full ${isRTL ? 'text-right' : 'text-left'}`}>
-                        {t(`services.items.${service.key}.title`)}
+                        {t(`services.values.${service.key}.title`)}
                       </DialogTitle>
                       <p className={`text-lg text-muted-foreground leading-relaxed w-full ${isRTL ? 'text-right' : 'text-left'}`}>
-                        {t(`services.items.${service.key}.description`)}
+                        {t(`services.values.${service.key}.description`)}
                       </p>
                     </DialogHeader>
                     <Separator className="my-8" />
@@ -105,7 +105,7 @@ const Services = () => {
                             [&_•]:inline-block [&_•]:${isRTL ? 'ml-2' : 'mr-2'}
                           `}
                         >
-                          {t(`services.items.${service.key}.fullDescription`)}
+                          {t(`services.values.${service.key}.fullDescription`)}
                         </div>
                       </div>
                       <div className="pt-4">
