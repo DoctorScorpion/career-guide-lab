@@ -66,22 +66,14 @@ export const DesktopNav = ({
           </Link>
         )
       ))}
-      <div className="flex items-center gap-4">
-        <button
-          className="p-2 rounded-full hover:bg-accent/10 transition-colors"
-          aria-label={t("nav.toggleLanguage")}
-          onClick={toggleLanguage}
-        >
-          <Globe className="w-5 h-5" />
-          <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
-        </button>
-        
-        <Button asChild className="bg-accent hover:bg-accent/90">
-          <Link to="/jobs">
-            {t("nav.getStarted")}
-          </Link>
-        </Button>
-      </div>
+      <button
+        className="p-2 rounded-full hover:bg-accent/10 transition-colors"
+        aria-label={t("nav.toggleLanguage")}
+        onClick={toggleLanguage}
+      >
+        <Globe className="w-5 h-5" />
+        <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
+      </button>
     </div>
   );
 };
