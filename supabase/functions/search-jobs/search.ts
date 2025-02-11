@@ -8,20 +8,15 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
     const today = new Date();
     switch (searchParams.timeRange) {
       case '24h':
-        today.setDate(today.getDate() - 1);
-        break;
+        return 'd';
       case 'week':
-        today.setDate(today.getDate() - 7);
-        break;
+        return 'w';
       case 'three-months':
-        today.setDate(today.getDate() - 90);
-        break;
+        return 'm3';
       case 'last-month':
       default:
-        today.setDate(today.getDate() - 30);
-        break;
+        return 'm';
     }
-    return today.toISOString().split('T')[0];
   };
 
   // שיפור שאילתת החיפוש
@@ -32,12 +27,13 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
   const locationQuery = searchParams.location || 'תל אביב';
   const dateFilter = getDateFilter();
   
-  // שימוש בפורמט חיפוש פשוט יותר
-  const searchQuery = `${skillsQuery} ${locationQuery} site:linkedin.com/jobs`;
+  // בניית שאילתת חיפוש עם פרמטרים נוספים של גוגל
+  const searchQuery = `${skillsQuery} ${locationQuery} site:linkedin.com/jobs/view/ jobs`;
   console.log('Building search query:', searchQuery);
 
   const encodedQuery = encodeURIComponent(searchQuery.trim());
-  const searchUrl = `https://www.google.com/search?q=${encodedQuery}&num=100&tbs=qdr:m`;
+  // שימוש בפרמטרים נוספים כדי לעקוף את ההגנות
+  const searchUrl = `https://www.google.com/search?q=${encodedQuery}&num=100&tbs=qdr:${dateFilter}&filter=0&pws=0&safe=active&gl=IL&hl=en`;
   
   try {
     console.log('Searching Google with URL:', searchUrl);
