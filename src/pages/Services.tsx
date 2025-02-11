@@ -22,10 +22,10 @@ const Services = () => {
   const [openDialog, setOpenDialog] = useState<string | null>(null);
 
   const services = [
-    { key: 'careerCoaching', icon: Briefcase, id: 'career-coaching' },
-    { key: 'resumeWriting', icon: FileText, id: 'resume-writing' },
-    { key: 'personalBranding', icon: UserCheck, id: 'personal-branding' },
-    { key: 'recruitment', icon: Users, id: 'recruitment' },
+    { key: 'careerCoaching', icon: Briefcase, id: 'career-coaching', title: t('services.values.careerCoaching.title') },
+    { key: 'resumeWriting', icon: FileText, id: 'resume-writing', title: t('services.values.resumeWriting.title') },
+    { key: 'personalBranding', icon: UserCheck, id: 'personal-branding', title: t('services.values.personalBranding.title') },
+    { key: 'recruitment', icon: Users, id: 'recruitment', title: t('services.values.recruitment.title') },
   ];
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const Services = () => {
                         <service.icon className="w-6 h-6 text-accent" />
                       </div>
                       <CardTitle className="text-2xl font-display">
-                        {t(`services.values.${service.key}.title`)}
+                        {service.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -88,7 +88,7 @@ const Services = () => {
                   <div className="p-8">
                     <DialogHeader>
                       <DialogTitle className={`text-3xl font-display mb-4 font-medium w-full ${isRTL ? 'text-right' : 'text-left'}`}>
-                        {t(`services.values.${service.key}.title`)}
+                        {service.title}
                       </DialogTitle>
                       <p className={`text-lg text-muted-foreground leading-relaxed w-full ${isRTL ? 'text-right' : 'text-left'}`}>
                         {t(`services.values.${service.key}.description`)}
