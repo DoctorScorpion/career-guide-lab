@@ -32,7 +32,8 @@ const navItems: NavItem[] = [
       { title: "אימון קריירה", href: "/services#career-coaching" },
       { title: "כתיבת קורות חיים", href: "/services#resume-writing" },
       { title: "מיתוג אישי", href: "/services#personal-branding" },
-      { title: "גיוס והשמה", href: "/services#recruitment" }
+      { title: "גיוס והשמה", href: "/services#recruitment" },
+      { title: "ניתוח קורות חיים AI", href: "/#resume-analyzer" }
     ]
   },
   { title: "אודות", href: "/about" },

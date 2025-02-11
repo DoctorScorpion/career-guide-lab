@@ -40,6 +40,15 @@ export const ResumeAnalyzer = () => {
       // Analyze the resume
       const result = await classifier(resumeText);
       
+      // הגדרת ציון ברירת מחדל במקרה שהמודל לא מחזיר ציון
+      let score = 0.5; // ציון ברירת מחדל
+      
+      // בדיקה אם התוצאה היא מערך והאם יש בה אובייקט עם שדה label
+      if (Array.isArray(result) && result[0] && typeof result[0] === 'object' && 'label' in result[0]) {
+        // המרת התווית לציון (לדוגמה: "LABEL_1" = ציון גבוה, "LABEL_0" = ציון נמוך)
+        score = result[0].label === "LABEL_1" ? 0.8 : 0.3;
+      }
+
       // Generate recommendations based on the analysis
       const recommendations = [
         t("resume.recommendations.structure"),
@@ -49,7 +58,7 @@ export const ResumeAnalyzer = () => {
       ];
 
       setAnalysis({
-        score: result[0].score,
+        score,
         recommendations
       });
 
