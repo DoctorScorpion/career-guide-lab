@@ -113,7 +113,7 @@ const Services = () => {
                           className="w-full h-14 text-lg shadow-lg hover:shadow-xl transition-all" 
                           size="lg"
                         >
-                          {t('contact.getStarted')}
+                          {t('nav.getStarted')}
                           <ArrowRight className={`${isRTL ? 'mr-2 rotate-180' : 'ml-2'} w-5 h-5`} />
                         </Button>
                       </div>
