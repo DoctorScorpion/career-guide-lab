@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
@@ -64,7 +65,7 @@ export const JobMatcher = () => {
         requirements: skills,
         type: profile.jobType,
         salary: "₪35,000 - ₪45,000",
-        linkedinUrl: "https://www.linkedin.com/jobs/view/123456",
+        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20${encodeURIComponent(profile.location)}`,
         googleSearchUrl: baseSearchUrl
       },
       {
@@ -77,7 +78,7 @@ export const JobMatcher = () => {
         requirements: skills.slice(0, 4),
         type: profile.jobType,
         salary: "₪40,000 - ₪50,000",
-        linkedinUrl: "https://www.linkedin.com/jobs/view/654321",
+        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20team%20lead%20${encodeURIComponent(profile.location)}`,
         googleSearchUrl: baseSearchUrl
       },
       {
@@ -90,7 +91,7 @@ export const JobMatcher = () => {
         requirements: skills.slice(1, 5),
         type: profile.jobType,
         salary: "₪45,000 - ₪55,000",
-        linkedinUrl: "https://www.linkedin.com/jobs/view/987654",
+        linkedinUrl: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(skills[0])}%20solution%20architect%20${encodeURIComponent(profile.location)}`,
         googleSearchUrl: baseSearchUrl
       }
     ];
