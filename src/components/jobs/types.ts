@@ -13,7 +13,7 @@ export interface JobMatch {
   googleSearchUrl?: string;
 }
 
-export type TimeRange = "all-time" | "last-month" | "last-week" | "last-day";
+export type TimeRange = "24h" | "week" | "last-month" | "three-months";
 
 export interface ProfileFormData {
   skills: string;

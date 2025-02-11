@@ -1,4 +1,3 @@
-
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -155,10 +154,10 @@ export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: Prof
                 <SelectValue placeholder="בחר טווח זמן" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all-time">כל הזמן</SelectItem>
+                <SelectItem value="24h">24 שעות אחרונות</SelectItem>
+                <SelectItem value="week">שבוע אחרון</SelectItem>
                 <SelectItem value="last-month">חודש אחרון</SelectItem>
-                <SelectItem value="last-week">שבוע אחרון</SelectItem>
-                <SelectItem value="last-day">24 שעות אחרונות</SelectItem>
+                <SelectItem value="three-months">3 חודשים אחרונים</SelectItem>
               </SelectContent>
             </Select>
           </div>
