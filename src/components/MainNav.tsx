@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -98,14 +99,10 @@ export function MainNav() {
       title: "nav.services",
       href: "/services",
       subitems: [
-        { title: "services.items.careerCoaching.title", href: "/services?service=career-coaching" },
-        { title: "services.items.resumeWriting.title", href: "/services?service=resume-writing" },
-        { title: "services.items.personalBranding.title", href: "/services?service=personal-branding" },
-        { title: "services.items.careerTransition.title", href: "/services?service=career-transition" },
-        { title: "services.items.recruitment.title", href: "/services?service=recruitment" },
-        { title: "services.items.hrConsulting.title", href: "/services?service=hr-consulting" },
-        { title: "services.items.talentManagement.title", href: "/services?service=talent-management" },
-        { title: "services.items.orgDevelopment.title", href: "/services?service=org-development" }
+        { title: t('services.values.careerCoaching.title'), href: "/services?service=career-coaching" },
+        { title: t('services.values.resumeWriting.title'), href: "/services?service=resume-writing" },
+        { title: t('services.values.personalBranding.title'), href: "/services?service=personal-branding" },
+        { title: t('services.values.recruitment.title'), href: "/services?service=recruitment" }
       ]
     },
     { title: "nav.about", href: "/about" },
