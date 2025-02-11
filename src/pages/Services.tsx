@@ -1,5 +1,7 @@
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Briefcase, FileText, UserCheck, Users } from "lucide-react";
 import {
@@ -13,17 +15,33 @@ import {
 const Services = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedService = searchParams.get('service');
 
   const services = [
-    { key: 'items.careerCoaching', icon: Briefcase },
-    { key: 'items.resumeWriting', icon: FileText },
-    { key: 'items.personalBranding', icon: UserCheck },
-    { key: 'items.recruitment', icon: Users },
+    { key: 'careerCoaching', icon: Briefcase, id: 'career-coaching' },
+    { key: 'resumeWriting', icon: FileText, id: 'resume-writing' },
+    { key: 'personalBranding', icon: UserCheck, id: 'personal-branding' },
+    { key: 'recruitment', icon: Users, id: 'recruitment' },
   ];
+
+  useEffect(() => {
+    if (selectedService) {
+      const element = document.getElementById(selectedService);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const dialogTrigger = element.querySelector('button');
+        if (dialogTrigger) {
+          setTimeout(() => {
+            dialogTrigger.click();
+          }, 500);
+        }
+      }
+    }
+  }, [selectedService]);
 
   return (
     <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
-      {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-b from-accent/5 to-background">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
@@ -37,7 +55,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Services Grid */}
       <section className="py-16">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-8">
@@ -45,6 +62,7 @@ const Services = () => {
               <Dialog key={service.key}>
                 <DialogTrigger asChild>
                   <Card
+                    id={service.id}
                     className="group hover:shadow-lg transition-all animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
@@ -53,12 +71,12 @@ const Services = () => {
                         <service.icon className="w-6 h-6 text-accent" />
                       </div>
                       <CardTitle className="text-2xl font-display">
-                        {t(`services.${service.key}.title`)}
+                        {t(`services.items.${service.key}.title`)}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        {t(`services.${service.key}.description`)}
+                        {t(`services.items.${service.key}.description`)}
                       </p>
                     </CardContent>
                   </Card>
@@ -66,11 +84,11 @@ const Services = () => {
                 <DialogContent className="sm:max-w-[600px]">
                   <DialogHeader>
                     <DialogTitle className="text-2xl font-display">
-                      {t(`services.${service.key}.title`)}
+                      {t(`services.items.${service.key}.title`)}
                     </DialogTitle>
                   </DialogHeader>
                   <div className="mt-4 whitespace-pre-line">
-                    {t(`services.${service.key}.fullDescription`)}
+                    {t(`services.items.${service.key}.fullDescription`)}
                   </div>
                 </DialogContent>
               </Dialog>
