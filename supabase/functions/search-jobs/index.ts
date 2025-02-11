@@ -30,47 +30,57 @@ serve(async (req: Request) => {
     const searchParams: SearchParams = await req.json();
     console.log('Received search params:', searchParams);
 
-    // Initialize LinkedIn API configuration
-    const LINKEDIN_API_KEY = Deno.env.get('LINKEDIN_API_KEY');
-    if (!LINKEDIN_API_KEY) {
-      throw new Error('LinkedIn API key not configured');
-    }
+    // Create random sample jobs for demonstration
+    const mockJobs = Array.from({ length: 5 }, (_, i) => {
+      const skills = searchParams.skills;
+      const title = `${skills[0]} Developer`;
+      const companies = ['חברת הייטק א׳', 'חברת הייטק ב׳', 'סטארטאפ ג׳', 'חברת פיתוח ד׳', 'חברת תוכנה ה׳'];
+      
+      // Construct Google search URL with dorks
+      const searchTerms = [
+        ...skills,
+        searchParams.location,
+        searchParams.jobType,
+        'משרה',
+        'דרושים'
+      ].filter(Boolean);
+      
+      // Add time filter based on timeRange
+      let timeFilter = '';
+      switch (searchParams.timeRange) {
+        case 'last-day':
+          timeFilter = '&tbs=qdr:d';
+          break;
+        case 'last-week':
+          timeFilter = '&tbs=qdr:w';
+          break;
+        case 'last-month':
+          timeFilter = '&tbs=qdr:m';
+          break;
+        default:
+          timeFilter = '';
+      }
 
-    // Construct LinkedIn API request
-    const baseUrl = 'https://api.linkedin.com/v2/jobs/search';
-    const skills = searchParams.skills.join(' OR ');
-    const location = searchParams.location;
-    
-    // Perform LinkedIn API request
-    const response = await fetch(`${baseUrl}?keywords=${encodeURIComponent(skills)}&location=${encodeURIComponent(location)}`, {
-      headers: {
-        'Authorization': `Bearer ${LINKEDIN_API_KEY}`,
-        'Accept': 'application/json',
-      },
+      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerms.join(' '))}${timeFilter}`;
+
+      return {
+        id: crypto.randomUUID(),
+        title,
+        company: companies[i],
+        location: searchParams.location || 'תל אביב',
+        description: `אנחנו מחפשים ${title} ${searchParams.jobType ? `ל${searchParams.jobType}` : 'למשרה מלאה'} ${searchParams.location ? `ב${searchParams.location}` : ''}`,
+        requirements: skills,
+        job_type: searchParams.jobType || 'משרה מלאה',
+        skills: skills,
+        match_score: Math.floor(Math.random() * 30) + 70,
+        source_url: googleSearchUrl
+      };
     });
 
-    if (!response.ok) {
-      throw new Error(`LinkedIn API error: ${response.statusText}`);
-    }
-
-    const linkedinJobs = await response.json();
-    console.log('LinkedIn API response:', linkedinJobs);
-
-    // Transform and store jobs in Supabase
+    // Store jobs in Supabase
     const { data: jobs, error } = await supabaseClient
       .from('jobs')
-      .upsert(linkedinJobs.elements.map((job: any) => ({
-        title: job.title,
-        company: job.company.name,
-        location: job.location,
-        description: job.description,
-        requirements: searchParams.skills,
-        job_type: searchParams.jobType,
-        linkedin_url: job.referenceUrl,
-        source_url: job.referenceUrl,
-        skills: searchParams.skills,
-        match_score: Math.floor(Math.random() * 30) + 70 // Temporary scoring logic
-      })))
+      .upsert(mockJobs)
       .select();
 
     if (error) {
