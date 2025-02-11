@@ -1,10 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Star, Briefcase, FileText, UserCheck, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEmblaCarousel from 'embla-carousel-react';
+import { navigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -83,6 +83,10 @@ const Index = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleServiceClick = (serviceId: string) => {
+    navigate(`/services?service=${serviceId}`);
   };
 
   return (
@@ -182,17 +186,18 @@ const Index = () => {
             <div className="flex gap-6">
               {services.map((service, i) => (
                 <div key={i} className="flex-[0_0_300px] min-w-0" style={{ marginInlineEnd: '1.5rem' }}>
-                  <Link to={service.href}>
-                    <Card className="h-full group hover:shadow-lg transition-all">
-                      <CardContent className="pt-6">
-                        <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                          <service.icon className="w-6 h-6 text-accent" />
-                        </div>
-                        <CardTitle className="mb-2">{service.title}</CardTitle>
-                        <CardDescription>{service.description}</CardDescription>
-                      </CardContent>
-                    </Card>
-                  </Link>
+                  <Card 
+                    className="h-full group hover:shadow-lg transition-all cursor-pointer"
+                    onClick={() => handleServiceClick(service.href.split('#')[1])}
+                  >
+                    <CardContent className="pt-6">
+                      <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                        <service.icon className="w-6 h-6 text-accent" />
+                      </div>
+                      <CardTitle className="mb-2">{service.title}</CardTitle>
+                      <CardDescription>{service.description}</CardDescription>
+                    </CardContent>
+                  </Card>
                 </div>
               ))}
             </div>
