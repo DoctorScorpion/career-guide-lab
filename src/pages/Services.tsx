@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { UserTypeDialog } from "@/components/nav/UserTypeDialog";
 
 const Services = () => {
   const { t, i18n } = useTranslation();
@@ -20,6 +21,7 @@ const Services = () => {
   const [searchParams] = useSearchParams();
   const selectedService = searchParams.get('service');
   const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [showUserTypeDialog, setShowUserTypeDialog] = useState(false);
 
   const services = [
     { key: 'careerCoaching', icon: Briefcase, id: 'career-coaching', title: t('services.values.careerCoaching.title') },
@@ -112,6 +114,10 @@ const Services = () => {
                         <Button 
                           className="w-full h-14 text-lg shadow-lg hover:shadow-xl transition-all" 
                           size="lg"
+                          onClick={() => {
+                            setOpenDialog(null);
+                            setShowUserTypeDialog(true);
+                          }}
                         >
                           {t('nav.getStarted')}
                           <ArrowRight className={`${isRTL ? 'mr-2 rotate-180' : 'ml-2'} w-5 h-5`} />
@@ -125,6 +131,11 @@ const Services = () => {
           </div>
         </div>
       </section>
+
+      <UserTypeDialog 
+        open={showUserTypeDialog}
+        onOpenChange={setShowUserTypeDialog}
+      />
     </div>
   );
 };
