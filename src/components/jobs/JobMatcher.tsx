@@ -22,6 +22,20 @@ export const JobMatcher = () => {
     timeRange: "last-month"
   });
 
+  const mapDbJobToJobMatch = (dbJob: any): JobMatch => ({
+    id: dbJob.id,
+    title: dbJob.title,
+    company: dbJob.company,
+    location: dbJob.location,
+    matchScore: dbJob.match_score || 0,
+    description: dbJob.description || "",
+    requirements: dbJob.requirements || [],
+    type: dbJob.job_type,
+    salary: dbJob.salary,
+    linkedinUrl: dbJob.linkedin_url,
+    googleSearchUrl: dbJob.source_url
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
@@ -53,7 +67,8 @@ export const JobMatcher = () => {
         if (error) throw error;
 
         // נמזג את התוצאות
-        const allJobs = [...(dbJobs || []), ...externalData.jobs];
+        const mappedDbJobs = (dbJobs || []).map(mapDbJobToJobMatch);
+        const allJobs = [...mappedDbJobs, ...externalData.jobs];
         const uniqueJobs = Array.from(new Map(allJobs.map(job => [job.id, job])).values());
         setMatches(uniqueJobs);
 
@@ -63,7 +78,7 @@ export const JobMatcher = () => {
           duration: 3000
         });
       } else {
-        setMatches(dbJobs);
+        setMatches(dbJobs.map(mapDbJobToJobMatch));
         toast({
           title: "החיפוש הושלם",
           description: `נמצאו ${dbJobs.length} משרות מתאימות מהמאגר שלנו`,
