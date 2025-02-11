@@ -193,24 +193,20 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
         today.setDate(today.getDate() - 7);
         break;
       case 'last-month':
-        today.setDate(today.getDate() - 30);
-        break;
       default:
         today.setDate(today.getDate() - 30); // ברירת מחדל - חודש אחרון
+        break;
     }
-    return `after:${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   };
 
   // בניית שאילתת החיפוש המשופרת
-  const searchQuery = [
-    'site:linkedin.com/jobs',
-    'inurl:view',
-    ...searchParams.skills.map(skill => `"${skill}"`),
-    searchParams.location ? `"${searchParams.location}"` : '',
-    getDateFilter()
-  ].filter(Boolean).join(' ');
+  const searchQuery = `site:linkedin.com/jobs inurl:view ${searchParams.skills.map(skill => `"${skill}"`).join(' ')} ${searchParams.location ? `"${searchParams.location}"` : ''} after:${getDateFilter()}`;
 
-  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100`; // מבקש 100 תוצאות
+  console.log('Building search query:', searchQuery);
+
+  // הוספת פרמטרים נוספים לחיפוש
+  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
   
   try {
     console.log('Searching Google with URL:', searchUrl);
@@ -224,26 +220,39 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
       return [];
     }
 
-    // שיפור איסוף הקישורים עם יותר סלקטורים
-    const jobUrls = Array.from(doc.querySelectorAll('a'))
-      .map(a => {
-        const href = a.getAttribute('href');
-        if (!href) return null;
-        
-        // ניקוי ה-URL והוצאת הקישור הנקי
-        const match = href.match(/https:\/\/[^\/]*linkedin\.com\/jobs\/view\/[^&]*/);
-        return match ? match[0] : null;
-      })
-      .filter((url): url is string => {
-        if (!url) return false;
-        // וידוא שזה אכן קישור למשרה בלינקדאין
-        return url.includes('linkedin.com/jobs/view/');
-      });
+    // שיפור איסוף הקישורים
+    const jobUrls: string[] = [];
+    const links = doc.querySelectorAll('a');
+    
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // בדיקה אם זה קישור של גוגל שמוביל ללינקדאין
+      if (href.startsWith('/url?q=')) {
+        const cleanUrl = href.split('/url?q=')[1]?.split('&')[0];
+        if (cleanUrl?.includes('linkedin.com/jobs/view/')) {
+          try {
+            // שימוש ב-URL API לניקוי הקישור
+            const url = new URL(decodeURIComponent(cleanUrl));
+            if (url.hostname.endsWith('linkedin.com')) {
+              jobUrls.push(url.toString());
+            }
+          } catch (e) {
+            console.error('Error parsing URL:', cleanUrl, e);
+          }
+        }
+      }
+      // בדיקה אם זה קישור ישיר ללינקדאין
+      else if (href.includes('linkedin.com/jobs/view/')) {
+        jobUrls.push(href);
+      }
+    });
 
     // הסרת כפילויות
     const uniqueJobUrls = Array.from(new Set(jobUrls));
     
-    console.log(`Found ${uniqueJobUrls.length} unique job URLs`);
+    console.log(`Found ${uniqueJobUrls.length} unique job URLs:`, uniqueJobUrls);
     return uniqueJobUrls;
   } catch (error) {
     console.error('Error searching jobs:', error);
