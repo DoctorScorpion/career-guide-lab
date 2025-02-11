@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
@@ -90,10 +91,10 @@ const Services = () => {
                   </div>
                   <div className="p-8">
                     <DialogHeader>
-                      <DialogTitle className="text-3xl font-display mb-4 font-medium">
+                      <DialogTitle className={`text-3xl font-display mb-4 font-medium w-full ${isRTL ? 'text-right' : 'text-left'}`}>
                         {t(`services.items.${service.key}.title`)}
                       </DialogTitle>
-                      <p className="text-lg text-muted-foreground leading-relaxed">
+                      <p className={`text-lg text-muted-foreground leading-relaxed w-full ${isRTL ? 'text-right' : 'text-left'}`}>
                         {t(`services.items.${service.key}.description`)}
                       </p>
                     </DialogHeader>
