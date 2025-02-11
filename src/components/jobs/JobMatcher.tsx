@@ -36,24 +36,39 @@ export const JobMatcher = () => {
     googleSearchUrl: dbJob.source_url
   });
 
+  const buildSearchQuery = (profile: ProfileFormData): string => {
+    const searchTerms = [
+      ...profile.skills.split(',').map(s => s.trim()),
+      profile.location,
+      profile.jobType,
+      ...profile.preferences.split(',').map(p => p.trim()),
+      ...profile.experience.split(',').map(e => e.trim())
+    ].filter(Boolean);
+
+    return searchTerms
+      .map(term => term.replace(/[&|!:()]/g, ' '))  // ניקוי תווים מיוחדים
+      .join(' & ');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
     
     try {
-      // קודם כל נחפש בדאטהבייס עם full-text search
-      const searchQuery = profile.skills.split(',').join(' ') + ' ' + profile.location;
+      const searchQuery = buildSearchQuery(profile);
       
       const { data: dbJobs, error: dbError } = await supabase
         .from('jobs')
         .select('*')
-        .textSearch('fts', `'${searchQuery}'`)
+        .textSearch('fts', searchQuery, {
+          type: 'websearch',
+          config: 'simple'
+        })
         .order('match_score', { ascending: false })
         .limit(15);
 
       if (dbError) throw dbError;
 
-      // אם לא מצאנו מספיק תוצאות, נחפש גם בלינקדאין
       if (!dbJobs || dbJobs.length < 5) {
         const { data: externalData, error } = await supabase.functions.invoke('search-jobs', {
           body: {
@@ -66,7 +81,6 @@ export const JobMatcher = () => {
 
         if (error) throw error;
 
-        // נמזג את התוצאות
         const mappedDbJobs = (dbJobs || []).map(mapDbJobToJobMatch);
         const allJobs = [...mappedDbJobs, ...externalData.jobs];
         const uniqueJobs = Array.from(new Map(allJobs.map(job => [job.id, job])).values());

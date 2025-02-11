@@ -26,9 +26,9 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
   const [expandedJobId, setExpandedJobId] = useState<string | null>(null);
 
   const getMatchColor = (score: number) => {
-    if (score >= 90) return "bg-[#9b87f5]";
-    if (score >= 80) return "bg-[#a5d6a7]";
-    return "bg-[#ffb74d]";
+    if (score >= 90) return "bg-gradient-to-r from-[#8B5CF6] to-[#6366F1]";
+    if (score >= 80) return "bg-gradient-to-r from-[#10B981] to-[#059669]";
+    return "bg-gradient-to-r from-[#F59E0B] to-[#D97706]";
   };
 
   if (isAnalyzing) {
@@ -54,16 +54,16 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 bg-gradient-to-r from-[#F2FCE2] to-white border-accent/20">
+      <Card className="p-6 bg-gradient-to-r from-[#F2FCE2]/50 to-white border-accent/20">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <CardTitle className="text-lg">נמצאו {matches.length} משרות מתאימות</CardTitle>
-            <CardDescription>לחץ על משרה כדי לראות פרטים נוספים</CardDescription>
+            <CardDescription>המשרות מדורגות לפי התאמה אישית</CardDescription>
           </div>
           <Button 
             size="lg"
             onClick={() => window.open(matches[0].googleSearchUrl, '_blank')}
-            className="gap-2 bg-[#9b87f5] hover:bg-[#8b7ae5]"
+            className="gap-2 bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] hover:from-[#7C3AED] hover:to-[#4F46E5] transition-all duration-300"
           >
             <Search className="w-4 h-4" />
             חפש משרות נוספות
@@ -89,7 +89,7 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                     <div className="flex items-center gap-2">
                       <CardTitle className="text-xl">{job.title}</CardTitle>
                       {expandedJobId !== job.id ? (
-                        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                        <ChevronDown className="w-5 h-5 text-muted-foreground animate-bounce" />
                       ) : (
                         <ChevronUp className="w-5 h-5 text-muted-foreground" />
                       )}
@@ -105,16 +105,20 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                       </div>
                     </div>
                   </div>
-                  <div className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)}`}>
+                  <div 
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)} shadow-sm`}
+                  >
                     <Star className="w-4 h-4 mr-1" />
                     {job.matchScore}% התאמה
                   </div>
                 </div>
               </CardHeader>
 
-              <CardContent className={`space-y-4 transition-all duration-300 ${
-                expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
-              }`}>
+              <CardContent 
+                className={`space-y-4 transition-all duration-300 ${
+                  expandedJobId === job.id ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 overflow-hidden'
+                }`}
+              >
                 <p className="text-muted-foreground whitespace-pre-line">{job.description}</p>
                 
                 {job.requirements && job.requirements.length > 0 && (
@@ -125,7 +129,7 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                         <Badge 
                           key={i} 
                           variant="secondary"
-                          className="bg-accent/10 hover:bg-accent/20 text-accent-foreground"
+                          className="bg-accent/10 hover:bg-accent/20 text-accent-foreground transition-colors"
                         >
                           {req}
                         </Badge>
@@ -148,20 +152,22 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
                 </div>
               </CardContent>
 
-              <CardFooter className={`transition-all duration-300 ${
-                expandedJobId === job.id ? 'opacity-100 flex gap-4' : 'opacity-0 h-0 overflow-hidden'
-              }`}>
+              <CardFooter 
+                className={`transition-all duration-300 ${
+                  expandedJobId === job.id ? 'opacity-100 flex gap-4' : 'opacity-0 h-0 overflow-hidden'
+                }`}
+              >
                 {job.linkedinUrl && (
                   <Button 
                     variant="outline"
-                    className="flex-1 border-accent/20 hover:bg-accent/5"
+                    className="flex-1 border-accent/20 hover:bg-accent/5 transition-colors"
                     onClick={() => window.open(job.linkedinUrl, '_blank')}
                   >
                     צפה במשרה בלינקדאין
                   </Button>
                 )}
                 <Button 
-                  className="flex-1 bg-[#9b87f5] hover:bg-[#8b7ae5]"
+                  className="flex-1 bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] hover:from-[#7C3AED] hover:to-[#4F46E5] transition-all duration-300"
                   onClick={() => window.open(job.googleSearchUrl || job.linkedinUrl, '_blank')}
                 >
                   <Search className="w-4 h-4 mr-2" />

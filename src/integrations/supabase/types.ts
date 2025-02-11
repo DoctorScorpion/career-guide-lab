@@ -22,7 +22,6 @@ export type Database = {
           match_score: number | null
           requirements: string[] | null
           salary: string | null
-          search_text: string | null
           skills: string[] | null
           source_url: string | null
           title: string
@@ -39,7 +38,6 @@ export type Database = {
           match_score?: number | null
           requirements?: string[] | null
           salary?: string | null
-          search_text?: string | null
           skills?: string[] | null
           source_url?: string | null
           title: string
@@ -56,7 +54,6 @@ export type Database = {
           match_score?: number | null
           requirements?: string[] | null
           salary?: string | null
-          search_text?: string | null
           skills?: string[] | null
           source_url?: string | null
           title?: string
@@ -68,7 +65,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_match_score: {
+        Args: {
+          job_fts: unknown
+          search_query: string
+        }
+        Returns: number
+      }
+      generate_job_tsvector: {
+        Args: {
+          title: string
+          job_type: string
+          description: string
+          requirements: string[]
+          skills: string[]
+        }
+        Returns: unknown
+      }
     }
     Enums: {
       [_ in never]: never
