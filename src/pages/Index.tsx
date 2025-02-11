@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Globe, Heart, Star, Briefcase, X } from "lucide-react";
+import { ArrowRight, Heart, Star, Briefcase } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
+import { MainNav } from "@/components/MainNav";
 
 const Index = () => {
   const { t, i18n } = useTranslation();
@@ -72,41 +73,8 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen bg-background text-foreground ${isRTL ? 'font-heebo' : ''}`}>
-      {/* Nav */}
-      <nav className="fixed w-full bg-background/80 backdrop-blur-md z-50 border-b">
-        <div className="container flex items-center justify-between h-16">
-          <Link to="/" className="font-display text-xl">
-            Amit Bakshi
-          </Link>
-          <div className="flex items-center gap-6">
-            <button
-              onClick={toggleLanguage}
-              className="p-2 rounded-full hover:bg-accent/10 transition-colors"
-              aria-label="Toggle language"
-            >
-              <Globe className="w-5 h-5" />
-            </button>
-            <Link to="/blog" className="text-sm hover:text-accent transition-colors">
-              בלוג
-            </Link>
-            <Link to="/services" className="text-sm hover:text-accent transition-colors">
-              שירותים
-            </Link>
-            <Link to="/about" className="text-sm hover:text-accent transition-colors">
-              אודות
-            </Link>
-            <Link to="/contact" className="text-sm hover:text-accent transition-colors">
-              צור קשר
-            </Link>
-            <Button asChild>
-              <Link to="/contact" className="bg-accent hover:bg-accent/90">
-                בואו נתחיל
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </nav>
-
+      <MainNav />
+      
       {/* Hero Section */}
       <section className="pt-32 pb-16 bg-gradient-to-b from-accent/5 to-background">
         <div className="container">
