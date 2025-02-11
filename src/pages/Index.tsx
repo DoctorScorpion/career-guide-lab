@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, Star, Briefcase } from "lucide-react";
+import { ArrowRight, Heart, Star, Briefcase, FileText, UserCheck, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,7 +21,11 @@ import { MainNav } from "@/components/MainNav";
 const Index = () => {
   const { t, i18n } = useTranslation();
   const [isRTL, setIsRTL] = useState(i18n.language === 'he');
-  const [emblaRef] = useEmblaCarousel({ direction: isRTL ? 'rtl' : 'ltr' });
+  const [emblaRef] = useEmblaCarousel({ 
+    direction: isRTL ? 'rtl' : 'ltr',
+    align: 'start',
+    containScroll: 'trimSnaps'
+  });
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,6 +34,33 @@ const Index = () => {
     phone: '',
     message: ''
   });
+
+  const services = [
+    {
+      icon: Briefcase,
+      title: "אימון קריירה",
+      description: "ליווי אישי לפיתוח הקריירה שלך",
+      href: "/services#career-coaching"
+    },
+    {
+      icon: FileText,
+      title: "כתיבת קורות חיים",
+      description: "עיצוב וכתיבת קורות חיים מקצועיים",
+      href: "/services#resume-writing"
+    },
+    {
+      icon: UserCheck,
+      title: "מיתוג אישי",
+      description: "בניית נוכחות דיגיטלית חזקה",
+      href: "/services#personal-branding"
+    },
+    {
+      icon: Users,
+      title: "גיוס והשמה",
+      description: "מציאת המשרה המושלמת עבורך",
+      href: "/services#recruitment"
+    }
+  ];
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'he' ? 'en' : 'he';
@@ -159,7 +190,7 @@ const Index = () => {
       <section className="py-16 bg-accent/5">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl mb-4">מאמרים מובילים</h2>
+            <h2 className="font-display text-3xl">מאמרים מובילים</h2>
             <p className="text-muted-foreground">
               מדריכים וטיפים שיעזרו לך להתקדם בקריירה
             </p>
@@ -214,12 +245,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Services Carousel */}
+      <section className="py-16 bg-accent/5">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl">השירותים שלנו</h2>
+            <p className="text-muted-foreground mt-4">
+              מגוון שירותים מקצועיים לפיתוח הקריירה שלך
+            </p>
+          </div>
+          <div className="w-full overflow-hidden" ref={emblaRef}>
+            <div className="flex gap-6">
+              {services.map((service, i) => (
+                <div key={i} className="flex-[0_0_300px] min-w-0" style={{ marginInlineEnd: '1.5rem' }}>
+                  <Link to={service.href}>
+                    <Card className="h-full group hover:shadow-lg transition-all">
+                      <CardContent className="pt-6">
+                        <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                          <service.icon className="w-6 h-6 text-accent" />
+                        </div>
+                        <CardTitle className="mb-2">{service.title}</CardTitle>
+                        <CardDescription>{service.description}</CardDescription>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Values Section */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-16 animate-fade-up">
             <h2 className="font-display text-3xl">הערכים שלנו</h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+            <p className="text-muted-foreground">
               אנחנו מאמינים בליווי אישי, מקצועי וחדשני בתהליך פיתוח הקריירה
             </p>
           </div>
@@ -277,6 +339,67 @@ const Index = () => {
                 קרא עוד עלינו
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form */}
+      <section className="py-16 bg-accent/5">
+        <div className="container">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="font-display text-3xl mb-4">צור קשר</h2>
+              <p className="text-muted-foreground">
+                השאירו פרטים ונחזור אליכם בהקדם
+              </p>
+            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">שם מלא</Label>
+                    <Input
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">אימייל</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">טלפון</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">הודעה</Label>
+                    <Textarea
+                      id="message"
+                      required
+                      value={formData.message}
+                      onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? 'שולח...' : 'שלח'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
