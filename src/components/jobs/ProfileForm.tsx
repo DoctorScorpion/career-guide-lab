@@ -1,3 +1,4 @@
+
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -16,11 +17,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { ProfileFormData } from "./types";
+import { ProfileFormData, TimeRange } from "./types";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
-// רשימת הכישורים מלינankedאין
+// רשימת הכישורים מלינקדאין
 const linkedinSkills = [
   "JavaScript", "React", "Node.js", "Python", "Java", "C++", "SQL",
   "Product Management", "Project Management", "Marketing", "Sales",
@@ -32,7 +33,7 @@ const linkedinSkills = [
   "HR Management", "Recruitment", "Training & Development"
 ];
 
-// אזורים בישראל באנגלית כמו בלינankedאין
+// אזורים בישראל באנגלית כמו בלינקדאין
 const israelRegions = [
   "Northern Israel",
   "Haifa",
@@ -148,16 +149,16 @@ export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: Prof
             <Label>טווח זמן לחיפוש</Label>
             <Select
               value={profile.timeRange}
-              onValueChange={(value) => setProfile({ ...profile, timeRange: value })}
+              onValueChange={(value: TimeRange) => setProfile({ ...profile, timeRange: value })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="בחר טווח זמן" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="24h">24 שעות אחרונות</SelectItem>
-                <SelectItem value="week">שבוע אחרון</SelectItem>
+                <SelectItem value="all-time">כל הזמן</SelectItem>
                 <SelectItem value="last-month">חודש אחרון</SelectItem>
-                <SelectItem value="three-months">3 חודשים אחרונים</SelectItem>
+                <SelectItem value="last-week">שבוע אחרון</SelectItem>
+                <SelectItem value="last-day">24 שעות אחרונות</SelectItem>
               </SelectContent>
             </Select>
           </div>
