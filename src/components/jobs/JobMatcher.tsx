@@ -22,11 +22,11 @@ export const JobMatcher = () => {
 
   const buildGoogleDorkQuery = (profile: ProfileFormData) => {
     const skills = profile.skills.split(", ").join(" OR ");
-    const jobType = profile.jobType === "full-time" ? "משרה מלאה" : 
-                   profile.jobType === "part-time" ? "משרה חלקית" : "פרילנס";
+    const jobType = profile.jobType === "full-time" ? "full time" : 
+                   profile.jobType === "part-time" ? "part time" : "freelance";
     
-    // בניית ה-Google Dork query
-    const query = encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" after:${getLastMonthDate()}`);
+    // בניית ה-Google Dork query עם מיקום באנגלית
+    const query = encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getLastMonthDate()}`);
     return `https://www.google.com/search?q=${query}`;
   };
 
@@ -49,10 +49,10 @@ export const JobMatcher = () => {
           company: "Tech Company",
           location: profile.location,
           matchScore: 95,
-          description: `משרה ב${profile.location} הדורשת ידע ב${profile.skills}`,
+          description: `Position in ${profile.location} requiring ${profile.skills}`,
           requirements: profile.skills.split(", "),
           type: profile.jobType,
-          linkedinUrl: googleSearchUrl // מוסיף את ה-URL לחיפוש בגוגל
+          linkedinUrl: googleSearchUrl
         }
       ];
       

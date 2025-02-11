@@ -1,4 +1,3 @@
-
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,7 +20,7 @@ import { ProfileFormData } from "./types";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
-// רשימת הכישורים מלינקדאין
+// רשימת הכישורים מלינankedאין
 const linkedinSkills = [
   "JavaScript", "React", "Node.js", "Python", "Java", "C++", "SQL",
   "Product Management", "Project Management", "Marketing", "Sales",
@@ -33,16 +32,16 @@ const linkedinSkills = [
   "HR Management", "Recruitment", "Training & Development"
 ];
 
-// אזורים בישראל
+// אזורים בישראל באנגלית כמו בלינankedאין
 const israelRegions = [
-  "צפון",
-  "חיפה",
-  "שרון",
-  "מרכז",
-  "תל אביב",
-  "ירושלים",
-  "שפלה",
-  "דרום"
+  "Northern Israel",
+  "Haifa",
+  "Sharon",
+  "Central Israel",
+  "Tel Aviv",
+  "Jerusalem",
+  "Shephelah",
+  "Southern Israel"
 ];
 
 interface ProfileFormProps {
