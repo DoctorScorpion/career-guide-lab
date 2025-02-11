@@ -24,16 +24,18 @@ serve(async (req: Request) => {
     const searchParams: SearchParams = await req.json();
     console.log('Received search params:', searchParams);
 
-    console.log('Searching existing jobs in database...');
-    const searchQuery = searchParams.skills.join(' ') + ' ' + searchParams.location + ' ' + searchParams.jobType;
-    
+    // חיפוש משרות קיימות במסד הנתונים
     const { data: existingJobs, error: searchError } = await supabaseClient.rpc(
       'calculate_job_match_score',
       {
-        search_query: searchQuery,
+        job_description: "",  // ריק כי אנחנו מחפשים משרות קיימות
+        job_requirements: [],
+        job_skills: searchParams.skills,
         search_skills: searchParams.skills,
         search_location: searchParams.location,
-        search_type: searchParams.jobType
+        search_type: searchParams.jobType,
+        job_title: "",
+        search_query: searchParams.skills.join(' ')
       }
     ).select('*')
     .order('match_score', { ascending: false })
@@ -43,6 +45,7 @@ serve(async (req: Request) => {
       console.error('Error searching existing jobs:', searchError);
     }
 
+    // חיפוש משרות חדשות בלינקדאין
     const jobUrls = await searchLinkedInJobs(searchParams);
     console.log(`Found ${jobUrls.length} new job URLs`);
 
@@ -59,21 +62,25 @@ serve(async (req: Request) => {
         requirements: details.requirements,
         job_type: searchParams.jobType || 'משרה מלאה',
         skills: searchParams.skills,
-        match_score: await supabaseClient.rpc('calculate_job_match_score', {
-          search_query: searchQuery,
-          job_title: details.title,
-          job_description: details.description,
-          job_requirements: details.requirements,
-          job_skills: searchParams.skills,
-          search_skills: searchParams.skills,
-          search_location: searchParams.location,
-          search_type: searchParams.jobType
-        }),
+        match_score: 0,  // יעודכן בהמשך
         source_url: url,
         linkedin_url: url
       };
 
       try {
+        const matchScore = await supabaseClient.rpc('calculate_job_match_score', {
+          job_description: details.description,
+          job_requirements: details.requirements,
+          job_skills: searchParams.skills,
+          search_skills: searchParams.skills,
+          search_location: searchParams.location,
+          search_type: searchParams.jobType,
+          job_title: details.title,
+          search_query: searchParams.skills.join(' ')
+        });
+
+        job.match_score = matchScore;
+
         const { data: storedJob, error } = await supabaseClient
           .from('jobs')
           .upsert(job)

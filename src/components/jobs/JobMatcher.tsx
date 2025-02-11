@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 import { JobMatch, ProfileFormData } from "./types";
@@ -36,18 +36,17 @@ export const JobMatcher = () => {
     googleSearchUrl: dbJob.source_url
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const searchJobs = async (searchProfile: ProfileFormData) => {
     setIsAnalyzing(true);
     
     try {
-      console.log('Submitting search with profile:', profile);
+      console.log('Submitting search with profile:', searchProfile);
       const { data: externalData, error } = await supabase.functions.invoke('search-jobs', {
         body: {
-          skills: profile.skills.split(", "),
-          location: profile.location,
-          jobType: profile.jobType,
-          timeRange: profile.timeRange
+          skills: searchProfile.skills.split(", "),
+          location: searchProfile.location,
+          jobType: searchProfile.jobType,
+          timeRange: searchProfile.timeRange
         }
       });
 
@@ -63,11 +62,13 @@ export const JobMatcher = () => {
         setMatches([]);
       } else {
         setMatches(externalData.jobs);
-        toast({
-          title: "החיפוש הושלם",
-          description: `נמצאו ${externalData.jobs.length} משרות מתאימות`,
-          duration: 3000
-        });
+        if (!searchProfile.isInitialSearch) {  // רק אם זה לא החיפוש ההתחלתי
+          toast({
+            title: "החיפוש הושלם",
+            description: `נמצאו ${externalData.jobs.length} משרות מתאימות`,
+            duration: 3000
+          });
+        }
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -80,6 +81,16 @@ export const JobMatcher = () => {
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  // חיפוש התחלתי כשהדף נטען
+  useEffect(() => {
+    searchJobs({ ...profile, isInitialSearch: true });
+  }, []);  // רץ רק פעם אחת כשהקומפוננטה נטענת
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await searchJobs(profile);
   };
 
   return (
