@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Globe, Menu, X, ChevronDown, FileSearch } from "lucide-react";
@@ -25,32 +25,54 @@ export function MainNav() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
   const location = useLocation();
+  const navigate = useNavigate();
 
+  // Ensure proper RTL handling on mount and language change
   useEffect(() => {
-    if (location.hash === '#resume-analyzer') {
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = isRTL ? 'he' : 'en';
+    // Force re-render of RTL sensitive components
+    window.dispatchEvent(new Event('resize'));
+  }, [isRTL]);
+
+  const handleResumeAnalyzerClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // If we're not on the home page, navigate there first
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollToAnalyzer: true } });
+    } else {
+      const element = document.getElementById('resume-analyzer');
+      if (element) {
+        setIsOpen(false);
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  // Handle scroll to resume analyzer after navigation
+  useEffect(() => {
+    // Check if we have state indicating we should scroll
+    const state = location.state as { scrollToAnalyzer?: boolean } | null;
+    if (state?.scrollToAnalyzer) {
       const element = document.getElementById('resume-analyzer');
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Clear the state after scrolling
+          navigate(location.pathname, { replace: true, state: {} });
         }, 100);
       }
     }
-  }, [location.hash]);
-
-  const handleResumeAnalyzerClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById('resume-analyzer');
-    if (element) {
-      setIsOpen(false);
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  }, [location.state, navigate]);
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'he' ? 'en' : 'he';
-    i18n.changeLanguage(newLang);
-    document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLang;
+    i18n.changeLanguage(newLang).then(() => {
+      document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
+      document.documentElement.lang = newLang;
+      // Force re-render of RTL sensitive components
+      window.dispatchEvent(new Event('resize'));
+    });
   };
 
   // Auto-hide navbar on scroll down
