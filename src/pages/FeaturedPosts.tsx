@@ -1,0 +1,27 @@
+
+import { useEffect } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+
+const FeaturedPosts = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'he';
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
+      <Helmet>
+        <title>{t("nav.featuredPosts")} | {t("nav.brand")}</title>
+      </Helmet>
+      <div className="container pt-32">
+        <h1 className="text-4xl font-display font-bold mb-8">{t("nav.featuredPosts")}</h1>
+        {/* תוכן המאמרים המובילים יתווסף כאן */}
+      </div>
+    </div>
+  );
+};
+
+export default FeaturedPosts;

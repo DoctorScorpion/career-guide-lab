@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -87,7 +88,7 @@ export function MainNav() {
       title: "nav.blog",
       href: "/blog",
       subitems: [
-        { title: "nav.latestPosts", href: "/blog/latest" },
+        { title: "nav.featuredPosts", href: "/blog/featured" },
         { title: "nav.categories", href: "/blog/categories" }
       ]
     },

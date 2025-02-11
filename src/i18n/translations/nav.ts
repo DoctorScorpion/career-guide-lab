@@ -10,7 +10,7 @@ export const navTranslations = {
       getStarted: "בואו נתחיל",
       toggleLanguage: "החלף שפה",
       toggleMenu: "פתח תפריט",
-      latestPosts: "פוסטים אחרונים",
+      featuredPosts: "מאמרים מובילים",
       categories: "קטגוריות",
     }
   },
@@ -24,7 +24,7 @@ export const navTranslations = {
       getStarted: "Get Started",
       toggleLanguage: "Toggle Language",
       toggleMenu: "Toggle Menu",
-      latestPosts: "Latest Posts",
+      featuredPosts: "Featured Posts",
       categories: "Categories",
     }
   }
