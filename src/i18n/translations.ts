@@ -1,4 +1,3 @@
-
 export const translations = {
   he: {
     nav: {
@@ -52,14 +51,60 @@ export const translations = {
       },
     },
     about: {
-      title: "אודות עמית בקשי",
-      content: "עם ניסיון של למעלה מעשור בתחום משאבי אנוש ופיתוח קריירה, עמית בקשי עוזר לאנשי מקצוע לנווט את מסלול הקריירה שלהם ולארגונים לבנות צוותים חזקים יותר",
-      cta: "למידע נוסף עלינו",
+      title: "אודותינו",
+      story: {
+        title: "הסיפור שלנו",
+        content: "עמית בקשי פתרונות משאבי אנוש וקריירה נוסדה מתוך חזון להוביל שינוי משמעותי בעולם הגיוס וההשמה. אנו מאמינים שכל אדם ראוי לקריירה מספקת ומשמעותית.",
+      },
+      mission: {
+        title: "החזון שלנו",
+        content: "להוביל את תחום פיתוח הקריירה וההשמה בישראל, תוך יצירת התאמה מושלמת בין מועמדים למשרות, ולהעניק ערך אמיתי לכל הצדדים בתהליך.",
+      },
+      values: {
+        title: "הערכים שלנו",
+        items: {
+          innovation: "חדשנות וטכנולוגיה",
+          personal: "יחס אישי",
+          professional: "מקצועיות ומצוינות",
+        },
+      },
     },
-    footer: {
-      rights: "© 2024 עמית בקשי פתרונות משאבי אנוש וקריירה. כל הזכויות שמורות.",
-      privacy: "מדיניות פרטיות",
-      terms: "תנאי שימוש",
+    services: {
+      title: "השירותים שלנו",
+      intro: "אנו מציעים מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
+      careerCoaching: {
+        title: "ייעוץ קריירה",
+        description: "ליווי אישי לפיתוח קריירה, כולל אבחון תעסוקתי, הגדרת יעדים ובניית תכנית פעולה",
+      },
+      resumeWriting: {
+        title: "כתיבת קורות חיים",
+        description: "כתיבה מקצועית של קורות חיים והתאמתם לדרישות השוק והמשרה המבוקשת",
+      },
+      personalBranding: {
+        title: "מיתוג אישי",
+        description: "בניית נוכחות דיגיטלית חזקה ומיתוג אישי מקצועי",
+      },
+      recruitment: {
+        title: "גיוס חכם",
+        description: "פתרונות גיוס מתקדמים למעסיקים, כולל איתור, מיון וליווי תהליך הקליטה",
+      },
+    },
+    contact: {
+      title: "צור קשר",
+      subtitle: "נשמח לעמוד לרשותך",
+      form: {
+        name: "שם מלא",
+        email: "דואר אלקטרוני",
+        phone: "טלפון",
+        interests: "תחומי עניין",
+        message: "הודעה",
+        submit: "שליחה",
+        success: "ההודעה נשלחה בהצלחה",
+        error: "אירעה שגיאה בשליחת ההודעה",
+      },
+      address: "רחוב הברזל 3, תל אביב",
+      phone: "03-1234567",
+      email: "contact@amitbakshi.co.il",
     },
   },
   en: {
@@ -114,14 +159,60 @@ export const translations = {
       },
     },
     about: {
-      title: "About Amit Bakshi",
-      content: "With over a decade of experience in HR and career development, Amit Bakshi helps professionals navigate their career paths and organizations build stronger teams",
-      cta: "Learn More About Us",
+      title: "About Us",
+      story: {
+        title: "Our Story",
+        content: "Amit Bakshi HR & Career Solutions was founded with a vision to lead meaningful change in recruitment and placement. We believe everyone deserves a fulfilling and meaningful career.",
+      },
+      mission: {
+        title: "Our Mission",
+        content: "To lead the field of career development and placement in Israel, creating perfect matches between candidates and positions, and providing real value to all parties in the process.",
+      },
+      values: {
+        title: "Our Values",
+        items: {
+          innovation: "Innovation & Technology",
+          personal: "Personal Approach",
+          professional: "Professionalism & Excellence",
+        },
+      },
     },
-    footer: {
-      rights: "© 2024 Amit Bakshi HR & Career Solutions. All rights reserved.",
-      privacy: "Privacy Policy",
-      terms: "Terms of Service",
+    services: {
+      title: "Our Services",
+      intro: "We offer a range of professional solutions in recruitment and career development",
+      careerCoaching: {
+        title: "Career Coaching",
+        description: "Personal guidance for career development, including occupational assessment, goal setting, and action plan creation",
+      },
+      resumeWriting: {
+        title: "Resume Writing",
+        description: "Professional resume writing and adaptation to market and position requirements",
+      },
+      personalBranding: {
+        title: "Personal Branding",
+        description: "Building a strong digital presence and professional personal branding",
+      },
+      recruitment: {
+        title: "Smart Recruitment",
+        description: "Advanced recruitment solutions for employers, including sourcing, screening, and onboarding support",
+      },
+    },
+    contact: {
+      title: "Contact Us",
+      subtitle: "We're here to help",
+      form: {
+        name: "Full Name",
+        email: "Email",
+        phone: "Phone",
+        interests: "Areas of Interest",
+        message: "Message",
+        submit: "Send",
+        success: "Message sent successfully",
+        error: "Error sending message",
+      },
+      address: "3 HaBarzel St., Tel Aviv",
+      phone: "03-1234567",
+      email: "contact@amitbakshi.co.il",
     },
   },
 };
