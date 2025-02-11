@@ -22,4 +22,5 @@ export interface ProfileFormData {
   location: string;
   preferences: string;
   timeRange: TimeRange;
+  isInitialSearch?: boolean;  // הוספנו את המאפיין החדש כאופציונלי
 }
