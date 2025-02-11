@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -96,29 +95,21 @@ export function MainNav() {
       ]
     },
     { 
-      title: "nav.blog",
-      href: "/blog",
-      subitems: [
-        { title: "nav.mainBlog", href: "/blog" },
-        { title: "nav.allPosts", href: "/blog/all" },
-        { title: "nav.featuredPosts", href: "/blog/featured" },
-        { title: "nav.categories", href: "/blog/categories" }
-      ]
-    },
-    { 
       title: "nav.services",
       href: "/services",
       subitems: [
         { title: "services.items.careerCoaching.title", href: "/services?service=career-coaching" },
         { title: "services.items.resumeWriting.title", href: "/services?service=resume-writing" },
         { title: "services.items.personalBranding.title", href: "/services?service=personal-branding" },
+        { title: "services.items.careerTransition.title", href: "/services?service=career-transition" },
         { title: "services.items.recruitment.title", href: "/services?service=recruitment" },
         { title: "services.items.hrConsulting.title", href: "/services?service=hr-consulting" },
-        { title: "services.items.talentManagement.title", href: "/services?service=talent-management" }
+        { title: "services.items.talentManagement.title", href: "/services?service=talent-management" },
+        { title: "services.items.orgDevelopment.title", href: "/services?service=org-development" }
       ]
     },
     { title: "nav.about", href: "/about" },
-    { title: "nav.contact", href: "/contact" },
+    { title: "nav.contact", href: "/contact" }
   ];
 
   return (
@@ -157,10 +148,10 @@ export function MainNav() {
           <div className="flex items-center gap-4">
             <Button
               onClick={handleStartClick}
-              className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-primary/25 transition-all duration-300"
-              size="sm"
+              className="hidden md:inline-flex items-center gap-2 gradient-button"
+              size="lg"
             >
-              <Rocket className="w-4 h-4" />
+              <Rocket className="w-5 h-5" />
               {t("nav.getStarted")}
             </Button>
 

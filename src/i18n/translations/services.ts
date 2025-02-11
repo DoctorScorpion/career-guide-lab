@@ -1,4 +1,3 @@
-
 export const servicesTranslations = {
   he: {
     services: {
@@ -82,6 +81,23 @@ export const servicesTranslations = {
 
 אנו מלווים אותך בבניית המותג האישי שלך בצורה אסטרטגית ומקצועית.`
         },
+        careerTransition: {
+          title: "הסבה מקצועית",
+          description: "ליווי בתהליך שינוי קריירה והסבה מקצועית",
+          userType: "employee",
+          fullDescription: `הסבה מקצועית היא תהליך מעשי ותאורטי המאפשר לך לשלוט בקריירה שלך ולהתאים אותה לדרישות והopportunities שלך.
+
+הסבה מקצועית כוללת:
+• ניתוח ניסיון התעסוקתי
+• אבחון תגמול והטבות
+• פיתוח תוכנית סטודנטית
+• תכנון מסלולי קריירה
+• פיתוח תוכניות הכשרה והדרכה
+• ניהול ביצועים ומשוב
+• פיתוח מיומנויות ניהול
+
+הסבה מקצועית מומלצת עבור כל אדם שמחפש שינוי קריירה או שמעוניין ביצוע תהליך שינוי מקצועי.`
+        },
         recruitment: {
           title: "גיוס והשמה",
           description: "פתרונות גיוס והשמה מקיפים למעסיקים",
@@ -147,6 +163,23 @@ export const servicesTranslations = {
 • יצירת סביבת למידה והתפתחות
 
 אנו מתאימים את הפתרונות לצרכי הארגון ומטרותיו.`
+        },
+        orgDevelopment: {
+          title: "פיתוח ארגוני",
+          description: "ייעוץ אסטרטגי לפיתוח וצמיחה ארגונית",
+          userType: "employer",
+          fullDescription: `הפיתוח ארגוני הוא תהליך מעשי ותאורטי המאפשר לך לשלוט ברגל הארגון שלך ולהתאים אותו לדרישות והopportunities שלך.
+
+הפיתוח ארגוני כוללת:
+• ניתוח ניסיון התעסוקתי
+• אבחון תגמול והטבות
+• פיתוח תוכנית סטודנטית
+• תכנון מסלולי קריירה
+• פיתוח תוכניות הכשרה והדרכה
+• ניהול ביצועים ומשוב
+• פיתוח מיומנויות ניהול
+
+הפיתוח ארגוני מומלצת עבור כל אדם שמחפש שינוי קריירה או שמעוניין ביצוע תהליך שינוי מקצועי.`
         }
       }
     }
@@ -219,6 +252,22 @@ Key benefits:
 • Creating meaningful professional differentiation
 
 We guide you in building your personal brand strategically and professionally.`
+        },
+        careerTransition: {
+          title: "Career Transition",
+          description: "Professional guidance and support for career transitions",
+          fullDescription: `Career transition is a process that allows you to take control of your career and align it with your goals and opportunities.
+
+Career transition includes:
+• Analysis of work experience
+• Assessment of personal growth
+• Development of a student plan
+• Career planning
+• Development of training and development programs
+• Management of performance and feedback
+• Development of leadership skills
+
+Career transition is recommended for anyone looking to make a career change or pursue a career development process.`
         },
         recruitment: {
           title: "Recruitment & Placement",
