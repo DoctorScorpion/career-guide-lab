@@ -25,9 +25,7 @@ export const JobMatcher = () => {
     const jobType = profile.jobType === "full-time" ? "full time" : 
                    profile.jobType === "part-time" ? "part time" : "freelance";
     
-    // בניית ה-Google Dork query עם מיקום באנגלית
-    const query = encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getLastMonthDate()}`);
-    return `https://www.google.com/search?q=${query}`;
+    return encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getLastMonthDate()}`);
   };
 
   const getLastMonthDate = () => {
@@ -36,31 +34,61 @@ export const JobMatcher = () => {
     return date.toISOString().split('T')[0];
   };
 
+  const generateDummyMatches = (profile: ProfileFormData): JobMatch[] => {
+    const skills = profile.skills.split(", ");
+    const baseSearchUrl = `https://www.google.com/search?q=${buildGoogleDorkQuery(profile)}`;
+    
+    return [
+      {
+        id: "1",
+        title: `Senior ${skills[0]} Developer`,
+        company: "Tech Innovations Ltd",
+        location: profile.location,
+        matchScore: 95,
+        description: `We are seeking an experienced ${skills[0]} developer to join our growing team in ${profile.location}. The ideal candidate will have strong expertise in ${skills.slice(0, 3).join(", ")}.`,
+        requirements: skills,
+        type: profile.jobType,
+        salary: "₪35,000 - ₪45,000",
+        linkedinUrl: baseSearchUrl
+      },
+      {
+        id: "2",
+        title: `${skills[0]} Team Lead`,
+        company: "StartUp Nation Co",
+        location: profile.location,
+        matchScore: 88,
+        description: `Leading startup looking for a talented Team Lead with ${skills[0]} expertise. Position based in ${profile.location} with hybrid work options.`,
+        requirements: skills.slice(0, 4),
+        type: profile.jobType,
+        salary: "₪40,000 - ₪50,000",
+        linkedinUrl: baseSearchUrl
+      },
+      {
+        id: "3",
+        title: `${skills[0]} Solution Architect`,
+        company: "Enterprise Systems",
+        location: profile.location,
+        matchScore: 82,
+        description: `Join our enterprise solutions team as a Solution Architect specializing in ${skills[0]}. Work from our ${profile.location} office.`,
+        requirements: skills.slice(1, 5),
+        type: profile.jobType,
+        salary: "₪45,000 - ₪55,000",
+        linkedinUrl: baseSearchUrl
+      }
+    ];
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
     
     try {
-      const googleSearchUrl = buildGoogleDorkQuery(profile);
-      const dummyMatches: JobMatch[] = [
-        {
-          id: "1",
-          title: `${profile.skills.split(",")[0]} Developer`,
-          company: "Tech Company",
-          location: profile.location,
-          matchScore: 95,
-          description: `Position in ${profile.location} requiring ${profile.skills}`,
-          requirements: profile.skills.split(", "),
-          type: profile.jobType,
-          linkedinUrl: googleSearchUrl
-        }
-      ];
-      
+      const dummyMatches = generateDummyMatches(profile);
       setMatches(dummyMatches);
       
       toast({
         title: "החיפוש הושלם",
-        description: "נמצאו משרות מתאימות לפרופיל שלך",
+        description: `נמצאו ${dummyMatches.length} משרות מתאימות לפרופיל שלך`,
         duration: 3000
       });
     } catch (error) {

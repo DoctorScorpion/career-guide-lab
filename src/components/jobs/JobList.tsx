@@ -6,11 +6,14 @@ import {
   CardContent,
   CardTitle,
   CardDescription,
+  CardHeader,
+  CardFooter,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Building2, BriefcaseIcon, MapPin, TrendingUp, Star, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface JobListProps {
   isAnalyzing: boolean;
@@ -19,6 +22,7 @@ interface JobListProps {
 
 export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
   const { t } = useTranslation();
+  const [expandedJobId, setExpandedJobId] = useState<string | null>(null);
 
   const getMatchColor = (score: number) => {
     if (score >= 90) return "bg-green-500";
@@ -32,6 +36,7 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
         <div className="space-y-4 text-center">
           <CardTitle>{t("jobs.matcher.analyzing")}</CardTitle>
           <Progress value={45} className="w-full" />
+          <CardDescription>מחפש משרות מתאימות...</CardDescription>
         </div>
       </Card>
     );
@@ -49,59 +54,66 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
   return (
     <div className="space-y-6">
       {matches.map((job) => (
-        <Card key={job.id} className="group hover:shadow-lg transition-all">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-4 flex-1">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">{job.title}</h3>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Building2 className="w-4 h-4" />
-                      <span>{job.company}</span>
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span>{job.location}</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)}`}>
-                      <Star className="w-4 h-4 mr-1" />
-                      {job.matchScore}% התאמה
-                    </div>
-                  </div>
+        <Card 
+          key={job.id} 
+          className={`group transition-all duration-300 ${
+            expandedJobId === job.id ? 'shadow-lg ring-2 ring-primary/10' : 'hover:shadow-md'
+          }`}
+        >
+          <CardHeader className="cursor-pointer" onClick={() => setExpandedJobId(expandedJobId === job.id ? null : job.id)}>
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="text-xl mb-2">{job.title}</CardTitle>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Building2 className="w-4 h-4" />
+                  <span>{job.company}</span>
+                  <MapPin className="w-4 h-4 mr-2" />
+                  <span>{job.location}</span>
                 </div>
-
-                <p className="text-muted-foreground">{job.description}</p>
-                
-                <div className="flex flex-wrap gap-2">
-                  {job.requirements.map((req, i) => (
-                    <Badge key={i} variant="secondary">{req}</Badge>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <BriefcaseIcon className="w-4 h-4" />
-                    {job.type}
-                  </div>
-                  {job.salary && (
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="w-4 h-4" />
-                      {job.salary}
-                    </div>
-                  )}
-                </div>
-
-                <Button 
-                  className="mt-4"
-                  onClick={() => window.open(job.linkedinUrl, '_blank')}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  חפש משרות בגוגל
-                </Button>
+              </div>
+              <div className={`inline-flex items-center px-3 py-1 rounded-full text-white ${getMatchColor(job.matchScore)}`}>
+                <Star className="w-4 h-4 mr-1" />
+                {job.matchScore}% התאמה
               </div>
             </div>
+          </CardHeader>
+
+          <CardContent className={`space-y-4 transition-all duration-300 ${
+            expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
+          }`}>
+            <p className="text-muted-foreground">{job.description}</p>
+            
+            <div className="flex flex-wrap gap-2">
+              {job.requirements.map((req, i) => (
+                <Badge key={i} variant="secondary">{req}</Badge>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t pt-4">
+              <div className="flex items-center gap-1">
+                <BriefcaseIcon className="w-4 h-4" />
+                {job.type}
+              </div>
+              {job.salary && (
+                <div className="flex items-center gap-1">
+                  <TrendingUp className="w-4 h-4" />
+                  {job.salary}
+                </div>
+              )}
+            </div>
           </CardContent>
+
+          <CardFooter className={`transition-all duration-300 ${
+            expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
+          }`}>
+            <Button 
+              className="w-full"
+              onClick={() => window.open(job.linkedinUrl, '_blank')}
+            >
+              <Search className="w-4 h-4 mr-2" />
+              חפש בגוגל משרות דומות
+            </Button>
+          </CardFooter>
         </Card>
       ))}
     </div>
