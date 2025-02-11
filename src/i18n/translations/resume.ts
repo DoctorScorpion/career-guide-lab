@@ -4,6 +4,7 @@ export const resumeTranslations = {
     resume: {
       analyzer: {
         title: "ניתוח קורות חיים באמצעות AI",
+        description: "קבל משוב מיידי וטיפים לשיפור קורות החיים שלך",
         pasteText: "הדבק את קורות החיים שלך כאן",
         upload: "העלה קובץ",
         placeholder: "הדבק את תוכן קורות החיים כאן או העלה קובץ...",
@@ -34,6 +35,7 @@ export const resumeTranslations = {
     resume: {
       analyzer: {
         title: "AI Resume Analysis",
+        description: "Get instant feedback and tips to improve your resume",
         pasteText: "Paste your resume here",
         upload: "Upload File",
         placeholder: "Paste your resume content here or upload a file...",

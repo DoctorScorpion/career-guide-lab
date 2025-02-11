@@ -10,31 +10,22 @@ const About = () => {
 
   const teamMembers = [
     {
-      name: "עמית בקשי",
-      nameEn: "Amit Bakshi",
-      role: "מייסד ומנכ״ל",
-      roleEn: "Founder & CEO",
+      name: isRTL ? "עמית בקשי" : "Amit Bakshi",
+      role: isRTL ? "מייסד ומנכ״ל" : "Founder & CEO",
       image: "/placeholder.svg",
-      quote: "כל אדם ראוי לקריירה מספקת ומשמעותית",
-      quoteEn: "Everyone deserves a fulfilling and meaningful career",
+      quote: isRTL ? "כל אדם ראוי לקריירה מספקת ומשמעותית" : "Everyone deserves a fulfilling and meaningful career",
     },
     {
-      name: "שירה כהן",
-      nameEn: "Shira Cohen",
-      role: "מנהלת גיוס בכירה",
-      roleEn: "Senior Recruitment Manager",
+      name: isRTL ? "שירה כהן" : "Shira Cohen",
+      role: isRTL ? "מנהלת גיוס בכירה" : "Senior Recruitment Manager",
       image: "/placeholder.svg",
-      quote: "הצלחה היא מציאת ההתאמה המושלמת",
-      quoteEn: "Success is finding the perfect match",
+      quote: isRTL ? "הצלחה היא מציאת ההתאמה המושלמת" : "Success is finding the perfect match",
     },
     {
-      name: "דן לוי",
-      nameEn: "Dan Levy",
-      role: "יועץ קריירה ראשי",
-      roleEn: "Head Career Consultant",
+      name: isRTL ? "דן לוי" : "Dan Levy",
+      role: isRTL ? "יועץ קריירה ראשי" : "Head Career Consultant",
       image: "/placeholder.svg",
-      quote: "פיתוח קריירה הוא מסע של צמיחה",
-      quoteEn: "Career development is a journey of growth",
+      quote: isRTL ? "פיתוח קריירה הוא מסע של צמיחה" : "Career development is a journey of growth",
     },
   ];
 
@@ -61,10 +52,10 @@ const About = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="aspect-video w-full rounded-lg overflow-hidden bg-accent/5">
+              <div className="aspect-video w-full rounded-lg overflow-hidden">
                 <img
-                  src="/placeholder.svg"
-                  alt="Office"
+                  src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81"
+                  alt="Our Team"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -95,25 +86,25 @@ const About = () => {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-3xl text-center mb-12">
-            {i18n.language === 'he' ? 'הצוות שלנו' : 'Our Team'}
+            {t('about.team.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {teamMembers.map((member) => (
               <div key={member.name} className="text-center space-y-4">
                 <Avatar className="w-24 h-24 mx-auto">
-                  <AvatarImage src={member.image} alt={i18n.language === 'he' ? member.name : member.nameEn} />
+                  <AvatarImage src={member.image} alt={member.name} />
                   <AvatarFallback>{member.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>
                   <h3 className="font-display text-xl">
-                    {i18n.language === 'he' ? member.name : member.nameEn}
+                    {member.name}
                   </h3>
                   <p className="text-muted-foreground">
-                    {i18n.language === 'he' ? member.role : member.roleEn}
+                    {member.role}
                   </p>
                 </div>
                 <blockquote className="italic text-muted-foreground">
-                  "{i18n.language === 'he' ? member.quote : member.quoteEn}"
+                  "{member.quote}"
                 </blockquote>
               </div>
             ))}
