@@ -1,9 +1,9 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Briefcase, FileText, UserCheck, Users, ArrowRight, Check } from "lucide-react";
+import { Briefcase, FileText, UserCheck, Users, ArrowRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,8 +17,9 @@ import { Button } from "@/components/ui/button";
 const Services = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const selectedService = searchParams.get('service');
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
 
   const services = [
     { key: 'careerCoaching', icon: Briefcase, id: 'career-coaching' },
@@ -32,12 +33,7 @@ const Services = () => {
       const element = document.getElementById(selectedService);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const dialogTrigger = element.querySelector('button');
-        if (dialogTrigger) {
-          setTimeout(() => {
-            dialogTrigger.click();
-          }, 500);
-        }
+        setOpenDialog(selectedService);
       }
     }
   }, [selectedService]);
@@ -61,7 +57,7 @@ const Services = () => {
         <div className="container">
           <div className="grid md:grid-cols-2 gap-8">
             {services.map((service, index) => (
-              <Dialog key={service.key}>
+              <Dialog key={service.key} open={openDialog === service.id} onOpenChange={(open) => setOpenDialog(open ? service.id : null)}>
                 <DialogTrigger asChild>
                   <Card
                     id={service.id}
