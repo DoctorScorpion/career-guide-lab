@@ -2,24 +2,42 @@
 export const heroTranslations = {
   he: {
     hero: {
-      badge: "מובילים קריירות",
+      tag: "מובילים קריירות",
       title: "פתרונות גיוס והשמה מקצועיים",
-      subtitle: "פתח את הפוטנציאל המקצועי שלך עם הדרכה אישית ופתרונות משאבי אנוש מותאמים לצרכים שלך",
+      description: "פתח את הפוטנציאל המקצועי שלך עם הדרכה אישית ופתרונות משאבי אנוש מותאמים לצרכים שלך",
       cta: {
-        schedule: "קביעת פגישת ייעוץ",
+        contact: "קביעת פגישת ייעוץ",
         learnMore: "למידע נוסף",
       },
+      form: {
+        title: "השאירו פרטים",
+        name: "שם מלא",
+        email: "דואר אלקטרוני",
+        phone: "טלפון",
+        message: "הודעה",
+        sending: "שולח...",
+        submit: "שליחה"
+      }
     }
   },
   en: {
     hero: {
-      badge: "Transforming Careers",
+      tag: "Transforming Careers",
       title: "Expert Career Guidance & HR Solutions",
-      subtitle: "Unlock your professional potential with personalized career guidance and comprehensive HR solutions tailored to your needs",
+      description: "Unlock your professional potential with personalized career guidance and comprehensive HR solutions tailored to your needs",
       cta: {
-        schedule: "Schedule Consultation",
+        contact: "Schedule Consultation",
         learnMore: "Learn More",
       },
+      form: {
+        title: "Contact Us",
+        name: "Full Name",
+        email: "Email",
+        phone: "Phone",
+        message: "Message",
+        sending: "Sending...",
+        submit: "Submit"
+      }
     }
   }
 };

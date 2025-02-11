@@ -3,7 +3,7 @@ export const valuesTranslations = {
   he: {
     values: {
       title: "הערכים שלנו",
-      subtitle: "אנחנו מאמינים בגישה אישית ומקצועית לפיתוח קריירה",
+      description: "אנחנו מאמינים בגישה אישית ומקצועית לפיתוח קריירה",
       items: {
         personal: {
           title: "גישה אישית",
@@ -23,7 +23,7 @@ export const valuesTranslations = {
   en: {
     values: {
       title: "Our Values",
-      subtitle: "We believe in a personal and professional approach to career development",
+      description: "We believe in a personal and professional approach to career development",
       items: {
         personal: {
           title: "Personal Approach",
