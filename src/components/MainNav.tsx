@@ -1,7 +1,8 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Rocket } from "lucide-react";
+import { Menu, X, Rocket, Briefcase, Star } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -122,16 +123,24 @@ export function MainNav() {
 
   return (
     <>
-      <nav className={`fixed w-full bg-background/95 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
-        navVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}>
+      <nav className="fixed w-full z-50 navbar-glass transition-all duration-300">
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-6">
             <Link 
               to="/" 
-              className="font-display text-xl hover:text-accent transition-colors"
+              className="flex items-center gap-2 group"
+              aria-label="Amit Bakshi HR & Career Solutions"
             >
-              {t("nav.brand")}
+              <div className="relative w-8 h-8">
+                <div className="absolute inset-0 bg-primary/10 rounded-lg transform rotate-3 transition-transform group-hover:rotate-6" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Star className="w-5 h-5 text-primary" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="logo-text">Amit Bakshi</span>
+                <span className="text-xs text-muted-foreground">HR & Career Solutions</span>
+              </div>
             </Link>
 
             <DesktopNav
@@ -148,7 +157,7 @@ export function MainNav() {
           <div className="flex items-center gap-4">
             <Button
               onClick={handleStartClick}
-              className="hidden md:inline-flex items-center gap-2 bg-accent hover:bg-accent/90 shadow-lg hover:shadow-xl transition-all"
+              className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-primary/25 transition-all duration-300"
               size="sm"
             >
               <Rocket className="w-4 h-4" />
@@ -157,7 +166,11 @@ export function MainNav() {
 
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="md:hidden hover:bg-secondary/80"
+                >
                   {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                   <span className="sr-only">{t("nav.toggleMenu")}</span>
                 </Button>
@@ -185,4 +198,4 @@ export function MainNav() {
       />
     </>
   );
-};
+}
