@@ -33,7 +33,7 @@ serve(async (req: Request) => {
     // Create random sample jobs for demonstration
     const mockJobs = Array.from({ length: 15 }, (_, i) => {
       const skills = searchParams.skills;
-      const title = `${skills[0]} Developer`;
+      const title = `${skills[0]} Developer Position`;  // More generic title
       const companies = ['חברת הייטק א׳', 'חברת הייטק ב׳', 'סטארטאפ ג׳', 'חברת פיתוח ד׳', 'חברת תוכנה ה׳'];
       
       // Construct Google search URL with dorks to search only on LinkedIn
@@ -61,15 +61,19 @@ serve(async (req: Request) => {
           timeFilter = '';
       }
 
-      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerms.join(' '))}${timeFilter}`;
-      const linkedinJobUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerms.join(' '))}${timeFilter}&btnI`; // I'm feeling lucky to get direct LinkedIn job link
+      // Create direct LinkedIn search URL
+      const encodedSearch = encodeURIComponent(searchTerms.join(' '));
+      const googleSearchUrl = `https://www.google.com/search?q=${encodedSearch}${timeFilter}`;
+      
+      // Instead of using "I'm feeling lucky", create a more specific LinkedIn search URL
+      const linkedinJobUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodedSearch}&location=${encodeURIComponent(searchParams.location || 'Israel')}`;
 
       return {
         id: crypto.randomUUID(),
         title,
-        company: companies[i % companies.length], // Use modulo to cycle through company names
+        company: companies[i % companies.length],
         location: searchParams.location || 'תל אביב',
-        description: `אנחנו מחפשים ${title} ${searchParams.jobType ? `ל${searchParams.jobType}` : 'למשרה מלאה'} ${searchParams.location ? `ב${searchParams.location}` : ''}\nדרישות: ${skills.join(', ')}`,
+        description: `משרת ${title} ${searchParams.jobType ? `ב${searchParams.jobType}` : 'במשרה מלאה'} ${searchParams.location ? `ב${searchParams.location}` : ''}\nדרישות: ${skills.join(', ')}`,
         requirements: skills,
         job_type: searchParams.jobType || 'משרה מלאה',
         skills: skills,

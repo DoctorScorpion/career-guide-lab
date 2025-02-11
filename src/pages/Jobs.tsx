@@ -26,27 +26,29 @@ const Jobs = () => {
   ];
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-heebo' : ''}`}>
-      <section className="pt-24 pb-16 bg-gradient-to-b from-accent/5 to-background">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
-            <h1 className="font-display text-4xl font-medium">
-              {t('jobs.title')}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {t('jobs.description')}
-            </p>
-          </div>
+    <div className={`min-h-screen bg-gradient-to-b from-[#F2FCE2] to-white ${isRTL ? 'font-heebo' : ''}`}>
+      <section className="container max-w-6xl mx-auto pt-24 pb-12">
+        <div className="text-center space-y-6">
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-[#8B5CF6]">
+            {t('jobs.title')}
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {t('jobs.description')}
+          </p>
         </div>
       </section>
 
-      <section className="py-16 bg-secondary/30">
-        <div className="container">
+      <section className="container max-w-6xl mx-auto py-8">
+        <JobMatcher />
+      </section>
+
+      <section className="py-16 bg-white/50 backdrop-blur-sm mt-12">
+        <div className="container max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="group bg-background p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 animate-fade-up"
+                className="group glass p-8 rounded-2xl hover:shadow-lg transition-all duration-300 animate-fade-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -58,10 +60,6 @@ const Jobs = () => {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="py-16">
-        <JobMatcher />
       </section>
     </div>
   );
