@@ -37,6 +37,7 @@ const Services = () => {
             {services.map((service, index) => (
               <Card
                 key={service.key}
+                id={service.key.toLowerCase().replace('c', '-')}
                 className="group hover:shadow-lg transition-all animate-fade-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >

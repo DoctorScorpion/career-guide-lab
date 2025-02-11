@@ -25,7 +25,16 @@ const navItems: NavItem[] = [
       { title: "קטגוריות", href: "/blog/categories" }
     ]
   },
-  { title: "שירותים", href: "/services" },
+  { 
+    title: "שירותים", 
+    href: "/services",
+    subitems: [
+      { title: "אימון קריירה", href: "/services#career-coaching" },
+      { title: "כתיבת קורות חיים", href: "/services#resume-writing" },
+      { title: "מיתוג אישי", href: "/services#personal-branding" },
+      { title: "גיוס והשמה", href: "/services#recruitment" }
+    ]
+  },
   { title: "אודות", href: "/about" },
   { title: "צור קשר", href: "/contact" },
 ];
