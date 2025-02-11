@@ -27,16 +27,17 @@ export async function searchLinkedInJobs(searchParams: SearchParams): Promise<st
   // בניית שאילתת החיפוש המותאמת
   const skillsQuery = searchParams.skills.length > 0 
     ? searchParams.skills.map(skill => `"${skill}"`).join(' AND ')
-    : '"Cloud" + "Security"';  // ערכי ברירת מחדל המעודכנים
+    : '"Cloud" AND "Security"';  // ערכי ברירת מחדל המעודכנים
     
   const locationQuery = searchParams.location 
-    ? `AND "${searchParams.location}"` 
-    : 'AND "Central Israel"';  // ברירת מחדל למיקום
+    ? `"${searchParams.location}"` 
+    : '"Central Israel"';  // ברירת מחדל למיקום
     
   const dateFilter = getDateFilter();
   
-  // בניית השאילתה לפי הפורמט המבוקש
-  const searchQuery = `site:linkedin.com/jobs inurl:view ${skillsQuery} ${locationQuery} after:${dateFilter}`;
+  // בניית השאילתה לפי הפורמט המבוקש:
+  // site:linkedin.com/jobs inurl:view "Python" AND "SQL" AND "Central Israel" after:2024-03-01
+  const searchQuery = `site:linkedin.com/jobs inurl:view ${skillsQuery} AND ${locationQuery} after:${dateFilter}`;
   console.log('Building search query:', searchQuery);
 
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&num=100&filter=0`;
