@@ -55,26 +55,26 @@ export function MainNav() {
 
   const navItems: NavItem[] = [
     { 
-      title: "בלוג", 
+      title: t("nav.blog"),
       href: "/blog",
       subitems: [
-        { title: "פוסטים אחרונים", href: "/blog/latest" },
-        { title: "קטגוריות", href: "/blog/categories" }
+        { title: t("nav.latestPosts"), href: "/blog/latest" },
+        { title: t("nav.categories"), href: "/blog/categories" }
       ]
     },
     { 
-      title: "שירותים", 
+      title: t("nav.services"),
       href: "/services",
       subitems: [
-        { title: "אימון קריירה", href: "/services#career-coaching" },
-        { title: "כתיבת קורות חיים", href: "/services#resume-writing" },
-        { title: "מיתוג אישי", href: "/services#personal-branding" },
-        { title: "גיוס והשמה", href: "/services#recruitment" },
-        { title: "ניתוח קורות חיים AI", href: "/#resume-analyzer" }
+        { title: t("services.careerCoaching.title"), href: "/services#career-coaching" },
+        { title: t("services.resumeWriting.title"), href: "/services#resume-writing" },
+        { title: t("services.personalBranding.title"), href: "/services#personal-branding" },
+        { title: t("services.recruitment.title"), href: "/services#recruitment" },
+        { title: t("resume.analyzer.title"), href: "/#resume-analyzer" }
       ]
     },
-    { title: "אודות", href: "/about" },
-    { title: "צור קשר", href: "/contact" },
+    { title: t("nav.about"), href: "/about" },
+    { title: t("nav.contact"), href: "/contact" },
   ];
 
   return (
@@ -83,17 +83,18 @@ export function MainNav() {
     }`}>
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="font-display text-xl">
-          Amit Bakshi
+          {t("nav.brand")}
         </Link>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <button
             className="p-2 rounded-full hover:bg-accent/10 transition-colors"
-            aria-label="Toggle language"
+            aria-label={t("nav.toggleLanguage")}
             onClick={toggleLanguage}
           >
             <Globe className="w-5 h-5" />
+            <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
           </button>
           {navItems.map((item) => (
             item.subitems ? (
@@ -142,7 +143,7 @@ export function MainNav() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                <span className="sr-only">פתח תפריט</span>
+                <span className="sr-only">{t("nav.toggleMenu")}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side={isRTL ? "right" : "left"} className="w-[300px] sm:w-[400px]">
