@@ -144,6 +144,24 @@ export const ProfileForm = ({ profile, setProfile, onSubmit, isAnalyzing }: Prof
             />
           </div>
 
+          <div className="space-y-2">
+            <Label>טווח זמן לחיפוש</Label>
+            <Select
+              value={profile.timeRange}
+              onValueChange={(value) => setProfile({ ...profile, timeRange: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="בחר טווח זמן" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="24h">24 שעות אחרונות</SelectItem>
+                <SelectItem value="week">שבוע אחרון</SelectItem>
+                <SelectItem value="last-month">חודש אחרון</SelectItem>
+                <SelectItem value="three-months">3 חודשים אחרונים</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <Button type="submit" className="w-full" disabled={isAnalyzing}>
             {isAnalyzing ? t("jobs.matcher.analyzing") : t("jobs.matcher.analyze")}
           </Button>

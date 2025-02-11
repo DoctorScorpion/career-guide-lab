@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
@@ -17,21 +16,37 @@ export const JobMatcher = () => {
     experience: "",
     jobType: "",
     location: "",
-    preferences: ""
+    preferences: "",
+    timeRange: "last-month" // ברירת מחדל
   });
+
+  const getDateByRange = (range: string) => {
+    const date = new Date();
+    switch (range) {
+      case "24h":
+        date.setDate(date.getDate() - 1);
+        break;
+      case "week":
+        date.setDate(date.getDate() - 7);
+        break;
+      case "last-month":
+        date.setMonth(date.getMonth() - 1);
+        break;
+      case "three-months":
+        date.setMonth(date.getMonth() - 3);
+        break;
+      default:
+        date.setMonth(date.getMonth() - 1);
+    }
+    return date.toISOString().split('T')[0];
+  };
 
   const buildGoogleDorkQuery = (profile: ProfileFormData) => {
     const skills = profile.skills.split(", ").join(" OR ");
     const jobType = profile.jobType === "full-time" ? "full time" : 
                    profile.jobType === "part-time" ? "part time" : "freelance";
     
-    return encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getLastMonthDate()}`);
-  };
-
-  const getLastMonthDate = () => {
-    const date = new Date();
-    date.setMonth(date.getMonth() - 1);
-    return date.toISOString().split('T')[0];
+    return encodeURIComponent(`site:linkedin.com/jobs (${skills}) "${profile.location}" "${jobType}" "Israel" after:${getDateByRange(profile.timeRange)}`);
   };
 
   const generateDummyMatches = (profile: ProfileFormData): JobMatch[] => {
@@ -49,7 +64,8 @@ export const JobMatcher = () => {
         requirements: skills,
         type: profile.jobType,
         salary: "₪35,000 - ₪45,000",
-        linkedinUrl: baseSearchUrl
+        linkedinUrl: "https://www.linkedin.com/jobs/view/123456",
+        googleSearchUrl: baseSearchUrl
       },
       {
         id: "2",
@@ -61,7 +77,8 @@ export const JobMatcher = () => {
         requirements: skills.slice(0, 4),
         type: profile.jobType,
         salary: "₪40,000 - ₪50,000",
-        linkedinUrl: baseSearchUrl
+        linkedinUrl: "https://www.linkedin.com/jobs/view/654321",
+        googleSearchUrl: baseSearchUrl
       },
       {
         id: "3",
@@ -73,7 +90,8 @@ export const JobMatcher = () => {
         requirements: skills.slice(1, 5),
         type: profile.jobType,
         salary: "₪45,000 - ₪55,000",
-        linkedinUrl: baseSearchUrl
+        linkedinUrl: "https://www.linkedin.com/jobs/view/987654",
+        googleSearchUrl: baseSearchUrl
       }
     ];
   };

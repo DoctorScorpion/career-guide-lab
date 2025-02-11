@@ -104,14 +104,23 @@ export const JobList = ({ isAnalyzing, matches }: JobListProps) => {
           </CardContent>
 
           <CardFooter className={`transition-all duration-300 ${
-            expandedJobId === job.id ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'
+            expandedJobId === job.id ? 'opacity-100 flex gap-4' : 'opacity-0 h-0 overflow-hidden'
           }`}>
+            {job.linkedinUrl && (
+              <Button 
+                variant="outline"
+                className="flex-1"
+                onClick={() => window.open(job.linkedinUrl, '_blank')}
+              >
+                צפה במשרה בלינקדאין
+              </Button>
+            )}
             <Button 
-              className="w-full"
-              onClick={() => window.open(job.linkedinUrl, '_blank')}
+              className="flex-1"
+              onClick={() => window.open(job.googleSearchUrl, '_blank')}
             >
               <Search className="w-4 h-4 mr-2" />
-              חפש בגוגל משרות דומות
+              חפש משרות דומות
             </Button>
           </CardFooter>
         </Card>
