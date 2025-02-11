@@ -12,26 +12,26 @@ import { Button } from "@/components/ui/button";
 import { Users, Building2 } from "lucide-react";
 
 interface UserTypeDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export const UserTypeDialog = ({ isOpen, onClose }: UserTypeDialogProps) => {
+export const UserTypeDialog = ({ open, onOpenChange }: UserTypeDialogProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleEmployerClick = () => {
     navigate('/services?type=employer');
-    onClose();
+    onOpenChange(false);
   };
 
   const handleEmployeeClick = () => {
     navigate('/services?type=employee');
-    onClose();
+    onOpenChange(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{t("dialog.userType.title", "איזה סוג משתמש אתה?")}</DialogTitle>
