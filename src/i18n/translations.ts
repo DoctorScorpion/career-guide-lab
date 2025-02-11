@@ -1,4 +1,3 @@
-
 export const translations = {
   he: {
     nav: {
@@ -8,7 +7,7 @@ export const translations = {
     },
     hero: {
       badge: "מובילים קריירות",
-      title: "פתרונות גיוס והשמה מקצועיים",
+      title: "פתרונות גיוס והשמה מקצ��עיים",
       subtitle: "פתח את הפוטנציאל המקצועי שלך עם הדרכה אישית ופתרונות משאבי אנוש מותאמים לצרכים שלך",
       cta: {
         schedule: "קביעת פגישת ייעוץ",
@@ -19,36 +18,49 @@ export const translations = {
       title: "השירותים שלנו",
       subtitle: "פתרונות פיתוח קריירה ומשאבי אנוש מקיפים שנועדו לעזור לך להצליח",
       intro: "אנו מציעים מגוון פתרונות מקצועיים בתחום הגיוס ופיתוח הקריירה",
-      items: {
-        coaching: {
-          title: "אימון קריירה",
-          description: "הדרכה אישית שתעזור לך לנווט את מסלול הקריירה שלך ולהשיג את היעדים המקצועיים שלך",
-        },
-        resume: {
-          title: "כתיבת קורות חיים",
-          description: "שירותי כתיבת קורות חיים מקצועיים להדגשת הכישורים והניסיון שלך באופן אפקטיבי",
-        },
-        consulting: {
-          title: "ייעוץ משאבי אנוש",
-          description: "פתרונות משאבי אנוש מקיפים לארגונים המעוניינים לייעל את כוח העבודה שלהם",
-        },
-      },
       careerCoaching: {
-        title: "ייעוץ קריירה",
-        description: "ליווי אישי לפיתוח קריירה, כולל אבחון תעסוקתי, הגדרת יעדים ובניית תכנית פעולה",
+        title: "ייעוץ וליווי קריירה",
+        description: "ליווי אישי לפיתוח קריירה, כולל הכוונה מקצועית וייעוץ מומחה בניווט הקריירה שלך",
+        fullDescription: `אנו מספקים שירותי ייעוץ קריירה מקצועיים ומותאמים אישית למחפשי עבודה בכל השלבים והרמות. השירות כולל:
+        • הערכת מסלול קריירה נוכחי וזיהוי הזדמנויות חדשות
+        • פיתוח אסטרטגיות לקידום מקצועי
+        • הכנה לראיונות עבודה
+        • בניית תכנית פעולה אישית להשגת יעדי קריירה
+        • ליווי מתמשך לאורך תהליך חיפוש העבודה`
       },
       resumeWriting: {
         title: "כתיבת קורות חיים",
-        description: "כתיבה מקצועית של קורות חיים והתאמתם לדרישות השוק והמשרה המבוקשת",
+        description: "שירותי כתיבת קורות חיים ברמה הגבוהה ביותר, המותאמים למחפשי עבודה בכל השלבים והתחומים",
+        fullDescription: `שירות כתיבת קורות חיים מקצועי הכולל:
+        • ניתוח וכתיבה מחדש של קורות החיים
+        • התאמה לדרישות השוק הנוכחיות
+        • הדגשת הישגים וכישורים מרכזיים
+        • אופטימיזציה למערכות ATS
+        • עיצוב מודרני ומושך עין
+        • גרסאות בעברית ובאנגלית`
       },
       personalBranding: {
-        title: "מיתוג אישי",
-        description: "בניית נוכחות דיגיטלית חזקה ומיתוג אישי מקצועי",
+        title: "מיתוג אישי ומקצועי",
+        description: "שימוש במומחיות במיתוג עובדים ומעסיקים וכישורי איתור טאלנטים לסיוע בהשגת המטרות הרצויות",
+        fullDescription: `שירותי מיתוג אישי ומקצועי הכוללים:
+        • בניית נוכחות דיגיטלית חזקה
+        • אופטימיזציה של פרופיל LinkedIn
+        • פיתוח אסטרטגיית תוכן אישית
+        • יצירת סיפור מותג אישי
+        • ייעוץ לבניית רשת קשרים מקצועית
+        • אסטרטגיות לבידול מקצועי בשוק`
       },
       recruitment: {
-        title: "גיוס חכם",
-        description: "פתרונות גיוס מתקדמים למעסיקים, כולל איתור, מיון וליווי תהליך הקליטה",
-      },
+        title: "גיוס והשמה",
+        description: "סיוע למעסיקים בגיוס והשמה במגוון תחומים, עזרה במשיכת מועמדים איכותיים ואופטימיזציה של תהליך הגיוס",
+        fullDescription: `שירותי גיוס והשמה מקיפים למעסיקים הכוללים:
+        • בניית תהליכי גיוס אפקטיביים מאפס
+        • אופטימיזציה של תהליכי גיוס קיימים
+        • איתור וגיוס מועמדים איכותיים
+        • י��עוץ בבניית מותג מעסיק
+        • פיתוח אסטרטגיות למשיכת טאלנטים
+        • ליווי בתהליך המיון וההשמה`
+      }
     },
     values: {
       title: "הערכים שלנו",
@@ -124,36 +136,49 @@ export const translations = {
       title: "Our Services",
       subtitle: "Comprehensive career development and HR solutions designed to help you succeed",
       intro: "We offer a range of professional solutions in recruitment and career development",
-      items: {
-        coaching: {
-          title: "Career Coaching",
-          description: "Personalized guidance to help you navigate your career path and achieve your professional goals",
-        },
-        resume: {
-          title: "Resume Building",
-          description: "Expert resume crafting services to highlight your skills and experience effectively",
-        },
-        consulting: {
-          title: "HR Consulting",
-          description: "Comprehensive HR solutions for organizations looking to optimize their workforce",
-        },
-      },
       careerCoaching: {
         title: "Career Coaching",
-        description: "Personal guidance for career development, including occupational assessment, goal setting, and action plan creation",
+        description: "Professional career guidance and expert advice in career navigation",
+        fullDescription: `We provide professional and personalized career counseling services for job seekers at all levels and stages. The service includes:
+        • Assessment of current career path and identification of new opportunities
+        • Professional advancement strategies
+        • Interview preparation
+        • Personal action plan development
+        • Ongoing support throughout the job search process`
       },
       resumeWriting: {
         title: "Resume Writing",
-        description: "Professional resume writing and adaptation to market and position requirements",
+        description: "Top-notch resume writing services for job seekers of all kinds and career phases",
+        fullDescription: `Professional resume writing service including:
+        • Resume analysis and rewriting
+        • Adaptation to current market requirements
+        • Highlighting key achievements and skills
+        • ATS optimization
+        • Modern and eye-catching design
+        • Hebrew and English versions`
       },
       personalBranding: {
-        title: "Personal Branding",
-        description: "Building a strong digital presence and professional personal branding",
+        title: "Personal & Professional Branding",
+        description: "Utilizing employee & employer branding expertise and talent-hunting skills",
+        fullDescription: `Personal and professional branding services including:
+        • Building a strong digital presence
+        • LinkedIn profile optimization
+        • Personal content strategy development
+        • Personal brand story creation
+        • Professional networking consultation
+        • Market differentiation strategies`
       },
       recruitment: {
-        title: "Smart Recruitment",
-        description: "Advanced recruitment solutions for employers, including sourcing, screening, and onboarding support",
-      },
+        title: "Recruitment & Placement",
+        description: "Assisting employers in hiring and recruitment across various verticals",
+        fullDescription: `Comprehensive recruitment and placement services for employers including:
+        • Building effective recruitment processes from scratch
+        • Optimization of existing recruitment processes
+        • Quality candidate sourcing and recruitment
+        • Employer branding consultation
+        • Talent attraction strategies
+        • Selection and placement process guidance`
+      }
     },
     values: {
       title: "Our Values",
