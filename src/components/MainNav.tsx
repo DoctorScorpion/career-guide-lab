@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Globe, Menu, X, ChevronDown } from "lucide-react";
+import { Globe, Menu, X, ChevronDown, FileSearch } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -88,6 +88,19 @@ export function MainNav() {
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
+          {/* Resume Analyzer Quick Access Button */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center gap-2"
+            asChild
+          >
+            <Link to="/#resume-analyzer">
+              <FileSearch className="w-4 h-4" />
+              <span>{t("resume.analyzer.title")}</span>
+            </Link>
+          </Button>
+
           <button
             className="p-2 rounded-full hover:bg-accent/10 transition-colors"
             aria-label={t("nav.toggleLanguage")}
@@ -96,6 +109,7 @@ export function MainNav() {
             <Globe className="w-5 h-5" />
             <span className="ml-2 text-sm">{isRTL ? 'EN' : 'עב'}</span>
           </button>
+
           {navItems.map((item) => (
             item.subitems ? (
               <Collapsible
@@ -130,6 +144,7 @@ export function MainNav() {
               </Link>
             )
           ))}
+          
           <Button asChild>
             <Link to="/contact" className="bg-accent hover:bg-accent/90">
               {t("nav.getStarted")}
@@ -148,6 +163,21 @@ export function MainNav() {
             </SheetTrigger>
             <SheetContent side={isRTL ? "right" : "left"} className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6 mt-6">
+                {/* Resume Analyzer Quick Access Button - Mobile */}
+                <Button 
+                  variant="ghost" 
+                  className="flex items-center gap-2 justify-start"
+                  asChild
+                >
+                  <Link 
+                    to="/#resume-analyzer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <FileSearch className="w-5 h-5" />
+                    <span>{t("resume.analyzer.title")}</span>
+                  </Link>
+                </Button>
+
                 <button
                   className="flex items-center gap-2 text-sm hover:text-accent transition-colors"
                   onClick={toggleLanguage}
@@ -155,6 +185,7 @@ export function MainNav() {
                   <Globe className="w-5 h-5" />
                   <span>{isRTL ? 'English' : 'עברית'}</span>
                 </button>
+
                 {navItems.map((item) => (
                   item.subitems ? (
                     <Collapsible
@@ -190,6 +221,7 @@ export function MainNav() {
                     </Link>
                   )
                 ))}
+                
                 <Button asChild className="mt-4">
                   <Link 
                     to="/contact" 
