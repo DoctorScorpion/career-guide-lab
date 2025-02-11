@@ -131,6 +131,28 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
     };
 
     const title = findElement(selectors.title);
+    if (!title) {
+      // אם אין כותרת, כנראה שהדף נחסם
+      console.error('No title found, page might be blocked');
+      
+      // נחזיר מידע בסיסי מה-URL במקום לזרוק שגיאה
+      const urlParts = url.split('/');
+      const basicTitle = urlParts[urlParts.length - 1]
+        .replace(/-/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+        
+      return {
+        title: basicTitle,
+        company: "חברה לא ידועה",
+        location: "ישראל",
+        description: "מידע מפורט על המשרה זמין בלינקדאין. לחץ על הקישור למטה כדי לצפות במשרה המלאה.",
+        requirements: [],
+        url
+      };
+    }
+
     const company = findElement(selectors.company);
     const location = findElement(selectors.location);
     const description = findElement(selectors.description);
@@ -159,7 +181,15 @@ async function fetchJobDetails(url: string, supabaseClient: any): Promise<JobDet
     };
   } catch (error) {
     console.error('Error fetching job details:', error);
-    return null;
+    // במקרה של שגיאה, נחזיר מידע בסיסי במקום null
+    return {
+      title: "משרה בלינקדאין",
+      company: "חברה לא ידועה",
+      location: "ישראל",
+      description: "לצפייה בפרטי המשרה המלאים, אנא לחץ על הקישור למטה.",
+      requirements: [],
+      url
+    };
   }
 }
 
@@ -194,7 +224,11 @@ async function searchLinkedInJobs(searchParams: SearchParams): Promise<string[]>
     const jobUrls = Array.from(doc.querySelectorAll('a'))
       .map(a => a.getAttribute('href'))
       .filter(href => href?.includes('linkedin.com/jobs/view/'))
-      .map(href => href?.split('&')[0])
+      .map(href => {
+        const url = href?.split('&')[0];
+        // Remove Google redirect prefix if exists
+        return url?.startsWith('/url?q=') ? url.slice(7) : url;
+      })
       .filter(Boolean) as string[];
 
     console.log('Found job URLs:', jobUrls);
@@ -222,11 +256,23 @@ serve(async (req: Request) => {
     const jobUrls = await searchLinkedInJobs(searchParams);
     console.log(`Found ${jobUrls.length} job URLs`);
 
+    if (jobUrls.length === 0) {
+      return new Response(
+        JSON.stringify({ jobs: [] }),
+        { 
+          headers: { 
+            ...corsHeaders,
+            'Content-Type': 'application/json'
+          } 
+        }
+      );
+    }
+
     const jobPromises = jobUrls.slice(0, 15).map(async (url) => {
       const details = await fetchJobDetails(url, supabaseClient);
       if (!details) return null;
 
-      return {
+      const job = {
         id: crypto.randomUUID(),
         title: details.title,
         company: details.company,
@@ -239,19 +285,30 @@ serve(async (req: Request) => {
         source_url: url,
         linkedin_url: url
       };
+
+      try {
+        const { data: storedJob, error } = await supabaseClient
+          .from('jobs')
+          .upsert(job)
+          .select()
+          .single();
+
+        if (error) {
+          console.error('Error storing job:', error);
+          return job;
+        }
+
+        return storedJob;
+      } catch (error) {
+        console.error('Error in database operation:', error);
+        return job;
+      }
     });
 
     const jobs = (await Promise.all(jobPromises)).filter(Boolean);
 
-    const { data: storedJobs, error } = await supabaseClient
-      .from('jobs')
-      .upsert(jobs)
-      .select();
-
-    if (error) throw error;
-
     return new Response(
-      JSON.stringify({ jobs: storedJobs }),
+      JSON.stringify({ jobs }),
       { 
         headers: { 
           ...corsHeaders,
