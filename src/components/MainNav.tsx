@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -84,26 +85,26 @@ export function MainNav() {
 
   const navItems: NavItem[] = [
     { 
-      title: t("nav.blog"),
+      title: "nav.blog",
       href: "/blog",
       subitems: [
-        { title: t("nav.latestPosts"), href: "/blog/latest" },
-        { title: t("nav.categories"), href: "/blog/categories" }
+        { title: "nav.latestPosts", href: "/blog/latest" },
+        { title: "nav.categories", href: "/blog/categories" }
       ]
     },
     { 
-      title: t("nav.services"),
+      title: "nav.services",
       href: "/services",
       subitems: [
-        { title: t("services.careerCoaching.title"), href: "/services#career-coaching" },
-        { title: t("services.resumeWriting.title"), href: "/services#resume-writing" },
-        { title: t("services.personalBranding.title"), href: "/services#personal-branding" },
-        { title: t("services.recruitment.title"), href: "/services#recruitment" },
-        { title: t("resume.analyzer.title"), href: "/#resume-analyzer" }
+        { title: "services.careerCoaching.title", href: "/services#career-coaching" },
+        { title: "services.resumeWriting.title", href: "/services#resume-writing" },
+        { title: "services.personalBranding.title", href: "/services#personal-branding" },
+        { title: "services.recruitment.title", href: "/services#recruitment" },
+        { title: "resume.analyzer.title", href: "/#resume-analyzer" }
       ]
     },
-    { title: t("nav.about"), href: "/about" },
-    { title: t("nav.contact"), href: "/contact" },
+    { title: "nav.about", href: "/about" },
+    { title: "nav.contact", href: "/contact" },
   ];
 
   return (

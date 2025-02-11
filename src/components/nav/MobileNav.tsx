@@ -57,7 +57,7 @@ export const MobileNav = ({
                 onOpenChange={() => setOpenCollapsible(openCollapsible === item.href ? null : item.href)}
               >
                 <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-medium hover:text-accent transition-colors">
-                  {item.title}
+                  {t(item.title)}
                   <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pr-4 mt-2">
@@ -68,7 +68,7 @@ export const MobileNav = ({
                       className="block py-3 text-base hover:text-accent transition-colors"
                       onClick={() => handleNavItemClick(subitem.href)}
                     >
-                      {subitem.title}
+                      {t(subitem.title)}
                     </Link>
                   ))}
                 </CollapsibleContent>
@@ -80,7 +80,7 @@ export const MobileNav = ({
                 className="text-lg font-medium hover:text-accent transition-colors"
                 onClick={() => handleNavItemClick(item.href)}
               >
-                {item.title}
+                {t(item.title)}
               </Link>
             )
           ))}
