@@ -1,7 +1,8 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Briefcase } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -19,7 +20,6 @@ export function MainNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Ensure proper RTL handling on mount and language change
   useEffect(() => {
     document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
     document.documentElement.lang = i18n.language;
@@ -38,7 +38,6 @@ export function MainNav() {
     }
   };
 
-  // Handle scroll to resume analyzer after navigation
   useEffect(() => {
     const state = location.state as { scrollToAnalyzer?: boolean } | null;
     if (state?.scrollToAnalyzer) {
@@ -61,7 +60,6 @@ export function MainNav() {
     });
   };
 
-  // Auto-hide navbar on scroll down
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -115,13 +113,18 @@ export function MainNav() {
     { title: "nav.contact", href: "/contact" },
   ];
 
+  const isJobsPage = location.pathname === '/jobs';
+
   return (
-    <nav className={`fixed w-full bg-background/80 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
+    <nav className={`fixed w-full bg-background/95 backdrop-blur-md z-50 border-b transition-transform duration-300 ${
       navVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="container flex items-center justify-between h-16">
         <div className="flex items-center gap-6">
-          <Link to="/" className="font-display text-xl">
+          <Link 
+            to="/" 
+            className="font-display text-xl hover:text-accent transition-colors"
+          >
             {t("nav.brand")}
           </Link>
 
@@ -136,7 +139,20 @@ export function MainNav() {
           />
         </div>
 
-        <div className="md:hidden">
+        <div className="flex items-center gap-4">
+          <Button
+            asChild
+            className={`hidden md:inline-flex items-center gap-2 bg-accent hover:bg-accent/90 shadow-lg hover:shadow-xl transition-all ${
+              isJobsPage ? 'bg-accent/90' : ''
+            }`}
+            size="sm"
+          >
+            <Link to="/jobs">
+              <Briefcase className="w-4 h-4" />
+              {t("nav.getStarted")}
+            </Link>
+          </Button>
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -161,4 +177,4 @@ export function MainNav() {
       </div>
     </nav>
   );
-}
+};
