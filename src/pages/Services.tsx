@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
@@ -83,14 +82,14 @@ const Services = () => {
                     </CardContent>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden">
+                <DialogContent dir={isRTL ? 'rtl' : 'ltr'} className="sm:max-w-[700px] p-0 overflow-hidden">
                   <div className="relative h-40 bg-gradient-to-br from-accent/20 to-accent/5">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <service.icon className="w-16 h-16 text-accent/40" />
                     </div>
                   </div>
                   <div className="p-8">
-                    <DialogHeader className={`flex flex-col gap-1.5 ${isRTL ? 'items-end text-right' : 'items-start text-left'}`}>
+                    <DialogHeader>
                       <DialogTitle className="text-3xl font-display mb-4 font-medium">
                         {t(`services.items.${service.key}.title`)}
                       </DialogTitle>
@@ -106,12 +105,8 @@ const Services = () => {
                             whitespace-pre-line text-muted-foreground leading-relaxed
                             [&>*:first-child]:text-foreground [&>*:first-child]:font-medium
                             [&_•]:text-accent [&_•]:font-medium
-                            [&_•]:mr-2 [&_•]:inline-block
+                            [&_•]:inline-block [&_•]:${isRTL ? 'ml-2' : 'mr-2'}
                           `}
-                          style={{ 
-                            direction: isRTL ? 'rtl' : 'ltr',
-                            textAlign: isRTL ? 'right' : 'left' 
-                          }}
                         >
                           {t(`services.items.${service.key}.fullDescription`)}
                         </div>
@@ -122,7 +117,7 @@ const Services = () => {
                           size="lg"
                         >
                           {t('contact.getStarted')}
-                          <ArrowRight className={`ms-2 w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
+                          <ArrowRight className={`${isRTL ? 'mr-2 rotate-180' : 'ml-2'} w-4 h-4`} />
                         </Button>
                       </div>
                     </div>
